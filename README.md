@@ -7,6 +7,7 @@ Git Wiki에선 코딩 스탠다드 및 라이브러리 사용법, 만든 클래�
 
 Jira : https://zerofe.atlassian.net/jira/software/projects/WA/boards/2
 Slack : 
+figma : https://www.figma.com/file/FcvLH8pqr2FGN1QGVk0ATu/Wizard'-Adventure?node-id=0%3A1
 
 ### Coding Standard
 
