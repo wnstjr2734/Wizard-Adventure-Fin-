@@ -11,9 +11,20 @@ public class FrameCounter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI frameCountText;
 
-    void Update()
+    private static WaitForSeconds ws = new WaitForSeconds(0.1f);
+
+    private void Start()
     {
-        int currentFrame = (int)(1.0f / Time.unscaledDeltaTime);
-        frameCountText.text = currentFrame + " FPS";
+        StartCoroutine(nameof(IEFrameCount));
+    }
+
+    IEnumerator IEFrameCount()
+    {
+        while (true)
+        {
+            int currentFrame = (int)(1.0f / Time.unscaledDeltaTime);
+            frameCountText.text = currentFrame + " FPS";
+            yield return ws;
+        }
     }
 }
