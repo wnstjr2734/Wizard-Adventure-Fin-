@@ -16,7 +16,7 @@ public class DebugPreferences : Singleton<DebugPreferences>
 
         Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.ForceSoftware);
         // 게임 시작 시 윈도우는 전부 비활성화 상태이므로 커서를 안 보여줘야 한다
-        SetCursorDisplay(false);
+        SetCursorDisplay(true);
     }
 
     public void SetCursorDisplay(bool display)

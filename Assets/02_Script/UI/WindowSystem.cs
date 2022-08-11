@@ -27,9 +27,30 @@ public class WindowSystem : Singleton<WindowSystem>
     // 최상단 Window를 구분
     private Stack<WindowClass> windowStack = new Stack<WindowClass>();
 
+    [SerializeField] private GameObject menuWindow;
+
     void Start()
     {
         Debug.Log("Window System Activate");
+        DOTween.defaultTimeScaleIndependent = true;
+        DOTween.timeScale = 1.0f;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            // 창 닫을거 없으면 메뉴 켜기
+            if (windowStack.Count == 0)
+            {
+                OpenWindow(menuWindow, true);
+            }
+            // 창 닫기
+            else
+            {
+                CloseWindow(true);
+            }
+        }
     }
 
     public void OpenWindow(GameObject windowObject, bool isUserExitable)

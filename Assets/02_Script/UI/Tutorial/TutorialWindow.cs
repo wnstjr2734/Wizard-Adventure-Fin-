@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 /// <summary>
@@ -7,15 +9,27 @@ using UnityEngine;
 /// </summary>
 public class TutorialWindow : Singleton<TutorialWindow>
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private TutorialViewer viewer;
+    [SerializeField] private CanvasGroup canvasGroup;
+
+    [SerializeField] private TutorialExplainData data;
+
+
+    private void OnEnable()
     {
-        
+        viewer.SetContext(data);
+        // Fade In
+        canvasGroup.alpha = 0.0f;
+        //Sequence s
+        DOTween.defaultTimeScaleIndependent = true;
+        DOTween.timeScale = 1.0f;
+        Sequence s = DOTween.Sequence();
+        s.Append(canvasGroup.DOFade(1.0f, 0.5f));
+        s.onComplete = () => viewer.Play();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        viewer.Stop();
     }
 }
