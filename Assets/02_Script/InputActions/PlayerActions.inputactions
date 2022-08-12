@@ -46,6 +46,17 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "7318dac4-67c4-4564-a128-db55c7ec07bf",
+                    "path": "<OculusTouchController>{RightHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Teleport",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "2D Vector",
                     "id": "6bdede03-f446-4630-ac75-325464cf7e8e",
                     "path": "2DVector",
