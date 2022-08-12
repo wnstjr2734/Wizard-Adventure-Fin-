@@ -15,6 +15,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LineRenderer line;
     [SerializeField] private Transform teleportTarget;
     [SerializeField] private Transform footPos;
+
+    [Header("For Debug")] 
+    [SerializeField] private bool pcMode = true;
+    [SerializeField] private float handPosZ = 0.3f;
+    [SerializeField] private Transform leftHandTransform;
+    [SerializeField] private Transform rightHandTransform;
+
     private Camera _main;
     private RaycastHit hit;
 
@@ -51,6 +58,12 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
+        // Debug : Mouse To Hand
+        if (pcMode)
+        {
+            MousePosToHandPos();
+        }
+
         // Update orientation first, then move. Otherwise move orientation will lag
         // behind by one frame.
         Look(m_Look);
@@ -59,21 +72,48 @@ public class PlayerController : MonoBehaviour
         Teleport();
     }
 
+    // 마우스 위치를 손(양손) 위치로 변환
+    private void MousePosToHandPos()
+    {
+#if ENABLE_INPUT_SYSTEM
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+
+#else
+        Vector2 mousePosition = Input.mousePosition;
+#endif
+
+        // 손 위치 조정
+        float h = Screen.height;
+        float w = Screen.width;
+        float screenSpacePosX = (mousePosition.x - (w * 0.5f)) / w * 2;
+        float screenSpacePosY = (mousePosition.y - (h * 0.5f)) / h * 2;
+        leftHandTransform.localPosition = new Vector3(screenSpacePosX * handPosZ, screenSpacePosY * handPosZ, handPosZ);
+        rightHandTransform.localPosition = new Vector3(screenSpacePosX * handPosZ, screenSpacePosY * handPosZ, handPosZ);
+
+        // 손 각도 설정
+        Vector3 eyePos = _main.transform.position;
+        leftHandTransform.forward = leftHandTransform.position - eyePos;
+        rightHandTransform.forward = rightHandTransform.position - eyePos;
+    }
+
     private void Teleport()
     {
-        if (Physics.Raycast(_main.transform.position, _main.transform.forward, out hit, 15))
-        {
-            line.SetPosition(0, _main.transform.position);
-            line.SetPosition(1, hit.point);
-
-            teleportTarget.position = hit.point + Vector3.up * 0.05f;
-        }
-
         if (playerInput.actions["Teleport"].WasPressedThisFrame())
         {
             line.gameObject.SetActive(true);
             teleportTarget.gameObject.SetActive(true);
             print("Get Down Teleport");
+        }
+        if (playerInput.actions["Teleport"].IsPressed())
+        {
+            if (Physics.Raycast(leftHandTransform.position, leftHandTransform.forward, out hit, 15,
+                    ~(1 << LayerMask.NameToLayer("Ignore Raycast"))))
+            {
+                line.SetPosition(0, leftHandTransform.position);
+                line.SetPosition(1, hit.point);
+
+                teleportTarget.position = hit.point + Vector3.up * 0.05f;
+            }
         }
         if (playerInput.actions["Teleport"].WasReleasedThisFrame())
         {
