@@ -106,13 +106,12 @@ public class PlayerController : MonoBehaviour
         }
         if (playerInput.actions["Teleport"].IsPressed())
         {
+            // 왼손 컨트롤러를 기준으로 텔레포트를 쏜다
             if (Physics.Raycast(leftHandTransform.position, leftHandTransform.forward, out hit, 15,
                     ~(1 << LayerMask.NameToLayer("Ignore Raycast"))))
             {
-                line.SetPosition(0, leftHandTransform.position);
-                line.SetPosition(1, hit.point);
-
                 teleportTarget.position = hit.point + Vector3.up * 0.05f;
+                DrawTeleportLineCurve(footPos.localPosition, teleportTarget.localPosition);
             }
         }
         if (playerInput.actions["Teleport"].WasReleasedThisFrame())
@@ -121,7 +120,25 @@ public class PlayerController : MonoBehaviour
             line.gameObject.SetActive(false);
             teleportTarget.gameObject.SetActive(false);
 
-            transform.position = line.GetPosition(1) - footPos.localPosition;
+            transform.position = teleportTarget.position - footPos.localPosition;
+        }
+    }
+
+    // 텔레포트 시각화 - 이차 베지어 커브로 위치 보간
+    private void DrawTeleportLineCurve(Vector3 startPos, Vector3 endPos)
+    {
+        // 베지어 커브 제어점 위치 = 둘 사이 거리 중간 위치 + 거리 사이 중간
+        Vector3 mid = (endPos - startPos) * 0.5f;
+        Vector3 controlPointPos = mid + Vector3.up * mid.magnitude;
+
+        for (int i = 0; i < line.positionCount; i++)
+        {
+            float t = (float) i / line.positionCount;
+            var m = Vector3.Lerp(startPos, controlPointPos, t);
+            var n = Vector3.Lerp(controlPointPos, endPos, t);
+            var b = Vector3.Lerp(m, n, t);
+
+            line.SetPosition(i, b);
         }
     }
 
