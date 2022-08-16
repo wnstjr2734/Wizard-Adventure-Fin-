@@ -14,4 +14,5 @@ public class TutorialExplainData : ScriptableObject
     [TextArea(3, 5)]
     public string explain;
     public Sprite controllerImage;
+   
 }
