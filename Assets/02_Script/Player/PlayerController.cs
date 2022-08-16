@@ -15,8 +15,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LineRenderer line;
     [SerializeField] private Transform teleportTarget;
     [SerializeField] private Transform footPos;
-<<<<<<< HEAD
-=======
 
     [Header("For Debug")] 
     [SerializeField] private bool pcMode = true;
@@ -29,7 +27,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private MagicShield magicShield;
 
->>>>>>> dev/CYC
     private Camera _main;
     private RaycastHit hit;
 
@@ -75,9 +72,7 @@ public class PlayerController : MonoBehaviour
         Teleport();
     }
 
-<<<<<<< HEAD
-=======
-    // ¸¶¿ì½º À§Ä¡¸¦ ¼Õ(¾ç¼Õ) À§Ä¡·Î º¯È¯
+    // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½(ï¿½ï¿½ï¿½) ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½È¯
     private void MousePosToHandPos()
     {
 #if ENABLE_INPUT_SYSTEM
@@ -87,7 +82,7 @@ public class PlayerController : MonoBehaviour
         Vector2 mousePosition = Input.mousePosition;
 #endif
 
-        // ¼Õ À§Ä¡ Á¶Á¤
+        // ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
         float h = Screen.height;
         float w = Screen.width;
         float screenSpacePosX = (mousePosition.x - (w * 0.5f)) / w * 2;
@@ -95,7 +90,7 @@ public class PlayerController : MonoBehaviour
         leftHandTransform.localPosition = new Vector3(screenSpacePosX * handPosZ, screenSpacePosY * handPosZ, handPosZ);
         rightHandTransform.localPosition = new Vector3(screenSpacePosX * handPosZ, screenSpacePosY * handPosZ, handPosZ);
 
-        // ¼Õ °¢µµ ¼³Á¤
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Vector3 eyePos = _main.transform.position;
         leftHandTransform.forward = leftHandTransform.position - eyePos;
         rightHandTransform.forward = rightHandTransform.position - eyePos;
@@ -125,7 +120,6 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Movement
->>>>>>> dev/CYC
     private void Teleport()
     {
         if (Physics.Raycast(_main.transform.position, _main.transform.forward, out hit, 15))
@@ -172,4 +166,5 @@ public class PlayerController : MonoBehaviour
         m_Rotation.x = Mathf.Clamp(m_Rotation.x - rotate.y * scaledRotateSpeed, -89, 89);
         transform.localEulerAngles = m_Rotation;
     }
+    #endregion
 }
