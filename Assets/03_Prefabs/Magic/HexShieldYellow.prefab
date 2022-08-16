@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6122829946585073163}
   - component: {fileID: 4468830736591387159}
   - component: {fileID: 6215618462065997650}
-  - component: {fileID: 2817848821763011748}
   m_Layer: 0
   m_Name: HexShieldYellow
   m_TagString: Untagged
@@ -4753,17 +4752,3 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &2817848821763011748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1408485439057455406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3799655c1642b64eb01aff158ee938b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotateVector: {x: 0, y: 0, z: 15}
-  rotateSpace: 0

@@ -48,6 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 4.5
   range: 5
+  damageInfo:
+    damage: 10
+    elementType: 1
+    stack: 1
   hitEffectPrefab: {fileID: 0}
   shootSound: {fileID: 0}
   hitSound: {fileID: 0}

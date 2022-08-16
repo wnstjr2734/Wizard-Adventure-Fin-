@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.WSA;
 
 /// <summary>
-/// 투사체 공격을 감지해서 막는 
+/// 투사체 공격을 감지해서 막는 기능
 /// 작성자 - 차영철
 /// </summary>
 public class MagicShield : MonoBehaviour
@@ -13,16 +14,29 @@ public class MagicShield : MonoBehaviour
     [SerializeField, Tooltip("방패를 켰을 때 나타나는 이펙트")] 
     private ParticleSystem shieldEffect;
     [SerializeField, Tooltip("투사체를 막았을 때 이펙트")]
-    private ParticleSystem blockEffect;
+    private ParticleSystem blockEffectPrefab;
 
     [SerializeField, Tooltip("투사체를 막았을 때 소리")]
     private AudioClip blockSound;
-    
+
+    private void Start()
+    {
+        // 최대 3개 정도 막을거라 예상
+        //PoolSystem.Instance.InitPool(blockEffectPrefab, 3);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        print("Collision Enter");
+        //collision.contacts[0].normal
+        //CreateBlockEffect();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
+        print("Trigger Enter");
         // 방어 이펙트
-        CreateBlockEffect();
+        CreateBlockEffect(other.transform);
     }
 
     // 실드 켜기/끄기
@@ -32,8 +46,9 @@ public class MagicShield : MonoBehaviour
         // 껐다 킬 때 파티클 시스템 다시 켜지면 
     }
 
-    private void CreateBlockEffect()
+    private void CreateBlockEffect(Transform hitTr)
     {
-
+        //var blockEffect = PoolSystem.Instance.GetInstance<ParticleSystem>(blockEffectPrefab);
+        //blockEffect.transform.position = hitTr.position;
     }
 }

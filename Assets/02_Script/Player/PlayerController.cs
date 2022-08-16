@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform leftHandTransform;
     [SerializeField] private Transform rightHandTransform;
 
+    [SerializeField]
+    private MagicShield magicShield;
+
     private Camera _main;
     private RaycastHit hit;
 
@@ -41,6 +44,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        Debug.Assert(magicShield, "Error : magic shield not set");
     }
 
     private void Start()
@@ -112,6 +116,17 @@ public class PlayerController : MonoBehaviour
         if (playerInput.actions["Shoot Magic"].WasReleasedThisFrame())
         {
             handPosZ = releasedHandPosZ;
+        }
+    }
+
+    private void Shield()
+    {
+        if (playerInput.actions["Shoot Magic"].WasPressedThisFrame())
+        {
+            //magicShield.
+        }
+        if (playerInput.actions["Shoot Magic"].WasReleasedThisFrame())
+        {
         }
     }
 
