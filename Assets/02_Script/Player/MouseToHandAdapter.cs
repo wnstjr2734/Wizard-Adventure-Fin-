@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// 디버그용 - 손(VR 컨트롤러) 위치
+/// </summary>
 public class MouseToHandAdapter : MonoBehaviour
 {
     private Camera eyeCamera;

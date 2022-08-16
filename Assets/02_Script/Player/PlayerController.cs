@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// 플레이어 조작 처리를 담당하는 클래스
+/// 주의 : 컨트롤러에 기능을 다 넣으면 컨트롤러 클래스가 매우 무거워지므로
+/// 관련 기능끼리 묶어서 클래스로 따로 만들고 PlayerController에는 입력 관련 코드만 넣기 바람
+/// </summary>
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
@@ -19,15 +24,17 @@ public class PlayerController : MonoBehaviour
     [Header("For Debug")] 
     [SerializeField] private bool pcMode = true;
     [SerializeField] private float handPosZ = 0.3f;
+    [SerializeField] private float pressedHandPosZ = 0.5f;
+    [SerializeField] private float releasedHandPosZ = 0.3f;
     [SerializeField] private Transform leftHandTransform;
     [SerializeField] private Transform rightHandTransform;
 
     private Camera _main;
     private RaycastHit hit;
 
-    private Vector2 m_Rotation;
-    private Vector2 m_Look;
-    private Vector2 m_Move;
+    private Vector2 rotation;
+    private Vector2 look;
+    private Vector2 move;
 
     private PlayerInput playerInput;
 
@@ -43,12 +50,12 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        m_Move = context.ReadValue<Vector2>();
+        move = context.ReadValue<Vector2>();
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        m_Look = context.ReadValue<Vector2>();
+        look = context.ReadValue<Vector2>();
     }
 
     public void OnTeleport(InputAction.CallbackContext context)
@@ -62,12 +69,12 @@ public class PlayerController : MonoBehaviour
         if (pcMode)
         {
             MousePosToHandPos();
+            ShootMagic();
         }
+        
 
-        // Update orientation first, then move. Otherwise move orientation will lag
-        // behind by one frame.
-        Look(m_Look);
-        Move(m_Move);
+        Look(look);
+        Move(move);
 
         Teleport();
     }
@@ -96,6 +103,19 @@ public class PlayerController : MonoBehaviour
         rightHandTransform.forward = rightHandTransform.position - eyePos;
     }
 
+    private void ShootMagic()
+    {
+        if (playerInput.actions["Shoot Magic"].WasPressedThisFrame())
+        {
+            handPosZ = pressedHandPosZ;
+        }
+        if (playerInput.actions["Shoot Magic"].WasReleasedThisFrame())
+        {
+            handPosZ = releasedHandPosZ;
+        }
+    }
+
+    #region Movement
     private void Teleport()
     {
         if (playerInput.actions["Teleport"].WasPressedThisFrame())
@@ -106,13 +126,17 @@ public class PlayerController : MonoBehaviour
         }
         if (playerInput.actions["Teleport"].IsPressed())
         {
-            if (Physics.Raycast(leftHandTransform.position, leftHandTransform.forward, out hit, 15,
-                    ~(1 << LayerMask.NameToLayer("Ignore Raycast"))))
+            // 왼손 컨트롤러를 기준으로 텔레포트를 쏜다
+            // 지형을 대상으로만 움직일 수 있음
+            if (Physics.Raycast(leftHandTransform.position, leftHandTransform.forward, 
+                    out hit, 15, LayerMask.NameToLayer("Default") ))
             {
-                line.SetPosition(0, leftHandTransform.position);
-                line.SetPosition(1, hit.point);
-
-                teleportTarget.position = hit.point + Vector3.up * 0.05f;
+                // 해당 지형이 서있을 수 없는 곳이면(벽 등) 무시한다
+                if (Vector3.Dot(hit.normal, Vector3.up) > 0.5f)
+                {
+                    teleportTarget.position = hit.point + Vector3.up * 0.05f;
+                    DrawTeleportLineCurve(footPos.localPosition, teleportTarget.localPosition);
+                }
             }
         }
         if (playerInput.actions["Teleport"].WasReleasedThisFrame())
@@ -121,7 +145,25 @@ public class PlayerController : MonoBehaviour
             line.gameObject.SetActive(false);
             teleportTarget.gameObject.SetActive(false);
 
-            transform.position = line.GetPosition(1) - footPos.localPosition;
+            transform.position = teleportTarget.position - footPos.localPosition;
+        }
+    }
+
+    // 텔레포트 시각화 - 이차 베지어 커브로 위치 보간
+    private void DrawTeleportLineCurve(Vector3 startPos, Vector3 endPos)
+    {
+        // 베지어 커브 제어점 위치 = 둘 사이 거리 중간 위치 + 거리 사이 중간
+        Vector3 mid = (endPos - startPos) * 0.5f;
+        Vector3 controlPointPos = mid + Vector3.up * mid.magnitude;
+
+        for (int i = 0; i < line.positionCount; i++)
+        {
+            float t = (float)i / line.positionCount;
+            var m = Vector3.Lerp(startPos, controlPointPos, t);
+            var n = Vector3.Lerp(controlPointPos, endPos, t);
+            var b = Vector3.Lerp(m, n, t);
+
+            line.SetPosition(i, b);
         }
     }
 
@@ -135,14 +177,15 @@ public class PlayerController : MonoBehaviour
         var move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
         transform.position += move * scaledMoveSpeed;
     }
+    #endregion
 
     private void Look(Vector2 rotate)
     {
         if (rotate.sqrMagnitude < 0.01)
             return;
         var scaledRotateSpeed = rotateSpeed * Time.deltaTime;
-        m_Rotation.y += rotate.x * scaledRotateSpeed;
-        m_Rotation.x = Mathf.Clamp(m_Rotation.x - rotate.y * scaledRotateSpeed, -89, 89);
-        transform.localEulerAngles = m_Rotation;
+        rotation.y += rotate.x * scaledRotateSpeed;
+        rotation.x = Mathf.Clamp(rotation.x - rotate.y * scaledRotateSpeed, -89, 89);
+        transform.localEulerAngles = rotation;
     }
 }
