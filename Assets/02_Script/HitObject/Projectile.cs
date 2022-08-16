@@ -17,6 +17,8 @@ public class Projectile : MonoBehaviour
     private float lifetime;
 
     // 데미지 등등 정보 설정
+    [SerializeField, Tooltip("데미지 및 속성 정보")] 
+    private ElementDamage damageInfo;
 
     [Header("VFX")]
     [SerializeField, Tooltip("투사체 맞았을 때 효과")]

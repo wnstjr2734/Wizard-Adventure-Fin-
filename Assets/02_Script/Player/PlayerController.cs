@@ -15,6 +15,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LineRenderer line;
     [SerializeField] private Transform teleportTarget;
     [SerializeField] private Transform footPos;
+<<<<<<< HEAD
+=======
+
+    [Header("For Debug")] 
+    [SerializeField] private bool pcMode = true;
+    [SerializeField] private float handPosZ = 0.3f;
+    [SerializeField] private float pressedHandPosZ = 0.5f;
+    [SerializeField] private float releasedHandPosZ = 0.3f;
+    [SerializeField] private Transform leftHandTransform;
+    [SerializeField] private Transform rightHandTransform;
+
+    [SerializeField]
+    private MagicShield magicShield;
+
+>>>>>>> dev/CYC
     private Camera _main;
     private RaycastHit hit;
 
@@ -27,6 +42,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        Debug.Assert(magicShield, "Error : magic shield not set");
     }
 
     private void Start()
@@ -59,6 +75,57 @@ public class PlayerController : MonoBehaviour
         Teleport();
     }
 
+<<<<<<< HEAD
+=======
+    // 마우스 위치를 손(양손) 위치로 변환
+    private void MousePosToHandPos()
+    {
+#if ENABLE_INPUT_SYSTEM
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+
+#else
+        Vector2 mousePosition = Input.mousePosition;
+#endif
+
+        // 손 위치 조정
+        float h = Screen.height;
+        float w = Screen.width;
+        float screenSpacePosX = (mousePosition.x - (w * 0.5f)) / w * 2;
+        float screenSpacePosY = (mousePosition.y - (h * 0.5f)) / h * 2;
+        leftHandTransform.localPosition = new Vector3(screenSpacePosX * handPosZ, screenSpacePosY * handPosZ, handPosZ);
+        rightHandTransform.localPosition = new Vector3(screenSpacePosX * handPosZ, screenSpacePosY * handPosZ, handPosZ);
+
+        // 손 각도 설정
+        Vector3 eyePos = _main.transform.position;
+        leftHandTransform.forward = leftHandTransform.position - eyePos;
+        rightHandTransform.forward = rightHandTransform.position - eyePos;
+    }
+
+    private void ShootMagic()
+    {
+        if (playerInput.actions["Shoot Magic"].WasPressedThisFrame())
+        {
+            handPosZ = pressedHandPosZ;
+        }
+        if (playerInput.actions["Shoot Magic"].WasReleasedThisFrame())
+        {
+            handPosZ = releasedHandPosZ;
+        }
+    }
+
+    private void Shield()
+    {
+        if (playerInput.actions["Shoot Magic"].WasPressedThisFrame())
+        {
+            //magicShield.
+        }
+        if (playerInput.actions["Shoot Magic"].WasReleasedThisFrame())
+        {
+        }
+    }
+
+    #region Movement
+>>>>>>> dev/CYC
     private void Teleport()
     {
         if (Physics.Raycast(_main.transform.position, _main.transform.forward, out hit, 15))

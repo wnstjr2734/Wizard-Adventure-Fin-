@@ -4756,7 +4756,6 @@ GameObject:
   - component: {fileID: 19968890}
   - component: {fileID: 19892732}
   - component: {fileID: 11479988}
-  - component: {fileID: -4748938777106219454}
   m_Layer: 0
   m_Name: IceArrowTest
   m_TagString: Untagged
@@ -9608,20 +9607,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomPercent: 10
---- !u!114 &-4748938777106219454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 177564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0cbeef6cb2ed50419996c9243033673, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 4.5
-  range: 5
-  hitEffectPrefab: {fileID: 0}
-  shootSound: {fileID: 0}
-  hitSound: {fileID: 0}
