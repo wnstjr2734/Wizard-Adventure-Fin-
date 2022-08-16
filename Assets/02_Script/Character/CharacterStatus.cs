@@ -15,18 +15,39 @@ public class CharacterStatus : MonoBehaviour
     private static readonly float validTime = 0.01f;
     private static readonly float checkTime = 0.1f;
     private static WaitForSeconds ws = new WaitForSeconds(checkTime);
+    private static WaitForSeconds slowTime;
 
     [SerializeField, Tooltip("최대 체력")] 
-    private float maxHp = 100;
+    private int maxHp = 100;
+    private int currentHp;
 
-    [SerializeField, Tooltip("")] 
+    [SerializeField, Tooltip("공격 속도")] 
     private float attackSpeed = 1.0f;
+    [SerializeField, Tooltip("이동 속도")]
+    private float moveSpeed = 1.0f;
     
-
-    // 외부에서 값을 수정할 수 있고, 변수 사용을 추적할 수 있도록 property를 제공
-    public float CurrentHp { get; set; }
-
     public event Action<float> onHpChange;
+    public event Action onDead;
+    // 경직
+    public event Action onShocked;
+
+    public int CurrentHp
+    {
+        get => currentHp;
+        private set
+        {
+            currentHp = value;
+            onHpChange?.Invoke((float)currentHp / maxHp);
+            if (currentHp <= 0)
+            {
+                currentHp = 0;
+                onDead?.Invoke();
+            }
+        }
+    }
+
+    // 히트 게이지 적용
+    // 히트 게이지가 꽉차면 경직을 주고 리셋
 
 
     private void Awake()
@@ -39,23 +60,32 @@ public class CharacterStatus : MonoBehaviour
         CurrentHp = maxHp;
     }
 
-    private IEnumerator IEApplySlow()
+    private void Start()
     {
-        // 슬로우 효과 적용
-
-        float remainTime = ElementInfo.Instance.FireInfo.duration;
-        while (remainTime > validTime)
+        if (slowTime != null)
         {
-
-            yield return checkTime;
+            slowTime = new WaitForSeconds(ElementInfo.Instance.IceInfo.duration);
         }
-
-        // 속도 리셋
     }
 
-    private void ResetSpeed()
+    /// <summary>
+    /// 데미지 및 속성 적용
+    /// </summary>
+    public void TakeDamage(ElementDamage elementDamage)
     {
+        // 데미지 정보 적용
+        CurrentHp -= elementDamage.damage;
 
+        // 속성에 따라 이펙트 적용
+        switch (elementDamage.elementType)
+        {
+            case ElementType.Fire:
+                break;
+            case ElementType.Ice:
+                break;
+            case ElementType.Lightning:
+                break;
+        }
     }
 
     private IEnumerator IEApplyBurn()
@@ -79,14 +109,27 @@ public class CharacterStatus : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 데미지 및 속성 적용
-    /// </summary>
-    public void TakeDamage(ElementDamage elementDamage)
+    private IEnumerator IESlow()
     {
-        // 데미지 정보 적용
+        // 슬로우 효과 적용
 
-        // 속성에 따라 이펙트 적용
-        
+        // 이펙트 적용
+
+        yield return slowTime;
+
+        // 속도 리셋
+        ClearSlow();
+        // 이펙트 해제
+    }
+
+    private void ApplySlow()
+    {
+
+    }
+
+    private void ClearSlow()
+    {
+        attackSpeed = 1.0f;
+        moveSpeed = 1.0f;
     }
 }

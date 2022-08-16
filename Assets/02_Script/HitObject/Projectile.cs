@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour
 
     // 데미지 등등 정보 설정
     [SerializeField, Tooltip("데미지 및 속성 정보")] 
-    private ElementDamage damageInfo;
+    private ElementDamage elementDamage;
 
     [Header("VFX")]
     [SerializeField, Tooltip("투사체 맞았을 때 효과")]
@@ -39,6 +39,12 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        // 초기 탄환 폭발 생성
+        PoolSystem.Instance.InitPool(hitEffectPrefab, 4);
     }
 
     private void OnEnable()
@@ -76,8 +82,14 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // 데미지 등 정보 주기
-        // 캐릭터 스탯이 있는 경우에만 준다
+        print(collision.gameObject.name);
+        // 캐릭터 스탯이 있는 경우에만 데미지 및 속성 효과 주기
+        var status = collision.gameObject.GetComponent<CharacterStatus>();
+        if (status)
+        {
+            status.TakeDamage(elementDamage);
+        }
+
         // 삭제
         Destroy();
     }
@@ -85,5 +97,7 @@ public class Projectile : MonoBehaviour
     private void Destroy()
     {
         gameObject.SetActive(false);
+        var hitEffect = PoolSystem.Instance.GetInstance<ParticleSystem>(hitEffectPrefab);
+        hitEffect.transform.position = transform.position;
     }
 }

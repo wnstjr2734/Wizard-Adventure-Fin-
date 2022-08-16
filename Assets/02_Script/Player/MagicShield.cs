@@ -27,7 +27,7 @@ public class MagicShield : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        print("Collision Enter");
+        print($"Collision Enter - {collision.gameObject.name}");
         //collision.contacts[0].normal
         //CreateBlockEffect();
     }

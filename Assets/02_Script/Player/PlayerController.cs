@@ -64,8 +64,13 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
-        // Update orientation first, then move. Otherwise move orientation will lag
-        // behind by one frame.
+        if (pcMode)
+        {
+            MousePosToHandPos();
+        }
+        ShootMagic();
+        Shield();
+
         Look(m_Look);
         Move(m_Move);
 
@@ -110,11 +115,11 @@ public class PlayerController : MonoBehaviour
 
     private void Shield()
     {
-        if (playerInput.actions["Shoot Magic"].WasPressedThisFrame())
+        if (playerInput.actions["Shield"].WasPressedThisFrame())
         {
             //magicShield.
         }
-        if (playerInput.actions["Shoot Magic"].WasReleasedThisFrame())
+        if (playerInput.actions["Shield"].WasReleasedThisFrame())
         {
         }
     }
