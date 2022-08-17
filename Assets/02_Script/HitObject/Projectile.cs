@@ -16,6 +16,9 @@ public class Projectile : MonoBehaviour
     // 투사체가 얼마나 오래 유지되는지
     private float lifetime;
 
+    // 초기 방향 설정
+    private Vector3 direction;
+
     // 데미지 등등 정보 설정
     [SerializeField, Tooltip("데미지 및 속성 정보")] 
     private ElementDamage elementDamage;
@@ -32,9 +35,7 @@ public class Projectile : MonoBehaviour
 
     private Rigidbody rb;
 
-
-    // 초기 방향 설정
-    private Vector3 direction;
+    public event Action onDestroy;
 
     private void Awake()
     {
@@ -50,6 +51,12 @@ public class Projectile : MonoBehaviour
     private void OnEnable()
     {
         lifetime = range / moveSpeed;
+    }
+
+    private void OnDisable()
+    {
+        onDestroy?.Invoke();
+        onDestroy = null;
     }
 
     /// <summary>

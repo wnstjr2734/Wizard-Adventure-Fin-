@@ -16,27 +16,34 @@ public class ProjectileDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print($"Detected Enter - {other.tag}");
         // 투사체인지 확인하고 막기
         if (other.CompareTag("Projectile"))
         {
             remainProjectileCount++;
             Debug.Assert(remainProjectileCount > 0, "Error : remain Projectile Count can't lower than 0");
             Time.timeScale = slowTimeScale;
+            other.GetComponent<Projectile>().onDestroy += DestroyProjectile;
         }
     }
 
+    // 주의 : 충돌로 도중 사라진 경우 Trigger Exit가 호출되지 않음
     private void OnTriggerExit(Collider other)
     {
-        print("Detected Out");
-        // 작동 되는지 확인할 것
+        // 판정선 밖으로 나갔을 때
         if (other.CompareTag("Projectile"))
         {
-            remainProjectileCount--;
-            if (remainProjectileCount == 0)
-            {
-                Time.timeScale = 1.0f;
-            }
+            DestroyProjectile();
+            // 감지할 필요가 없는 투사체는 감지 대상에서 벗어난다
+            other.GetComponent<Projectile>().onDestroy -= DestroyProjectile;
+        }
+    }
+
+    private void DestroyProjectile()
+    {
+        remainProjectileCount--;
+        if (remainProjectileCount == 0)
+        {
+            Time.timeScale = 1.0f;
         }
     }
 }

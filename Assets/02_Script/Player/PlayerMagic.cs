@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DigitalRuby.LightningBolt;
 using UnityEngine;
 
 /// <summary>
@@ -14,7 +15,8 @@ public class PlayerMagic : MonoBehaviour
     {
         Fire,
         Ice,
-        Lightning
+        Lightning,
+        Count
     }
 
     // 현재 마법 속성
@@ -24,7 +26,10 @@ public class PlayerMagic : MonoBehaviour
     private Projectile fireballPrefab;
     [SerializeField]
     private Projectile iceArrowPrefab;
+    [SerializeField, Tooltip("흩뿌리는 개수")] 
+    private int iceArrowShootCount = 5;
     // 라이트닝 볼트
+    private LightningBoltScript lightningBoltPrefab;
 
     [SerializeField, Tooltip("마법이 발사되는 위치")]
     private Transform MagicFirePositionTr;
@@ -43,9 +48,27 @@ public class PlayerMagic : MonoBehaviour
 
         // 발사할 마법의 개수를 미리 지정해놓는다
         poolSystem.InitPool(fireballPrefab, 3);
-        poolSystem.InitPool(iceArrowPrefab, 15);   // 아이스 애로우는 몇 발 쏠지 모르겠음
+        poolSystem.InitPool(iceArrowPrefab, 3 * iceArrowShootCount);   // 아이스 애로우는 몇 발 쏠지 모르겠음
     }
-    
+
+    #region Change Element
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="changeNextElement">
+    /// 다음 원소로 바꿀지 이전 원소로 바꿀지 선택
+    /// ex) changeNextElement = true : 불 -> 얼음 -> 전기 -> 불
+    /// ex) changeNextElement = false : 불 -> 전기 -> 얼음 -> 불
+    /// </param>
+    public void ChangeElement(bool changeNextElement)
+    {
+        int addedElementIndex = changeNextElement ? 1 : -1;
+        CurrentElement = (ElementType)(((int)CurrentElement + addedElementIndex) % (int)ElementType.Count);
+    }
+
+    #endregion
+
     #region Base Magic
     // 기본 마법 발사
     public void ShootMagic(Vector3 position, Vector3 direction)
@@ -62,7 +85,7 @@ public class PlayerMagic : MonoBehaviour
                 ShootIceArrow(position, direction);
                 break;
             case ElementType.Lightning:
-                ShootLightningBolt(direction);
+                ShootLightningBolt(position, direction);
                 break;
             default:
                 break;
@@ -77,17 +100,37 @@ public class PlayerMagic : MonoBehaviour
 
     private void ShootIceArrow(Vector3 position, Vector3 direction)
     {
-        // 샷건마냥 흩뿌리기
+        StartCoroutine(IEShootIceArrow(position, direction));
     }
 
-    private IEnumerator IEShootIceArrow(Vector3 direction)
+    private IEnumerator IEShootIceArrow(Vector3 position, Vector3 direction)
     {
-        yield return null;
+        // 샷건마냥 흩뿌리기
+        for (int i = 0; i < iceArrowShootCount; i++)
+        {
+            var projectile = poolSystem.GetInstance<Projectile>(iceArrowPrefab);
+
+            var newDirection = (direction + UnityEngine.Random.onUnitSphere * 0.2f).normalized;
+            projectile.Shoot(position, newDirection);
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
-    private void ShootLightningBolt(Vector3 direction)
+    private void ShootLightningBolt(Vector3 position, Vector3 direction)
     {
         // 히트 스캔 방식
+        //if (Physics.Raycast(leftHandTransform.position, leftHandTransform.forward, out hit,
+        //        teleportRange, 1 << LayerMask.NameToLayer("Default")))
+        //{
+        //    //print(hit.collider.name);
+        //    // 벽에 텔레포트 하지 않도록 보정
+        //    if (Vector3.Dot(hit.normal, Vector3.up) > 0.5f)
+        //    {
+        //        // Z-fighting이 일어나지 않게 텔레포트 위치 보정
+        //        teleportTarget.position = hit.point + Vector3.up * 0.05f;
+        //        DrawTeleportLineCurve(footPos.localPosition, teleportTarget.localPosition);
+        //    }
+        //}
         // 해당 방향을 기준으로 Raycast해서 마법 쏘기
     }
     #endregion
