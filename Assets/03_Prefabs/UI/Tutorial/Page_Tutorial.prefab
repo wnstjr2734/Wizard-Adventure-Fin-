@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1766566933225128671}
   - component: {fileID: 1766566933225128669}
   - component: {fileID: 4257966287685977420}
+  - component: {fileID: 7444178002283446217}
   m_Layer: 5
   m_Name: Page_Tutorial
   m_TagString: Untagged
@@ -96,6 +97,18 @@ MonoBehaviour:
   explainText: {fileID: 1766566934013577698}
   controllerImageL: {fileID: 1766566934062934896}
   controllerImageR: {fileID: 664435750556625997}
+--- !u!225 &7444178002283446217
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766566933225128670}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1766566933329866175
 GameObject:
   m_ObjectHideFlags: 0
