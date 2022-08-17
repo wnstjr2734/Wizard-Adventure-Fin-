@@ -27,11 +27,13 @@ public class PlayerController : MonoBehaviour
 
     private PlayerInput playerInput;
     private PlayerMoveRotate playerMoveRotate;
+    private PlayerMagic playerMagic;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
         playerMoveRotate = GetComponent<PlayerMoveRotate>();
+        playerMagic = GetComponent<PlayerMagic>();
         Debug.Assert(magicShield, "Error : magic shield not set");
     }
 
@@ -55,18 +57,27 @@ public class PlayerController : MonoBehaviour
         print("Teleport");
     }
 
+    public void OnShield(InputAction.CallbackContext context)
+    {
+        print("Shield ");
+    }
+
     public void Update()
     {
         if (pcMode)
         {
             MousePosToHandPos();
+            ShootMagic();
         }
-        ShootMagic();
+
+        // 플레이어 마법
+        ChangeElement();
+
+        // 투사체 방어
         Shield();
 
         Look(m_Look);
         Move(m_Move);
-
         Teleport();
     }
     
@@ -106,14 +117,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void ChangeElement()
+    {
+        if (playerInput.actions["Change Prev Element"].WasPressedThisFrame())
+        {
+            playerMagic.ChangeElement(false);
+        }
+        if (playerInput.actions["Change Next Element"].WasPressedThisFrame())
+        {
+            playerMagic.ChangeElement(true);
+        }
+    }
+
     private void Shield()
     {
         if (playerInput.actions["Shield"].WasPressedThisFrame())
         {
-            //magicShield.
+            magicShield.ActiveShield(true);
         }
         if (playerInput.actions["Shield"].WasReleasedThisFrame())
         {
+            magicShield.ActiveShield(false);
         }
     }
 

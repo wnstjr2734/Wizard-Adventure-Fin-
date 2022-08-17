@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1197413156710813185}
   - component: {fileID: 1197413156712854663}
   - component: {fileID: 1197413156704425679}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: IceArrowParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4875,7 +4875,7 @@ GameObject:
   - component: {fileID: 1197413156693404083}
   - component: {fileID: 1197413156712823045}
   - component: {fileID: 1197413156712865149}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: StretchyBit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9619,7 +9619,7 @@ GameObject:
   - component: {fileID: 2985234799057828069}
   - component: {fileID: 2345221496297080191}
   - component: {fileID: 4230474341122068636}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: IceArrowTest
   m_TagString: Projectile
   m_Icon: {fileID: 0}

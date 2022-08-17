@@ -16,6 +16,7 @@ public class ShootDetector : MonoBehaviour
     {
         // 충돌 감지
         //print($"Shoot Magic - {other.name}");
-        playerMagic.ShootMagic(other.transform.position, other.transform.forward);
+        //playerMagic.ShootMagic(other.transform.position, other.transform.forward);
+        playerMagic.ShootMagic(other.transform.position, transform.forward);
     }
 }

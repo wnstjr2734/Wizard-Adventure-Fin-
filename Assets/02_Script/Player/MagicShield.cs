@@ -35,7 +35,7 @@ public class MagicShield : MonoBehaviour
     public void ActiveShield(bool active)
     {
         shieldEffect.gameObject.SetActive(active);
-        // 껐다 킬 때 파티클 시스템 다시 켜지면 
+        shieldEffect.Play(true);
     }
 
     private void CreateBlockEffect(Vector3 position, Vector3 normal)
