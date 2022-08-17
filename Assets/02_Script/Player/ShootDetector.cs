@@ -15,7 +15,7 @@ public class ShootDetector : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // 충돌 감지
-        print($"Shoot Magic - {other.name}");
+        //print($"Shoot Magic - {other.name}");
         playerMagic.ShootMagic(other.transform.position, other.transform.forward);
     }
 }

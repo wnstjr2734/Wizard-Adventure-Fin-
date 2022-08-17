@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6400556337715234893}
   m_Layer: 7
   m_Name: FireballTest
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
     damage: 10
     elementType: 0
     stack: 1
-  hitEffectPrefab: {fileID: 0}
+  hitEffectPrefab: {fileID: 19855376, guid: 7754615ab9e34ee4b817e8824f536b1f, type: 3}
   shootSound: {fileID: 0}
   hitSound: {fileID: 0}
 --- !u!54 &9180280722397446579

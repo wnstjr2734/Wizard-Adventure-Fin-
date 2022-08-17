@@ -8,13 +8,8 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float rotateSpeed;
-
-    [Header("Teleport")]
-    [SerializeField] private LineRenderer line;
-    [SerializeField] private Transform teleportTarget;
-    [SerializeField] private Transform footPos;
+    [SerializeField]
+    private MagicShield magicShield;
 
     [Header("For Debug")] 
     [SerializeField] private bool pcMode = true;
@@ -24,21 +19,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform leftHandTransform;
     [SerializeField] private Transform rightHandTransform;
 
-    [SerializeField]
-    private MagicShield magicShield;
-
     private Camera _main;
     private RaycastHit hit;
-
-    private Vector2 m_Rotation;
+    
     private Vector2 m_Look;
     private Vector2 m_Move;
 
     private PlayerInput playerInput;
+    private PlayerMoveRotate playerMoveRotate;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        playerMoveRotate = GetComponent<PlayerMoveRotate>();
         Debug.Assert(magicShield, "Error : magic shield not set");
     }
 
@@ -76,8 +69,8 @@ public class PlayerController : MonoBehaviour
 
         Teleport();
     }
-
-    // ���콺 ��ġ�� ��(���) ��ġ�� ��ȯ
+    
+    // 마우스 위치를 손 위치로 적용
     private void MousePosToHandPos()
     {
 #if ENABLE_INPUT_SYSTEM
@@ -87,7 +80,7 @@ public class PlayerController : MonoBehaviour
         Vector2 mousePosition = Input.mousePosition;
 #endif
 
-        // �� ��ġ ����
+        // 깊이에 따라
         float h = Screen.height;
         float w = Screen.width;
         float screenSpacePosX = (mousePosition.x - (w * 0.5f)) / w * 2;
@@ -127,49 +120,28 @@ public class PlayerController : MonoBehaviour
     #region Movement
     private void Teleport()
     {
-        if (Physics.Raycast(_main.transform.position, _main.transform.forward, out hit, 15))
-        {
-            line.SetPosition(0, _main.transform.position);
-            line.SetPosition(1, hit.point);
-
-            teleportTarget.position = hit.point + Vector3.up * 0.05f;
-        }
-
         if (playerInput.actions["Teleport"].WasPressedThisFrame())
         {
-            line.gameObject.SetActive(true);
-            teleportTarget.gameObject.SetActive(true);
-            print("Get Down Teleport");
+            playerMoveRotate.StartTeleport();
+        }
+        if (playerInput.actions["Teleport"].IsPressed())
+        {
+            playerMoveRotate.OnTeleport();
         }
         if (playerInput.actions["Teleport"].WasReleasedThisFrame())
         {
-            print("Get Up Teleport");
-            line.gameObject.SetActive(false);
-            teleportTarget.gameObject.SetActive(false);
-
-            transform.position = line.GetPosition(1) - footPos.localPosition;
+            playerMoveRotate.EndTeleport();
         }
     }
 
     private void Move(Vector2 direction)
     {
-        if (direction.sqrMagnitude < 0.01)
-            return;
-        var scaledMoveSpeed = moveSpeed * Time.deltaTime;
-        // For simplicity's sake, we just keep movement in a single plane here. Rotate
-        // direction according to world Y rotation of player.
-        var move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
-        transform.position += move * scaledMoveSpeed;
+        playerMoveRotate.Move(direction);
     }
 
     private void Look(Vector2 rotate)
     {
-        if (rotate.sqrMagnitude < 0.01)
-            return;
-        var scaledRotateSpeed = rotateSpeed * Time.deltaTime;
-        m_Rotation.y += rotate.x * scaledRotateSpeed;
-        m_Rotation.x = Mathf.Clamp(m_Rotation.x - rotate.y * scaledRotateSpeed, -89, 89);
-        transform.localEulerAngles = m_Rotation;
+        playerMoveRotate.Look(rotate);
     }
     #endregion
 }

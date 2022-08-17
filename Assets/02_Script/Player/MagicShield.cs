@@ -22,23 +22,15 @@ public class MagicShield : MonoBehaviour
     private void Start()
     {
         // 최대 3개 정도 막을거라 예상
-        //PoolSystem.Instance.InitPool(blockEffectPrefab, 3);
+        PoolSystem.Instance.InitPool(blockEffectPrefab, 3);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         print($"Collision Enter - {collision.gameObject.name}");
-        //collision.contacts[0].normal
-        //CreateBlockEffect();
+        CreateBlockEffect(collision.contacts[0].point, collision.contacts[0].normal);
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        print("Trigger Enter");
-        // 방어 이펙트
-        CreateBlockEffect(other.transform);
-    }
-
+    
     // 실드 켜기/끄기
     public void ActiveShield(bool active)
     {
@@ -46,9 +38,10 @@ public class MagicShield : MonoBehaviour
         // 껐다 킬 때 파티클 시스템 다시 켜지면 
     }
 
-    private void CreateBlockEffect(Transform hitTr)
+    private void CreateBlockEffect(Vector3 position, Vector3 normal)
     {
-        //var blockEffect = PoolSystem.Instance.GetInstance<ParticleSystem>(blockEffectPrefab);
-        //blockEffect.transform.position = hitTr.position;
+        var blockEffect = PoolSystem.Instance.GetInstance<ParticleSystem>(blockEffectPrefab);
+        blockEffect.transform.position = position;
+        blockEffect.transform.forward = normal;
     }
 }
