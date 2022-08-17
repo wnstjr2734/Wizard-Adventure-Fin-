@@ -6,11 +6,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using Random = UnityEngine.Random;
 
-/// <summary>
-/// ÇÃ·¹ÀÌ¾î Á¶ÀÛ Ã³¸®¸¦ ´ã´çÇÏ´Â Å¬·¡½º
-/// ÁÖÀÇ : ÄÁÆ®·Ñ·¯¿¡ ±â´ÉÀ» ´Ù ³ÖÀ¸¸é ÄÁÆ®·Ñ·¯ Å¬·¡½º°¡ ¸Å¿ì ¹«°Å¿öÁö¹Ç·Î
-/// °ü·Ã ±â´É³¢¸® ¹­¾î¼­ Å¬·¡½º·Î µû·Î ¸¸µé°í PlayerController¿¡´Â ÀÔ·Â °ü·Ã ÄÚµå¸¸ ³Ö±â ¹Ù¶÷
-/// </summary>
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
@@ -29,18 +24,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform leftHandTransform;
     [SerializeField] private Transform rightHandTransform;
 
+    [SerializeField]
+    private MagicShield magicShield;
+
     private Camera _main;
     private RaycastHit hit;
 
-    private Vector2 rotation;
-    private Vector2 look;
-    private Vector2 move;
+    private Vector2 m_Rotation;
+    private Vector2 m_Look;
+    private Vector2 m_Move;
 
     private PlayerInput playerInput;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        Debug.Assert(magicShield, "Error : magic shield not set");
     }
 
     private void Start()
@@ -50,12 +49,12 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        move = context.ReadValue<Vector2>();
+        m_Move = context.ReadValue<Vector2>();
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        look = context.ReadValue<Vector2>();
+        m_Look = context.ReadValue<Vector2>();
     }
 
     public void OnTeleport(InputAction.CallbackContext context)
@@ -65,21 +64,20 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
-        // Debug : Mouse To Hand
         if (pcMode)
         {
             MousePosToHandPos();
-            ShootMagic();
         }
-        
+        ShootMagic();
+        Shield();
 
-        Look(look);
-        Move(move);
+        Look(m_Look);
+        Move(m_Move);
 
         Teleport();
     }
 
-    // ¸¶¿ì½º À§Ä¡¸¦ ¼Õ(¾ç¼Õ) À§Ä¡·Î º¯È¯
+    // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½(ï¿½ï¿½ï¿½) ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½È¯
     private void MousePosToHandPos()
     {
 #if ENABLE_INPUT_SYSTEM
@@ -89,7 +87,7 @@ public class PlayerController : MonoBehaviour
         Vector2 mousePosition = Input.mousePosition;
 #endif
 
-        // ¼Õ À§Ä¡ Á¶Á¤
+        // ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
         float h = Screen.height;
         float w = Screen.width;
         float screenSpacePosX = (mousePosition.x - (w * 0.5f)) / w * 2;
@@ -97,7 +95,7 @@ public class PlayerController : MonoBehaviour
         leftHandTransform.localPosition = new Vector3(screenSpacePosX * handPosZ, screenSpacePosY * handPosZ, handPosZ);
         rightHandTransform.localPosition = new Vector3(screenSpacePosX * handPosZ, screenSpacePosY * handPosZ, handPosZ);
 
-        // ¼Õ °¢µµ ¼³Á¤
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Vector3 eyePos = _main.transform.position;
         leftHandTransform.forward = leftHandTransform.position - eyePos;
         rightHandTransform.forward = rightHandTransform.position - eyePos;
@@ -115,29 +113,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Shield()
+    {
+        if (playerInput.actions["Shield"].WasPressedThisFrame())
+        {
+            //magicShield.
+        }
+        if (playerInput.actions["Shield"].WasReleasedThisFrame())
+        {
+        }
+    }
+
     #region Movement
     private void Teleport()
     {
+        if (Physics.Raycast(_main.transform.position, _main.transform.forward, out hit, 15))
+        {
+            line.SetPosition(0, _main.transform.position);
+            line.SetPosition(1, hit.point);
+
+            teleportTarget.position = hit.point + Vector3.up * 0.05f;
+        }
+
         if (playerInput.actions["Teleport"].WasPressedThisFrame())
         {
             line.gameObject.SetActive(true);
             teleportTarget.gameObject.SetActive(true);
             print("Get Down Teleport");
-        }
-        if (playerInput.actions["Teleport"].IsPressed())
-        {
-            // ¿Þ¼Õ ÄÁÆ®·Ñ·¯¸¦ ±âÁØÀ¸·Î ÅÚ·¹Æ÷Æ®¸¦ ½ð´Ù
-            // ÁöÇüÀ» ´ë»óÀ¸·Î¸¸ ¿òÁ÷ÀÏ ¼ö ÀÖÀ½
-            if (Physics.Raycast(leftHandTransform.position, leftHandTransform.forward, 
-                    out hit, 15, LayerMask.NameToLayer("Default") ))
-            {
-                // ÇØ´ç ÁöÇüÀÌ ¼­ÀÖÀ» ¼ö ¾ø´Â °÷ÀÌ¸é(º® µî) ¹«½ÃÇÑ´Ù
-                if (Vector3.Dot(hit.normal, Vector3.up) > 0.5f)
-                {
-                    teleportTarget.position = hit.point + Vector3.up * 0.05f;
-                    DrawTeleportLineCurve(footPos.localPosition, teleportTarget.localPosition);
-                }
-            }
         }
         if (playerInput.actions["Teleport"].WasReleasedThisFrame())
         {
@@ -145,25 +147,7 @@ public class PlayerController : MonoBehaviour
             line.gameObject.SetActive(false);
             teleportTarget.gameObject.SetActive(false);
 
-            transform.position = teleportTarget.position - footPos.localPosition;
-        }
-    }
-
-    // ÅÚ·¹Æ÷Æ® ½Ã°¢È­ - ÀÌÂ÷ º£Áö¾î Ä¿ºê·Î À§Ä¡ º¸°£
-    private void DrawTeleportLineCurve(Vector3 startPos, Vector3 endPos)
-    {
-        // º£Áö¾î Ä¿ºê Á¦¾îÁ¡ À§Ä¡ = µÑ »çÀÌ °Å¸® Áß°£ À§Ä¡ + °Å¸® »çÀÌ Áß°£
-        Vector3 mid = (endPos - startPos) * 0.5f;
-        Vector3 controlPointPos = mid + Vector3.up * mid.magnitude;
-
-        for (int i = 0; i < line.positionCount; i++)
-        {
-            float t = (float)i / line.positionCount;
-            var m = Vector3.Lerp(startPos, controlPointPos, t);
-            var n = Vector3.Lerp(controlPointPos, endPos, t);
-            var b = Vector3.Lerp(m, n, t);
-
-            line.SetPosition(i, b);
+            transform.position = line.GetPosition(1) - footPos.localPosition;
         }
     }
 
@@ -177,15 +161,15 @@ public class PlayerController : MonoBehaviour
         var move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
         transform.position += move * scaledMoveSpeed;
     }
-    #endregion
 
     private void Look(Vector2 rotate)
     {
         if (rotate.sqrMagnitude < 0.01)
             return;
         var scaledRotateSpeed = rotateSpeed * Time.deltaTime;
-        rotation.y += rotate.x * scaledRotateSpeed;
-        rotation.x = Mathf.Clamp(rotation.x - rotate.y * scaledRotateSpeed, -89, 89);
-        transform.localEulerAngles = rotation;
+        m_Rotation.y += rotate.x * scaledRotateSpeed;
+        m_Rotation.x = Mathf.Clamp(m_Rotation.x - rotate.y * scaledRotateSpeed, -89, 89);
+        transform.localEulerAngles = m_Rotation;
     }
+    #endregion
 }

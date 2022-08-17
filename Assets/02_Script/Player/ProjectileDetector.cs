@@ -16,8 +16,9 @@ public class ProjectileDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        print($"Detected Enter - {other.tag}");
         // 투사체인지 확인하고 막기
-        if (other.CompareTag(""))
+        if (other.CompareTag("Projectile"))
         {
             remainProjectileCount++;
             Debug.Assert(remainProjectileCount > 0, "Error : remain Projectile Count can't lower than 0");
@@ -27,8 +28,9 @@ public class ProjectileDetector : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        print("Detected Out");
         // 작동 되는지 확인할 것
-        if (other.CompareTag(""))
+        if (other.CompareTag("Projectile"))
         {
             remainProjectileCount--;
             if (remainProjectileCount == 0)
