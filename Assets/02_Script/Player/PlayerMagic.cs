@@ -22,14 +22,17 @@ public class PlayerMagic : MonoBehaviour
     // 현재 마법 속성
     public ElementType CurrentElement { get; private set; } = ElementType.Fire;
 
+    [Header("Base Magic")]
     [SerializeField] 
     private Projectile fireballPrefab;
     [SerializeField]
     private Projectile iceArrowPrefab;
     [SerializeField, Tooltip("흩뿌리는 개수")] 
     private int iceArrowShootCount = 5;
-    // 라이트닝 볼트
-    private LightningBoltScript lightningBoltPrefab;
+    [SerializeField]
+    private LightningBolt lightningBolt;
+    [SerializeField, Tooltip("라이트닝 볼트 히트시킬 대상")] 
+    private LayerMask lightningLayerMask;
 
     [SerializeField, Tooltip("마법이 발사되는 위치")]
     private Transform MagicFirePositionTr;
@@ -65,6 +68,9 @@ public class PlayerMagic : MonoBehaviour
     {
         int addedElementIndex = changeNextElement ? 1 : -1;
         CurrentElement = (ElementType)(((int)CurrentElement + addedElementIndex) % (int)ElementType.Count);
+
+        // 속성 바꾸면 그립 풀림
+        // 속성 바꾸면 차지 풀림
     }
 
     #endregion
@@ -118,20 +124,58 @@ public class PlayerMagic : MonoBehaviour
 
     private void ShootLightningBolt(Vector3 position, Vector3 direction)
     {
-        // 히트 스캔 방식
-        //if (Physics.Raycast(leftHandTransform.position, leftHandTransform.forward, out hit,
-        //        teleportRange, 1 << LayerMask.NameToLayer("Default")))
-        //{
-        //    //print(hit.collider.name);
-        //    // 벽에 텔레포트 하지 않도록 보정
-        //    if (Vector3.Dot(hit.normal, Vector3.up) > 0.5f)
-        //    {
-        //        // Z-fighting이 일어나지 않게 텔레포트 위치 보정
-        //        teleportTarget.position = hit.point + Vector3.up * 0.05f;
-        //        DrawTeleportLineCurve(footPos.localPosition, teleportTarget.localPosition);
-        //    }
-        //}
-        // 해당 방향을 기준으로 Raycast해서 마법 쏘기
+        bool rayHit = Physics.Raycast(position, direction, out var hit, 20, lightningLayerMask);
+        Collider hitEnemy;
+        // 히트 스캔 방식 - 조준 보정 필요
+        if (rayHit)
+        {
+            // 라이트닝 볼트 위치 지정
+            hitEnemy = hit.collider;
+        }
+        // 직선 거리에 없을 땐 가장 가까운 녀석을 기준으로 함
+        else
+        {
+            Vector3 endPosition = position + 20 * direction;
+            // 적만 맞추기
+            var enemies = Physics.OverlapCapsule(position, endPosition, 3, 
+                1 << LayerMask.NameToLayer("Enemy"));
+            if (enemies.Length == 0)
+            {
+                return;
+            }
+            
+            // 가장 가까운 적을 맞춤
+            float minDistance = Single.MaxValue;
+            hitEnemy = enemies[0];
+            foreach (var enemy in enemies)
+            {
+                float distance = Vector3.Distance(position, enemy.transform.position);
+                if (distance < minDistance)
+                {
+                    hitEnemy = enemy;
+                    minDistance = distance;
+                }
+            }
+        }
+
+
+        lightningBolt.EndObject.transform.position = hitEnemy.transform.position;
+        StopCoroutine(nameof(IEShootLightningBolt));
+        StartCoroutine(nameof(IEShootLightningBolt));
+
+        var status = hitEnemy.GetComponent<CharacterStatus>();
+        if (status)
+        {
+            status.TakeDamage(lightningBolt.elementDamage);
+        }
+    }
+
+    private IEnumerator IEShootLightningBolt()
+    {
+        lightningBolt.gameObject.SetActive(true);
+        lightningBolt.Duration = 0.1f;
+        yield return new WaitForSeconds(0.1f);
+        lightningBolt.gameObject.SetActive(false);
     }
     #endregion
 
@@ -142,17 +186,16 @@ public class PlayerMagic : MonoBehaviour
 
     #endregion
 
-    #region Focusing Magic
+    #region Grip Magic
 
     // 누르고 있는 동안 마법이 지속 시전됨
-    // 얼음 검의 경우 
 
-    public void TurnOnCharge()
+    public void TurnOnGrip()
     {
         // 
     }
 
-    public void TurnOffCharge()
+    public void TurnOffGrip()
     {
 
     }
