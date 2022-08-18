@@ -34,6 +34,10 @@ public class PlayerMagic : MonoBehaviour
     [SerializeField, Tooltip("라이트닝 볼트 히트시킬 대상")] 
     private LayerMask lightningLayerMask;
 
+    [Header("Grip")] 
+    [SerializeField] 
+    private IceSword iceSword;
+
     [SerializeField, Tooltip("마법이 발사되는 위치")]
     private Transform MagicFirePositionTr;
 
@@ -192,12 +196,41 @@ public class PlayerMagic : MonoBehaviour
 
     public void TurnOnGrip()
     {
-        // 
+        // 마나 닳게 처리
+
+        switch (CurrentElement)
+        {
+            case ElementType.Fire:
+
+                break;
+            case ElementType.Ice:
+                iceSword.TurnOn();
+                break;
+            case ElementType.Lightning:
+
+                break;
+            default:
+                break;
+        }
     }
 
     public void TurnOffGrip()
     {
 
+        switch (CurrentElement)
+        {
+            case ElementType.Fire:
+
+                break;
+            case ElementType.Ice:
+                iceSword.TurnOff();
+                break;
+            case ElementType.Lightning:
+
+                break;
+            default:
+                break;
+        }
     }
 
     #endregion

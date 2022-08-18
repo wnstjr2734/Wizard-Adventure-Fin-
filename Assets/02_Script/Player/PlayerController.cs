@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
 
         // 플레이어 마법
         ChangeElement();
+        Grip();
 
         // 투사체 방어
         Shield();
@@ -99,10 +100,10 @@ public class PlayerController : MonoBehaviour
         leftHandTransform.localPosition = new Vector3(screenSpacePosX * handPosZ, screenSpacePosY * handPosZ, handPosZ);
         rightHandTransform.localPosition = new Vector3(screenSpacePosX * handPosZ, screenSpacePosY * handPosZ, handPosZ);
 
-        // �� ���� ����
+        // 눈 위치를 기준으로 손의 방향을 정함
         Vector3 eyePos = _main.transform.position;
-        leftHandTransform.forward = leftHandTransform.position - eyePos;
-        rightHandTransform.forward = rightHandTransform.position - eyePos;
+        leftHandTransform.forward = (leftHandTransform.position - eyePos).normalized;
+        rightHandTransform.forward = (rightHandTransform.position - eyePos).normalized;
     }
 
     private void ShootMagic()
