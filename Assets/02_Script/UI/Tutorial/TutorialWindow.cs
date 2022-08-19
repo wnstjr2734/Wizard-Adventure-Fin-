@@ -11,7 +11,6 @@ public class TutorialWindow : Singleton<TutorialWindow>
 {
     [SerializeField] private TutorialViewer viewer;
     [SerializeField] private CanvasGroup canvasGroup;
-
     [SerializeField] private TutorialExplainData data;
 
 

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/01_Scenes/SampleMap_KDY.unity.meta
+guid: c88d0f59fbce3f24e93a99d1719b36eb
+========
 guid: 2b3baf4a9e7af1d4bb76f060b976f262
+>>>>>>>> develop:Assets/01_Scenes/SampleMap_LJS Test 1.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
