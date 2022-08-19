@@ -4,74 +4,75 @@ using UnityEngine;
 using DG.Tweening;
 
 /// <summary>
-/// 스킬 페이지 동작
+/// 속성 페이지 동작 클래스
 /// </summary>
 public class PropertiesWindow : MonoBehaviour
 {
+
     public GameObject pp_base;
-    public float speed = 2f;
-    public float horizontal;
+    public float speed = 1.0f;
     public float currentAngle = 0.0f;
+    private float moveAngle = -120f, reversAngle = 120f;
+    private float horizontal;
+    private bool isRotate = false;    
     Vector3 angle;
-    public Ease ease;    
-    float moveAngle = -120f, reversAngle = 120f;
-    bool isLeftMove = false;
-    bool isRightMove = false;
+    Ease ease;
 
     // Start is called before the first frame update
     void Start()
-    {       
-        
+    {
+        //회전 속도의 변화
+        ease = Ease.InOutCubic; 
     }
 
     // Update is called once per frame
     void Update()
     {
+        //좌우 입력값을 -1,0,1 로 받음
         horizontal = Input.GetAxisRaw("Horizontal");
-        BaseRotate();       
+        StartCoroutine(nameof(IEBaseRotate));  
     }
 
+    //Axis 키 값을 받으면 Circle이 회전
+    IEnumerator IEBaseRotate()
+    {       
+        float delay = 1.05f;
 
-    void BaseRotate()
-    {
-        //if (pp_base.transform.rotation.z >= angle.z) { isRotate = false; }
-
-        if (horizontal == -1 )
+        if (horizontal == -1 && !isRotate)
         {
-            if (!isLeftMove)
-            {  LeftMove(); }
+            LeftMove();
+            yield return new WaitForSeconds(delay); //회전하면 delay 시간 동안 입력 막음
+            isRotate = false;
         }
-        else if (horizontal == 1 )
+        else if (horizontal == 1 && !isRotate)
         {
-            if (!isRightMove)
-            {  RightMove(); }
-        }
-        else
-        {
-            isLeftMove = false;
-            isRightMove = false;
+            RightMove();
+            yield return new WaitForSeconds(delay);
+            isRotate = false;
         }
     }
 
+    //속성 선택 창이 왼쪽으로 회전
     void LeftMove()
     {        
         print("왼쪽");
-        isLeftMove = true;
-        currentAngle += moveAngle;
+        isRotate = true;
+        currentAngle += moveAngle;                                                         //현재 각도를 저장하고 회전각도를 더하므로  Circle을 회전시킴
         angle = new Vector3(0, 0, currentAngle);
         pp_base.transform.DORotate(angle, speed).SetEase(ease);
-        if (currentAngle <= -360f) { currentAngle = 0.0f; }
+        if (currentAngle <= -360f) { currentAngle = 0.0f; }                 //회전을 한 바퀴 돌면 각도 초기화
     }
 
+    //속성 선택 창이 오른쪽으로 회전
     void RightMove()
     {
         print("오른쪽");
-        isRightMove = true;
-        currentAngle += reversAngle;
+        isRotate = true;
+        currentAngle += reversAngle; 
         angle = new Vector3(0, 0, currentAngle);
         pp_base.transform.DORotate(angle, speed).SetEase(ease);
         if (currentAngle >= 360f) { currentAngle = 0.0f; }
-        //if (pp_base.transform.rotation.z == angle.z) { isRotate = false; }
+       
     }
 
 }
