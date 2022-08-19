@@ -153,21 +153,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa662cc27dab7be4489d9d5183a916b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartObject: {fileID: 163122}
-  StartPosition: {x: 0, y: 0, z: 0}
+  isSelfTarget: 0
   EndObject: {fileID: 171180}
   EndPosition: {x: 0, y: 0, z: 0}
+  maxDistance: 20
   Generations: 8
-  Duration: 0.05
-  ChaosFactor: 0.15
+  duration: 0.1
+  continuousMode: 0
+  chaosFactor: 0.15
   ManualMode: 0
   elementDamage:
-    damage: 10
+    damage: 30
     elementType: 3
     stack: 1
-  Rows: 1
-  Columns: 1
-  AnimationMode: 3
+  lightningLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &163122
 GameObject:
   m_ObjectHideFlags: 0

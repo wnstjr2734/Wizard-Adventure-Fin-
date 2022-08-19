@@ -7,7 +7,7 @@ using UnityEngine;
 /// 해당 방향으로 나아가는 투사체형 오브젝트
 /// 작성자 - 차영철
 /// </summary>
-public class Projectile : MonoBehaviour
+public class Projectile : Magic
 {
     [SerializeField, Tooltip("투사체 이동속도")]
     private float moveSpeed = 4.5f;
@@ -16,15 +16,12 @@ public class Projectile : MonoBehaviour
     // 투사체가 얼마나 오래 유지되는지
     private float lifetime;
 
-    // 초기 방향 설정
-    private Vector3 direction;
-
     // 데미지 등등 정보 설정
     [SerializeField, Tooltip("데미지 및 속성 정보")] 
     private ElementDamage elementDamage;
 
     [Header("VFX")]
-    [SerializeField, Tooltip("투사체 맞았을 때 효과")]
+    [SerializeField, Tooltip("투사체 맞았을 때 효과 (VFX, SFX 포함)")]
     private ParticleSystem hitEffectPrefab;
 
     [Header("SFX")]
@@ -65,9 +62,14 @@ public class Projectile : MonoBehaviour
     public void Shoot(Vector3 position, Vector3 direction)
     {
         transform.position = position;
-        this.direction = direction;
-        transform.forward = this.direction;
-        rb.velocity = this.direction * moveSpeed;
+        transform.forward = direction;
+        rb.velocity = direction * moveSpeed;
+        rb.angularVelocity = Vector3.zero;
+    }
+
+    public override void StartMagic()
+    {
+        rb.velocity = transform.forward * moveSpeed;
         rb.angularVelocity = Vector3.zero;
     }
 

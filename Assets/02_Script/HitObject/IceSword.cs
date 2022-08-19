@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,7 +8,7 @@ using UnityEngine.Serialization;
 /// 얼음검 효과 및 이펙트 구현
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
-public class IceSword : MonoBehaviour
+public class IceSword : GripMagic
 {
     [SerializeField] 
     private Vector2 cutoffHeight = new Vector2(0.0f, 3.5f);
@@ -64,7 +63,7 @@ public class IceSword : MonoBehaviour
         previousPos = currentPos;
     }
 
-    public void TurnOn()
+    public override void TurnOn()
     {
         StopCoroutine(nameof(IETurnOffSword));
         StartCoroutine(nameof(IETurnOnSword));
@@ -85,7 +84,7 @@ public class IceSword : MonoBehaviour
         snowEffect.gameObject.SetActive(true);
     }
 
-    public void TurnOff()
+    public override void TurnOff()
     {
         StopCoroutine(nameof(IETurnOnSword));
         StartCoroutine(nameof(IETurnOffSword));

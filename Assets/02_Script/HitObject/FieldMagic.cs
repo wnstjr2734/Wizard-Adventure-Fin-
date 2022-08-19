@@ -8,7 +8,7 @@ using UnityEngine;
 /// 주의 : 해당 프레임에만 공격하는 방식이 아닌 지속시간 동안 범위 안에 들어가면 공격 판정
 /// </summary>
 [RequireComponent(typeof(Collider))]
-public class FieldAttack : MonoBehaviour
+public class FieldMagic : Magic
 {
     [SerializeField, Range(0.1f, 5.0f), Tooltip("히트 판정이 지속되는 시간")]
     private float hitDuration = 2.0f;

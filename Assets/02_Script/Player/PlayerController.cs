@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
         // 플레이어 마법
         ChangeElement();
         Grip();
+        Charge();
 
         // 투사체 방어
         Shield();
@@ -134,11 +135,11 @@ public class PlayerController : MonoBehaviour
     {
         if (playerInput.actions["Charge"].WasPressedThisFrame())
         {
-            playerMagic.TurnOnGrip();
+            playerMagic.StartCharge();
         }
         if (playerInput.actions["Charge"].WasReleasedThisFrame())
         {
-            playerMagic.TurnOffGrip();
+            playerMagic.EndCharge();
         }
     }
 

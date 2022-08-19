@@ -14275,7 +14275,7 @@ Transform:
   m_GameObject: {fileID: 167736}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 474442}
@@ -19070,7 +19070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db696b1db37d81d468f7b1f496cf99a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chargeScale: {x: 0.2, y: 0.5, z: 1}
+  chargeScale: {x: 0.02, y: 0.05, z: 0.1}
   elementColor:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0, g: 1, b: 1, a: 1}

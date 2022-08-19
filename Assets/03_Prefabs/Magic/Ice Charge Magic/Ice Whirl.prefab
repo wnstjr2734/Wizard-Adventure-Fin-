@@ -39002,6 +39002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ee1bb01fd8c782488be66e8007014ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSelfTarget: 1
   hitDuration: 1.2
   remainTime: 2
   elementDamage:

@@ -19,29 +19,32 @@ public class PlayerMagic : MonoBehaviour
         Count
     }
 
-    // 현재 마법 속성
-    public ElementType CurrentElement { get; private set; } = ElementType.Fire;
-
-    [Header("Base Magic")]
-    [SerializeField] 
-    private Projectile fireballPrefab;
-    [SerializeField]
-    private Projectile iceArrowPrefab;
-    [SerializeField, Tooltip("흩뿌리는 개수")] 
-    private int iceArrowShootCount = 5;
-    [SerializeField]
-    private LightningBolt lightningBolt;
-    [SerializeField, Tooltip("라이트닝 볼트 히트시킬 대상")] 
-    private LayerMask lightningLayerMask;
+    [Header("Base Magic")] 
+    [SerializeField, EnumNamedArray(typeof(ElementType))]
+    [Tooltip("불/얼음/전기 속성 기본 마법")]
+    private Magic[] baseMagicPrefabs = new Magic[(int)ElementType.Count];
 
     [Header("Grip")] 
+    [SerializeField, EnumNamedArray(typeof(ElementType))]
+    [Tooltip("불/얼음/전기 속성 그립 마법")] 
+    private GripMagic[] gripMagics = new GripMagic[(int)ElementType.Count];
+
+    [Header("Charge")] 
     [SerializeField] 
-    private IceSword iceSword;
+    private ChargeEffect chargeEffect;
+    [SerializeField, EnumNamedArray(typeof(ElementType))]
+    [Tooltip("불/얼음/전기 속성 차지 마법")]
+    private Magic[] chargeMagicPrefabs = new Magic[(int)ElementType.Count];
 
     [SerializeField, Tooltip("마법이 발사되는 위치")]
     private Transform MagicFirePositionTr;
 
     private PoolSystem poolSystem;
+
+    // 현재 마법 속성
+    public ElementType CurrentElement { get; private set; } = ElementType.Fire;
+
+    public event Action<ElementType> onChangeElement;
 
     private void Awake()
     {
@@ -54,11 +57,12 @@ public class PlayerMagic : MonoBehaviour
         Debug.Assert(poolSystem, "Error : Pool System is not created");
 
         // 발사할 마법의 개수를 미리 지정해놓는다
-        poolSystem.InitPool(fireballPrefab, 3);
-        poolSystem.InitPool(iceArrowPrefab, 3 * iceArrowShootCount);   // 아이스 애로우는 몇 발 쏠지 모르겠음
-    }
+        poolSystem.InitPool(baseMagicPrefabs[(int)ElementType.Fire], 3);
+        poolSystem.InitPool(baseMagicPrefabs[(int)ElementType.Ice], 2);
+        poolSystem.InitPool(baseMagicPrefabs[(int)ElementType.Lightning], 4);   // 번개 구름이랑 겹칠 수 있음
 
-    #region Change Element
+        poolSystem.InitPool(chargeMagicPrefabs[(int)ElementType.Ice], 1);
+    }
 
     /// <summary>
     /// 
@@ -70,14 +74,14 @@ public class PlayerMagic : MonoBehaviour
     /// </param>
     public void ChangeElement(bool changeNextElement)
     {
+        // 속성 바꾸면 그립 풀림
+        // 속성 바꾸면 차지 풀림
+
         int addedElementIndex = changeNextElement ? 1 : -1;
         CurrentElement = (ElementType)(((int)CurrentElement + addedElementIndex) % (int)ElementType.Count);
 
-        // 속성 바꾸면 그립 풀림
-        // 속성 바꾸면 차지 풀림
+        onChangeElement?.Invoke(CurrentElement);
     }
-
-    #endregion
 
     #region Base Magic
     // 기본 마법 발사
@@ -86,100 +90,10 @@ public class PlayerMagic : MonoBehaviour
         // 쿨타임이면 무시
 
         // 지정된 속성의 마법을 발사
-        switch (CurrentElement)
-        {
-            case ElementType.Fire:
-                ShootFireball(position, direction);
-                break;
-            case ElementType.Ice:
-                ShootIceArrow(position, direction);
-                break;
-            case ElementType.Lightning:
-                ShootLightningBolt(position, direction);
-                break;
-            default:
-                break;
-        }
-    }
-    
-    private void ShootFireball(Vector3 position, Vector3 direction)
-    {
-        var projectile = poolSystem.GetInstance<Projectile>(fireballPrefab);
-        projectile.Shoot(position, direction);
-    }
-
-    private void ShootIceArrow(Vector3 position, Vector3 direction)
-    {
-        StartCoroutine(IEShootIceArrow(position, direction));
-    }
-
-    private IEnumerator IEShootIceArrow(Vector3 position, Vector3 direction)
-    {
-        // 샷건마냥 흩뿌리기
-        for (int i = 0; i < iceArrowShootCount; i++)
-        {
-            var projectile = poolSystem.GetInstance<Projectile>(iceArrowPrefab);
-
-            var newDirection = (direction + UnityEngine.Random.onUnitSphere * 0.2f).normalized;
-            projectile.Shoot(position, newDirection);
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
-
-    private void ShootLightningBolt(Vector3 position, Vector3 direction)
-    {
-        bool rayHit = Physics.Raycast(position, direction, out var hit, 20, lightningLayerMask);
-        Collider hitEnemy;
-        // 히트 스캔 방식 - 조준 보정 필요
-        if (rayHit)
-        {
-            // 라이트닝 볼트 위치 지정
-            hitEnemy = hit.collider;
-        }
-        // 직선 거리에 없을 땐 가장 가까운 녀석을 기준으로 함
-        else
-        {
-            Vector3 endPosition = position + 20 * direction;
-            // 적만 맞추기
-            var enemies = Physics.OverlapCapsule(position, endPosition, 3, 
-                1 << LayerMask.NameToLayer("Enemy"));
-            if (enemies.Length == 0)
-            {
-                return;
-            }
-            
-            // 가장 가까운 적을 맞춤
-            float minDistance = Single.MaxValue;
-            hitEnemy = enemies[0];
-            foreach (var enemy in enemies)
-            {
-                float distance = Vector3.Distance(position, enemy.transform.position);
-                if (distance < minDistance)
-                {
-                    hitEnemy = enemy;
-                    minDistance = distance;
-                }
-            }
-        }
-
-
-        lightningBolt.EndObject.transform.position = hitEnemy.transform.position;
-        StopCoroutine(nameof(IEShootLightningBolt));
-        StartCoroutine(nameof(IEShootLightningBolt));
-
-        var status = hitEnemy.GetComponent<CharacterStatus>();
-        if (status)
-        {
-            status.TakeDamage(lightningBolt.elementDamage);
-        }
-    }
-
-    private IEnumerator IEShootLightningBolt()
-    {
-        lightningBolt.gameObject.SetActive(true);
-        lightningBolt.Duration = 0.1f;
-        yield return new WaitForSeconds(0.1f);
-        lightningBolt.gameObject.SetActive(false);
+        var magic = poolSystem.GetInstance<Magic>(baseMagicPrefabs[(int)CurrentElement]);
+        magic.SetPosition(position);
+        magic.SetDirection(direction);
+        magic.StartMagic();
     }
     #endregion
 
@@ -187,6 +101,34 @@ public class PlayerMagic : MonoBehaviour
 
     // 마법 충전이 완료됐을 때 이펙트
     // 
+    public void StartCharge()
+    {
+        chargeEffect.gameObject.SetActive(true);
+        chargeEffect.SetColor(CurrentElement);
+    }
+
+    private void OnCharge()
+    {
+        // 차지 충전 중 보여줄 정보
+    }
+
+    public void EndCharge()
+    {
+        if (chargeEffect.ChargeCompleted)
+        {
+            // 현재 속성의 마법 시전
+            var magic = poolSystem.GetInstance<Magic>(chargeMagicPrefabs[(int)CurrentElement]);
+            if (magic.IsSelfTarget)
+            {
+                magic.SetPosition(transform.position);
+            }
+            else
+            {
+                
+            }
+        }
+        chargeEffect.gameObject.SetActive(false);
+    }
 
     #endregion
 
@@ -197,40 +139,24 @@ public class PlayerMagic : MonoBehaviour
     public void TurnOnGrip()
     {
         // 마나 닳게 처리
-
-        switch (CurrentElement)
+        if (gripMagics[(int)CurrentElement])
         {
-            case ElementType.Fire:
-
-                break;
-            case ElementType.Ice:
-                iceSword.TurnOn();
-                break;
-            case ElementType.Lightning:
-
-                break;
-            default:
-                break;
+            gripMagics[(int)CurrentElement].TurnOn();
         }
     }
 
     public void TurnOffGrip()
     {
-
-        switch (CurrentElement)
+        if (gripMagics[(int)CurrentElement])
         {
-            case ElementType.Fire:
-
-                break;
-            case ElementType.Ice:
-                iceSword.TurnOff();
-                break;
-            case ElementType.Lightning:
-
-                break;
-            default:
-                break;
+            gripMagics[(int)CurrentElement].TurnOff();
         }
+    }
+
+    // 화염, 전기 등 그랩 중일 때 판정하는 
+    private void OnGrip()
+    {
+
     }
 
     #endregion
