@@ -33,13 +33,49 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Mouse Position",
-                    "type": "Value",
-                    "id": "02ad9e0e-4004-4866-a846-0fe5d6bf63c3",
-                    "expectedControlType": "Vector2",
+                    "name": "Shoot Magic",
+                    "type": "Button",
+                    "id": "0c5c627e-66d0-420e-bc14-0eb1e56f3603",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Shield",
+                    "type": "Button",
+                    "id": "f24fd0e3-5a15-4929-8d7e-485714595c84",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Change Prev Element",
+                    "type": "Button",
+                    "id": "ab358dbf-cb2e-4f48-9bd4-ed60dc9874a5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Change Next Element",
+                    "type": "Button",
+                    "id": "335fcb93-ea9b-49c6-ab86-9e1d694e0185",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Grip",
+                    "type": "Button",
+                    "id": "bf916483-0eb5-4796-9115-f33e4e722bfe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -47,17 +83,6 @@
                     "name": "",
                     "id": "72797b32-f572-4da5-a456-91ddebc7dfa8",
                     "path": "<Keyboard>/t",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Teleport",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7318dac4-67c4-4564-a128-db55c7ec07bf",
-                    "path": "<OculusTouchController>{RightHand}/triggerPressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -177,12 +202,56 @@
                 },
                 {
                     "name": "",
-                    "id": "2ed79aa9-0432-4e66-b3ac-da80ffb489d9",
-                    "path": "<Mouse>/position",
+                    "id": "af6cd30a-9a2b-4749-b1b1-1bd8a892b233",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Mouse Position",
+                    "action": "Shoot Magic",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f413a942-5ded-40d6-9ee3-005012be1429",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shield",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a49516d6-a98e-4474-90c4-fa059e3e0832",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Change Prev Element",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1489bb81-412d-4a94-a77e-921c22dac6eb",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Change Next Element",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bcc9991e-9ca1-4b5c-8287-3bb4344ae086",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

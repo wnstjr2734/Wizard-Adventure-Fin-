@@ -8,32 +8,33 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float rotateSpeed;
-
-    [Header("Teleport")]
-    [SerializeField] private LineRenderer line;
-    [SerializeField] private Transform teleportTarget;
-    [SerializeField] private Transform footPos;
+    [SerializeField]
+    private MagicShield magicShield;
 
     [Header("For Debug")] 
     [SerializeField] private bool pcMode = true;
     [SerializeField] private float handPosZ = 0.3f;
+    [SerializeField] private float pressedHandPosZ = 0.5f;
+    [SerializeField] private float releasedHandPosZ = 0.3f;
     [SerializeField] private Transform leftHandTransform;
     [SerializeField] private Transform rightHandTransform;
 
     private Camera _main;
     private RaycastHit hit;
-
-    private Vector2 m_Rotation;
+    
     private Vector2 m_Look;
     private Vector2 m_Move;
 
     private PlayerInput playerInput;
+    private PlayerMoveRotate playerMoveRotate;
+    private PlayerMagic playerMagic;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        playerMoveRotate = GetComponent<PlayerMoveRotate>();
+        playerMagic = GetComponent<PlayerMagic>();
+        Debug.Assert(magicShield, "Error : magic shield not set");
     }
 
     private void Start()
@@ -56,23 +57,32 @@ public class PlayerController : MonoBehaviour
         print("Teleport");
     }
 
+    public void OnShield(InputAction.CallbackContext context)
+    {
+        print("Shield ");
+    }
+
     public void Update()
     {
-        // Debug : Mouse To Hand
         if (pcMode)
         {
             MousePosToHandPos();
+            ShootMagic();
         }
 
-        // Update orientation first, then move. Otherwise move orientation will lag
-        // behind by one frame.
+        // ÌîåÎ†àÏù¥Ïñ¥ ÎßàÎ≤ï
+        ChangeElement();
+        Grip();
+
+        // Ìà¨ÏÇ¨Ï≤¥ Î∞©Ïñ¥
+        Shield();
+
         Look(m_Look);
         Move(m_Move);
-
         Teleport();
     }
-
-    // ∏∂øÏΩ∫ ¿ßƒ°∏¶ º’(æÁº’) ¿ßƒ°∑Œ ∫Ø»Ø
+    
+    // ÎßàÏö∞Ïä§ ÏúÑÏπòÎ•º ÏÜê ÏúÑÏπòÎ°ú Ï†ÅÏö©
     private void MousePosToHandPos()
     {
 #if ENABLE_INPUT_SYSTEM
@@ -82,7 +92,7 @@ public class PlayerController : MonoBehaviour
         Vector2 mousePosition = Input.mousePosition;
 #endif
 
-        // º’ ¿ßƒ° ¡∂¡§
+        // ÍπäÏù¥Ïóê Îî∞Îùº
         float h = Screen.height;
         float w = Screen.width;
         float screenSpacePosX = (mousePosition.x - (w * 0.5f)) / w * 2;
@@ -90,59 +100,85 @@ public class PlayerController : MonoBehaviour
         leftHandTransform.localPosition = new Vector3(screenSpacePosX * handPosZ, screenSpacePosY * handPosZ, handPosZ);
         rightHandTransform.localPosition = new Vector3(screenSpacePosX * handPosZ, screenSpacePosY * handPosZ, handPosZ);
 
-        // º’ ∞¢µµ º≥¡§
+        // Îàà ÏúÑÏπòÎ•º Í∏∞Ï§ÄÏúºÎ°ú ÏÜêÏùò Î∞©Ìñ•ÏùÑ Ï†ïÌï®
         Vector3 eyePos = _main.transform.position;
-        leftHandTransform.forward = leftHandTransform.position - eyePos;
-        rightHandTransform.forward = rightHandTransform.position - eyePos;
+        leftHandTransform.forward = (leftHandTransform.position - eyePos).normalized;
+        rightHandTransform.forward = (rightHandTransform.position - eyePos).normalized;
     }
 
+    private void ShootMagic()
+    {
+        if (playerInput.actions["Shoot Magic"].WasPressedThisFrame())
+        {
+            handPosZ = pressedHandPosZ;
+        }
+        if (playerInput.actions["Shoot Magic"].WasReleasedThisFrame())
+        {
+            handPosZ = releasedHandPosZ;
+        }
+    }
+
+    private void Grip()
+    {
+        if (playerInput.actions["Grip"].WasPressedThisFrame())
+        {
+            playerMagic.TurnOnGrip();
+        }
+        if (playerInput.actions["Grip"].WasReleasedThisFrame())
+        {
+            playerMagic.TurnOffGrip();
+        }
+    }
+
+    private void ChangeElement()
+    {
+        if (playerInput.actions["Change Prev Element"].WasPressedThisFrame())
+        {
+            playerMagic.ChangeElement(false);
+        }
+        if (playerInput.actions["Change Next Element"].WasPressedThisFrame())
+        {
+            playerMagic.ChangeElement(true);
+        }
+    }
+
+    private void Shield()
+    {
+        if (playerInput.actions["Shield"].WasPressedThisFrame())
+        {
+            magicShield.ActiveShield(true);
+        }
+        if (playerInput.actions["Shield"].WasReleasedThisFrame())
+        {
+            magicShield.ActiveShield(false);
+        }
+    }
+
+    #region Movement
     private void Teleport()
     {
         if (playerInput.actions["Teleport"].WasPressedThisFrame())
         {
-            line.gameObject.SetActive(true);
-            teleportTarget.gameObject.SetActive(true);
-            print("Get Down Teleport");
+            playerMoveRotate.StartTeleport();
         }
         if (playerInput.actions["Teleport"].IsPressed())
         {
-            if (Physics.Raycast(leftHandTransform.position, leftHandTransform.forward, out hit, 15,
-                    ~(1 << LayerMask.NameToLayer("Ignore Raycast"))))
-            {
-                line.SetPosition(0, leftHandTransform.position);
-                line.SetPosition(1, hit.point);
-
-                teleportTarget.position = hit.point + Vector3.up * 0.05f;
-            }
+            playerMoveRotate.OnTeleport();
         }
         if (playerInput.actions["Teleport"].WasReleasedThisFrame())
         {
-            print("Get Up Teleport");
-            line.gameObject.SetActive(false);
-            teleportTarget.gameObject.SetActive(false);
-
-            transform.position = line.GetPosition(1) - footPos.localPosition;
+            playerMoveRotate.EndTeleport();
         }
     }
 
     private void Move(Vector2 direction)
     {
-        if (direction.sqrMagnitude < 0.01)
-            return;
-        var scaledMoveSpeed = moveSpeed * Time.deltaTime;
-        // For simplicity's sake, we just keep movement in a single plane here. Rotate
-        // direction according to world Y rotation of player.
-        var move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
-        transform.position += move * scaledMoveSpeed;
+        playerMoveRotate.Move(direction);
     }
 
     private void Look(Vector2 rotate)
     {
-        if (rotate.sqrMagnitude < 0.01)
-            return;
-        var scaledRotateSpeed = rotateSpeed * Time.deltaTime;
-        m_Rotation.y += rotate.x * scaledRotateSpeed;
-        m_Rotation.x = Mathf.Clamp(m_Rotation.x - rotate.y * scaledRotateSpeed, -89, 89);
-        transform.localEulerAngles = m_Rotation;
+        playerMoveRotate.Look(rotate);
     }
+    #endregion
 }
