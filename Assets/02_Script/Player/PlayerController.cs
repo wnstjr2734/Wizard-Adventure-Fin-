@@ -130,6 +130,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Charge()
+    {
+        if (playerInput.actions["Charge"].WasPressedThisFrame())
+        {
+            playerMagic.TurnOnGrip();
+        }
+        if (playerInput.actions["Charge"].WasReleasedThisFrame())
+        {
+            playerMagic.TurnOffGrip();
+        }
+    }
+
     private void ChangeElement()
     {
         if (playerInput.actions["Change Prev Element"].WasPressedThisFrame())

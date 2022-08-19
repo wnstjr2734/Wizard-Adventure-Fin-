@@ -27,6 +27,8 @@ public class ChargeEffect : MonoBehaviour
     [SerializeField, Tooltip("차지에 필요한 시간")]
     private float chargeTime = 5.0f;
 
+    public bool ChargeCompleted { get; private set; }
+
     private void Awake()
     {
         particleSystems = GetComponentsInChildren<ParticleSystem>();
@@ -39,6 +41,8 @@ public class ChargeEffect : MonoBehaviour
         transform.localScale = Vector3.one * chargeScale.x;
         particleSystems[ringIndex].gameObject.SetActive(false);
         particleSystems[glowIndex].gameObject.SetActive(false);
+        ChargeCompleted = false;
+
         SetColor(PlayerMagic.ElementType.Fire);
         StartCoroutine(nameof(IEChargeGauge));
     }
@@ -63,6 +67,8 @@ public class ChargeEffect : MonoBehaviour
         }
         particleSystems[glowIndex].gameObject.SetActive(true);
         transform.DOScale(Vector3.one * chargeScale.z, 0.5f);
+
+        ChargeCompleted = true;
     }
 
     private void OnDisable()
