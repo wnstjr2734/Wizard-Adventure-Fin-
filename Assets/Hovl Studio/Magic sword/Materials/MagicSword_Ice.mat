@@ -115,7 +115,11 @@ Material:
     - _EdgeColor: {r: 0, g: 3.262745, b: 23.96863, a: 1}
     - _EmissionColor: {r: 2, g: 2, b: 2, a: 1}
   m_BuildTextureStacks: []
+<<<<<<< HEAD
+--- !u!114 &5756753850125138173
+=======
 --- !u!114 &8708397247394491469
+>>>>>>> develop
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

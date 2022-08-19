@@ -9,15 +9,19 @@ using TMPro;
 public class TutorialViewer : MonoBehaviour
 {
     [SerializeField] private VideoPlayer videoPlayer;
+    [SerializeField] private TextMeshProUGUI explain_titleText;
     [SerializeField] private TextMeshProUGUI explainText;
-    [SerializeField] private Image controllerImage;
+    [SerializeField] private Image controllerImageL;
+    [SerializeField] private Image controllerImageR;
 
     public void SetContext(TutorialExplainData explainData)
     {
         // Tutorial Data로부터 정보 가져와서 적용하기
         videoPlayer.clip = explainData.clip;
+        explain_titleText.text = explainData.explain_Title;
         explainText.text = explainData.explain;
-        controllerImage.sprite = explainData.controllerImage;
+        controllerImageL.sprite = explainData.controllerImage_L;
+        controllerImageR.sprite = explainData.controllerImage_R;
     }
 
     public void Play()

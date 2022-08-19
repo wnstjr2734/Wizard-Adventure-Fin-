@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Oculus Rift Controller Icons Pack.meta
+guid: f4e0336909a7a734ba533d0599a88dde
+folderAsset: yes
+========
 guid: fe76537ed2a85ed47b77960fd41abc5f
+>>>>>>>> develop:Assets/LightningBolt/Demo/LightningBoltDemoObjects.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

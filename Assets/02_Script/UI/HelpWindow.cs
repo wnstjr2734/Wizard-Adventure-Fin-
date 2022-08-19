@@ -67,14 +67,13 @@ public class HelpWindow : MonoBehaviour
         }
 
         // 현재 뷰어와 다음 뷰어 작동 정지
-        nextViewer.gameObject.SetActive(true);
+        nextViewer.gameObject.SetActive(true);     
         nextViewer.SetContext(datas[currentIndex - 1]);
         currentViewer.Stop();
         nextViewer.Stop();
 
         // 다음 뷰어 위치 변경 후 슬라이드 애니메이션 
         ChangeViewer(-movePosX);
-
         SetCurrentIndex(currentIndex - 1);
     }
 
@@ -111,8 +110,12 @@ public class HelpWindow : MonoBehaviour
         nextViewer.transform.localPosition = Vector3.right * translatePosX;
         s.Append(nextViewer.transform.DOLocalMoveX(0, animTime));
         s.Join(currentViewer.transform.DOLocalMove(Vector3.left * translatePosX, animTime));
+        s.Join(nextViewer.GetComponent<CanvasGroup>().DOFade(1,1));
+        s.Join(currentViewer.GetComponent<CanvasGroup>().DOFade(0, 1));
         s.OnComplete(() => {
             SwapCurrentAndNext();
+            currentViewer.Play();
+            nextViewer.Stop();
             isPlayingAnimation = false;
         });
         //s.Play();

@@ -11,7 +11,10 @@ using UnityEngine.Video;
 public class TutorialExplainData : ScriptableObject
 {
     public VideoClip clip;
+    public string explain_Title;
     [TextArea(3, 5)]
     public string explain;
-    public Sprite controllerImage;
+    public Sprite controllerImage_L;
+    public Sprite controllerImage_R;
+
 }

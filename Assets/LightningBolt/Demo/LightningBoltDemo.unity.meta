@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/01_Scenes/SampleMap_LJS Test.meta
+guid: 6f56640257f9ae0438b8ea446182d697
+folderAsset: yes
+========
 guid: e1660c69a8f4def4aa7460e260f48b4b
+>>>>>>>> develop:Assets/LightningBolt/Demo/LightningBoltDemo.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
