@@ -4,10 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// 쫄몹들 State 설정 및 애니메이션 작동
+/// 작성자 - 성종현
+/// </summary>
 
 public class EnemyFSM : MonoBehaviour
 {
-    private int enemyHP = 3;
+    private int currentHP = 3; // 나중에 CharacterStatus에 통합시킬 것.
     // 몬스터는 Player Layer만 공격한다
     protected static int playerLayer;
     protected enum EnemyState
@@ -29,12 +33,14 @@ public class EnemyFSM : MonoBehaviour
     public float attackDistance;
     protected NavMeshAgent agent;
     protected Animator animator;
+    public CharacterStatus charStatus;
 
-   
+
     protected void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+        charStatus = GetComponent<CharacterStatus>();
     }
 
     private void Start()
@@ -105,7 +111,6 @@ public class EnemyFSM : MonoBehaviour
     void Attack()
     {
         agent.isStopped = true;
-        //this.transform.LookAt(attackTarget);
         animator.SetBool("isAttack", true);
         if (dist>attackDistance)
         {
@@ -139,12 +144,11 @@ public class EnemyFSM : MonoBehaviour
             return;
         }
         //damage만큼 체력을 감소시키고싶다.
-
-        enemyHP -= amount;
+        currentHP -= amount;
         //NavMeshAgent를 멈추고싶다.
         agent.isStopped = true;
         //만약 체력이 0이하라면
-        if (enemyHP <= 0)
+        if (currentHP <= 0)
         {
             // 죽음상태
             state = EnemyState.Die;

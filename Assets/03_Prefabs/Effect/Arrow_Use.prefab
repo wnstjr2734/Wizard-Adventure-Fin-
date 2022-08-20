@@ -5445,6 +5445,7 @@ GameObject:
   - component: {fileID: 6704458180871164700}
   - component: {fileID: 7247472620634562625}
   - component: {fileID: 5740347566893858843}
+  - component: {fileID: 55249417562082815}
   m_Layer: 0
   m_Name: Arrow_Use
   m_TagString: projectile
@@ -5506,7 +5507,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6704458180868023728}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5125475b4aabd149b7eeebe08feaa0a, type: 3}
   m_Name: 
@@ -5608,6 +5609,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &55249417562082815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6704458180868023728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0cbeef6cb2ed50419996c9243033673, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 4.5
+  range: 20
+  elementDamage:
+    damage: 10
+    elementType: 0
+    stack: 1
+  hitEffectPrefab: {fileID: 0}
+  shootSound: {fileID: 0}
+  hitSound: {fileID: 0}
 --- !u!1 &6704458180868034172
 GameObject:
   m_ObjectHideFlags: 0

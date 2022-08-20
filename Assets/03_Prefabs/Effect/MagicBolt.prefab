@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 19930836}
   - component: {fileID: 19805868}
   - component: {fileID: 11422376}
-  - component: {fileID: 3990238614762725679}
   - component: {fileID: 7848085812633889304}
   - component: {fileID: 4851780127822731664}
+  - component: {fileID: -5672684248950821727}
   m_Layer: 0
   m_Name: MagicBolt
   m_TagString: Untagged
@@ -4857,20 +4857,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomPercent: 10
---- !u!114 &3990238614762725679
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 105806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bb02a2f7eaf89b409bb2e828530f996, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  explosionFactory: {fileID: 134602, guid: 9811f23e2b85d1e43a44d6fe4f1a0c73, type: 3}
 --- !u!65 &7848085812633889304
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4900,3 +4886,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-5672684248950821727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0cbeef6cb2ed50419996c9243033673, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
+  range: 50
+  elementDamage:
+    damage: 10
+    elementType: 0
+    stack: 1
+  hitEffectPrefab: {fileID: 19863974, guid: eb5fb8e17f36c8049b43a4c8ce962437, type: 3}
+  shootSound: {fileID: 0}
+  hitSound: {fileID: 0}
