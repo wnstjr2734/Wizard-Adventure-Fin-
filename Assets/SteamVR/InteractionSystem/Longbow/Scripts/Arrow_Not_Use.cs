@@ -10,7 +10,7 @@ using System.Collections;
 namespace Valve.VR.InteractionSystem
 {
 	//-------------------------------------------------------------------------
-	public class Arrow : MonoBehaviour
+	public class Arrow_Not_Use : MonoBehaviour
 	{
 		public ParticleSystem glintParticle;
 		public Rigidbody arrowHeadRB;
