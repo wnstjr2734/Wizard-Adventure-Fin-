@@ -18,6 +18,9 @@ public class ChargeEffect : MonoBehaviour
     [SerializeField, Tooltip("단계별 차지 정도")]
     private Vector3 chargeScale = new Vector3(0.2f, 0.5f, 1.0f);
 
+    [SerializeField, Tooltip("차지 단계 올라가는 애니메이션 보여주는 시간")] 
+    private float chargeScaleUpTime = 0.5f;
+
     private ParticleSystem[] particleSystems;
     private Light light;
 
