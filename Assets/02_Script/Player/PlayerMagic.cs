@@ -166,6 +166,7 @@ public class PlayerMagic : MonoBehaviour
         // 마나 닳게 처리
         if (gripMagics[(int)CurrentElement])
         {
+            gripMagics[(int)CurrentElement].gameObject.SetActive(true);
             gripMagics[(int)CurrentElement].TurnOn();
         }
     }
