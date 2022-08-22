@@ -12,14 +12,6 @@ using UnityEngine.Serialization;
 /// </summary>
 public class PlayerMagic : MonoBehaviour
 {
-    public enum ElementType
-    {
-        Fire,
-        Ice,
-        Lightning,
-        Count
-    }
-
     [FormerlySerializedAs("rightHandTransfrom")] [FormerlySerializedAs("rightHandTr")] [SerializeField, Tooltip("오른손 Transform")]
     private Transform rightHandTransform;
 
@@ -33,19 +25,19 @@ public class PlayerMagic : MonoBehaviour
     [Header("Base Magic")] 
     [SerializeField, EnumNamedArray(typeof(ElementType))]
     [Tooltip("불/얼음/전기 속성 기본 마법")]
-    private Magic[] baseMagicPrefabs = new Magic[(int)ElementType.Count];
+    private Magic[] baseMagicPrefabs = new Magic[(int)ElementType.None];
 
     [Header("Grip")] 
     [SerializeField, EnumNamedArray(typeof(ElementType))]
     [Tooltip("불/얼음/전기 속성 그립 마법")] 
-    private GripMagic[] gripMagics = new GripMagic[(int)ElementType.Count];
+    private GripMagic[] gripMagics = new GripMagic[(int)ElementType.None];
 
     [Header("Charge")] 
     [SerializeField] 
     private ChargeEffect chargeEffect;
     [SerializeField, EnumNamedArray(typeof(ElementType))]
     [Tooltip("불/얼음/전기 속성 차지 마법")]
-    private Magic[] chargeMagicPrefabs = new Magic[(int)ElementType.Count];
+    private Magic[] chargeMagicPrefabs = new Magic[(int)ElementType.None];
 
     private PoolSystem poolSystem;
 
@@ -65,7 +57,7 @@ public class PlayerMagic : MonoBehaviour
         Debug.Assert(poolSystem, "Error : Pool System is not created");
 
         // 발사할 마법의 개수를 미리 지정해놓는다
-        for (int i = 0; i < (int)ElementType.Count; i++)
+        for (int i = 0; i < (int)ElementType.None; i++)
         {
             poolSystem.InitPool(baseMagicPrefabs[i], baseMagicPrefabs[i].PoolSize);
             poolSystem.InitPool(chargeMagicPrefabs[i], chargeMagicPrefabs[i].PoolSize);
@@ -86,7 +78,7 @@ public class PlayerMagic : MonoBehaviour
         // 속성 바꾸면 차지 풀림
 
         int addedElementIndex = changeNextElement ? 1 : -1;
-        int currentElementNum = ((int)CurrentElement + addedElementIndex) % (int)ElementType.Count;
+        int currentElementNum = ((int)CurrentElement + addedElementIndex) % (int)ElementType.None;
         CurrentElement = (ElementType)currentElementNum;
 
         onChangeElement?.Invoke(CurrentElement);
@@ -139,7 +131,7 @@ public class PlayerMagic : MonoBehaviour
 
             targetPos = hit.point + Vector3.up * 0.05f;
             magicIndicator.transform.position = targetPos;
-            magicIndicator.transform.rotation = Quaternion.identity;
+            magicIndicator.transform.forward = Vector3.up;
         }
     }
 

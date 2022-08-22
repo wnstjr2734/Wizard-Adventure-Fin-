@@ -175,7 +175,7 @@ MonoBehaviour:
     m_Bits: 256
   elementDamage:
     damage: 5
-    elementType: 1
+    elementType: 0
     stack: 1
 --- !u!136 &7560184938401386894
 CapsuleCollider:

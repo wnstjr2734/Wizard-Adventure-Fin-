@@ -137,7 +137,7 @@ MonoBehaviour:
   judgementSpeed: 15
   elementDamage:
     damage: 25
-    elementType: 2
+    elementType: 1
     stack: 1
   hitEffectPrefab: {fileID: 7818308631425105569, guid: 384e09d9064a0c1489ac739211bdd8bd, type: 3}
   iceFogEffect: {fileID: 8483364397163827866}

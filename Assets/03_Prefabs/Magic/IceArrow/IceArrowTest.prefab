@@ -9660,7 +9660,7 @@ MonoBehaviour:
   range: 5
   elementDamage:
     damage: 10
-    elementType: 2
+    elementType: 1
     stack: 1
   hitEffectPrefab: {fileID: 19874822, guid: b32cc080ebe91714383555d91a7472fb, type: 3}
   shootSound: {fileID: 0}

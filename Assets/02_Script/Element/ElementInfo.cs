@@ -5,10 +5,10 @@ using UnityEngine;
 
 public enum ElementType
 {
-    None,
     Fire,
     Ice,
-    Lightning
+    Lightning,
+    None,   // None은 Count 역할을 하기도 함
 }
 
 /// <summary>

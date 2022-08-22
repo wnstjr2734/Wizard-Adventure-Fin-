@@ -13,6 +13,12 @@ public class ThunderCloud : Magic
     private float maxHeight = 15;
     private float circleSize = 10;
 
+    [SerializeField, Tooltip("번개 공격 횟수")] 
+    private int attackCount = 10;
+
+    [SerializeField, Tooltip("번개 공격 주기")] 
+    private float attackInterval = 0.25f;
+
     [SerializeField] 
     private ParticleSystem[] flareParticles;
     private Queue<ParticleSystem> flareParticlesQueue = new Queue<ParticleSystem>();
@@ -47,8 +53,8 @@ public class ThunderCloud : Magic
 
     public override void StartMagic()
     {
-        RevisePosition();
         StartCoroutine(IEThunderAttack());
+        RevisePosition();
     }
 
     // 천장 이전 위치에 생성되도록 보정한다
@@ -57,21 +63,21 @@ public class ThunderCloud : Magic
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.up, out hit,
-                maxHeight, LayerMask.NameToLayer("Default")))
+                maxHeight, 1 << LayerMask.NameToLayer("Default")))
         {
             // 천장 기준 아래 1m 위치에 생성되게 보정
             transform.position = hit.point + Vector3.down;
         }
         else
         {
-            transform.position = transform.position + Vector3.up * maxHeight;
+            print("can't revise position");
+            transform.position += Vector3.up * maxHeight;
         }
     }
 
     private IEnumerator IEThunderAttack()
     {
         float waitTime = 0.25f;
-        int attackCount = 10;
         for (int i = 0; i < attackCount; i++)
         {
             Thunder();
