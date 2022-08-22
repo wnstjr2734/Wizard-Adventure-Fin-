@@ -139,6 +139,7 @@ public class PlayerMagic : MonoBehaviour
 
             targetPos = hit.point + Vector3.up * 0.05f;
             magicIndicator.transform.position = targetPos;
+            magicIndicator.transform.rotation = Quaternion.identity;
         }
     }
 

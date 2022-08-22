@@ -616,6 +616,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2587223149623339452, guid: d494bfc6f0e414849994bf8e6453c8c0, type: 3}
+      propertyPath: chargeTime
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d494bfc6f0e414849994bf8e6453c8c0, type: 3}
 --- !u!114 &2322224946230110671 stripped
@@ -655,6 +659,10 @@ PrefabInstance:
     - target: {fileID: 4382445835262297770, guid: 4ac2b2bac35f51d45811ce906f7868aa, type: 3}
       propertyPath: m_Name
       value: Eye
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382445835262307058, guid: 4ac2b2bac35f51d45811ce906f7868aa, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4382445835262401162, guid: 4ac2b2bac35f51d45811ce906f7868aa, type: 3}
       propertyPath: m_RootOrder
@@ -880,6 +888,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceSword
       objectReference: {fileID: 0}
+    - target: {fileID: 1777591198242490, guid: db38e41be497b70468d85820241cef9d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4417530817065136, guid: db38e41be497b70468d85820241cef9d, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -898,43 +910,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4417530817065136, guid: db38e41be497b70468d85820241cef9d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.036
+      value: -0.028
       objectReference: {fileID: 0}
     - target: {fileID: 4417530817065136, guid: db38e41be497b70468d85820241cef9d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.091
+      value: 0.018
       objectReference: {fileID: 0}
     - target: {fileID: 4417530817065136, guid: db38e41be497b70468d85820241cef9d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.116
+      value: 0.073
       objectReference: {fileID: 0}
     - target: {fileID: 4417530817065136, guid: db38e41be497b70468d85820241cef9d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.70724934
+      value: 0.6632797
       objectReference: {fileID: 0}
     - target: {fileID: 4417530817065136, guid: db38e41be497b70468d85820241cef9d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.35701355
+      value: -0.43326712
       objectReference: {fileID: 0}
     - target: {fileID: 4417530817065136, guid: db38e41be497b70468d85820241cef9d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.44603938
+      value: -0.39709407
       objectReference: {fileID: 0}
     - target: {fileID: 4417530817065136, guid: db38e41be497b70468d85820241cef9d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.41639954
+      value: -0.46330982
       objectReference: {fileID: 0}
     - target: {fileID: 4417530817065136, guid: db38e41be497b70468d85820241cef9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -61.218
+      value: -70.512
       objectReference: {fileID: 0}
     - target: {fileID: 4417530817065136, guid: db38e41be497b70468d85820241cef9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -43.857
+      value: -22.059
       objectReference: {fileID: 0}
     - target: {fileID: 4417530817065136, guid: db38e41be497b70468d85820241cef9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -34.183
+      value: -54.179
       objectReference: {fileID: 0}
     - target: {fileID: 4417530817065136, guid: db38e41be497b70468d85820241cef9d, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -1176,6 +1188,14 @@ PrefabInstance:
     - target: {fileID: 3429742200169707419, guid: 7cc8a064fbfab8d4697ecb4b58e209e0, type: 3}
       propertyPath: m_Name
       value: Shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 4861113528084902438, guid: 7cc8a064fbfab8d4697ecb4b58e209e0, type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4861113528084902438, guid: 7cc8a064fbfab8d4697ecb4b58e209e0, type: 3}
+      propertyPath: InitialModule.startRotationY.scalar
+      value: 3.1415925
       objectReference: {fileID: 0}
     - target: {fileID: 4942180362466070258, guid: 7cc8a064fbfab8d4697ecb4b58e209e0, type: 3}
       propertyPath: m_RootOrder

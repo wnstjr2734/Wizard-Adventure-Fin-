@@ -18,13 +18,18 @@ public class ThunderCloud : Magic
     private Queue<ParticleSystem> flareParticlesQueue = new Queue<ParticleSystem>();
 
     [SerializeField] 
-    private LightningBolt boltPrefab;
+    private LightningBolt[] lightningBolts;
+    private Queue<LightningBolt> lightningBoltQueue = new Queue<LightningBolt>();
 
     private void Awake()
     {
         foreach (var flareParticle in flareParticles)
         {
             flareParticlesQueue.Enqueue(flareParticle);
+        }
+        foreach (var lightningBolt in lightningBolts)
+        {
+            lightningBoltQueue.Enqueue(lightningBolt);
         }
     }
 
@@ -33,6 +38,10 @@ public class ThunderCloud : Magic
         foreach (var flareParticle in flareParticles)
         {
             flareParticle.gameObject.SetActive(false);
+        }
+        foreach (var lightningBolt in lightningBolts)
+        {
+            lightningBolt.gameObject.SetActive(false);
         }
     }
 
@@ -84,9 +93,11 @@ public class ThunderCloud : Magic
         flare.gameObject.SetActive(true);
         flare.transform.position = startPos + Vector3.down;
 
-        var lightning = PoolSystem.Instance.GetInstance<LightningBolt>(boltPrefab);
+        var lightning = lightningBoltQueue.Dequeue();
+        lightningBoltQueue.Enqueue(lightning);
+        lightning.gameObject.SetActive(true);
         lightning.SetPosition(startPos);
         lightning.SetDirection(Vector3.down);
-        lightning.Trigger();
+        lightning.StartMagic();
     }
 }

@@ -36,6 +36,7 @@ public class IceSword : GripMagic
     private Collider hitBox;
     private Rigidbody rigidBody;
     private Material material;
+    private Light swordLight;
 
     private readonly int cutoffHeightID = Shader.PropertyToID("_Cutoff_Height");
     
@@ -44,6 +45,7 @@ public class IceSword : GripMagic
         hitBox = GetComponent<BoxCollider>();
         rigidBody = GetComponent<Rigidbody>();
         material = GetComponent<MeshRenderer>().material;
+        swordLight = GetComponentInChildren<Light>();
 
         createSpeed = (cutoffHeight.y - cutoffHeight.x) / createTime;
     }
@@ -82,6 +84,7 @@ public class IceSword : GripMagic
         hitBox.enabled = true;
         iceFogEffect.gameObject.SetActive(true);
         snowEffect.gameObject.SetActive(true);
+        swordLight.gameObject.SetActive(true);
     }
 
     public override void TurnOff()
@@ -95,6 +98,7 @@ public class IceSword : GripMagic
         hitBox.enabled = false;
         iceFogEffect.gameObject.SetActive(false);
         snowEffect.gameObject.SetActive(false);
+        swordLight.gameObject.SetActive(false);
 
         float currentHeight = material.GetFloat(cutoffHeightID);
         while (currentHeight > cutoffHeight.x)
@@ -103,6 +107,7 @@ public class IceSword : GripMagic
             material.SetFloat(cutoffHeightID, currentHeight);
             yield return null;
         }
+        gameObject.SetActive(false);
     }
 
 
