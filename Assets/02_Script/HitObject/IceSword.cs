@@ -111,8 +111,6 @@ public class IceSword : GripMagic
         // 속도를 기준으로 히트 판정
         if (speed > judgementSpeed)
         {
-            print(collision.collider.name);
-
             var hitEffect = PoolSystem.Instance.GetInstance<GameObject>(hitEffectPrefab);
             hitEffect.transform.position = collision.contacts[0].point + collision.contacts[0].normal * 0.1f;
             hitEffect.transform.forward = collision.contacts[0].normal;
