@@ -819,8 +819,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1981448555}
-  - {fileID: 2005275131}
   - {fileID: 898248870}
+  - {fileID: 2005275131}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -860,7 +860,7 @@ RectTransform:
   - {fileID: 544689946}
   - {fileID: 1157598715}
   m_Father: {fileID: 872394378}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -2.148}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1376,7 +1376,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a2db5f0b41d0df04586b14f592d07180, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 36a90d21380b9794fba97654356980f2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1945,19 +1945,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.3977437, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: de23196c9b83cb449b331fbff55de355, type: 3}
+  m_Sprite: {fileID: 21300000, guid: df5aa9a35d77e744d8e689f65f942054, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 3
-  m_FillAmount: 0
+  m_FillAmount: 1
   m_FillClockwise: 0
   m_FillOrigin: 1
   m_UseSpriteMesh: 0
@@ -2206,6 +2206,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 140863284}
     m_Modifications:
+    - target: {fileID: 664435750556625997, guid: ae42669fc8982e4489da707b92bf3243, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 67964f3f79b52e3409847175647fc839, type: 3}
     - target: {fileID: 1766566933225128670, guid: ae42669fc8982e4489da707b92bf3243, type: 3}
       propertyPath: m_Name
       value: Page_Tutorial_Next
@@ -2746,7 +2750,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2884,7 +2888,7 @@ GameObject:
   - component: {fileID: 2005275129}
   - component: {fileID: 2005275128}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Canvas_Charging
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2965,7 +2969,7 @@ RectTransform:
   m_Children:
   - {fileID: 1802323996}
   m_Father: {fileID: 872394378}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3188,6 +3192,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 140863284}
     m_Modifications:
+    - target: {fileID: 664435750556625997, guid: ae42669fc8982e4489da707b92bf3243, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 67964f3f79b52e3409847175647fc839, type: 3}
     - target: {fileID: 1766566933225128670, guid: ae42669fc8982e4489da707b92bf3243, type: 3}
       propertyPath: m_Name
       value: Page_Tutorial_Current
