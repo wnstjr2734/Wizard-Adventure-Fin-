@@ -12,8 +12,13 @@ public abstract class Magic : MonoBehaviour
 {
     [SerializeField, Tooltip("누굴 기준으로 위치를 잡을지")] 
     private bool isSelfTarget = false;
+    
+    [SerializeField, Tooltip("Object Pool 크기")]
+    private int poolSize = 1;
+
 
     public bool IsSelfTarget => isSelfTarget;
+    public int PoolSize => poolSize;
 
     public virtual void SetPosition(Vector3 pos)
     {

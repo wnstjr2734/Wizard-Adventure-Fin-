@@ -137,6 +137,10 @@ public class PlayerController : MonoBehaviour
         {
             playerMagic.StartCharge();
         }
+        if (playerInput.actions["Charge"].IsPressed())
+        {
+            playerMagic.OnCharge();
+        }
         if (playerInput.actions["Charge"].WasReleasedThisFrame())
         {
             playerMagic.EndCharge();

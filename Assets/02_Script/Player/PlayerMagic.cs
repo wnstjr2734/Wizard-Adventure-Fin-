@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DigitalRuby.LightningBolt;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// 속성별 마법을 구현하는 클래스
@@ -18,6 +19,16 @@ public class PlayerMagic : MonoBehaviour
         Lightning,
         Count
     }
+
+    [FormerlySerializedAs("rightHandTransfrom")] [FormerlySerializedAs("rightHandTr")] [SerializeField, Tooltip("오른손 Transform")]
+    private Transform rightHandTransform;
+
+    [SerializeField, Tooltip("마법이 발사되는 위치")]
+    private Transform MagicFirePositionTr;
+
+    [SerializeField, Tooltip("마법 위치 표시")] 
+    private GameObject magicIndicator;
+    private Vector3 targetPos;
 
     [Header("Base Magic")] 
     [SerializeField, EnumNamedArray(typeof(ElementType))]
@@ -35,9 +46,6 @@ public class PlayerMagic : MonoBehaviour
     [SerializeField, EnumNamedArray(typeof(ElementType))]
     [Tooltip("불/얼음/전기 속성 차지 마법")]
     private Magic[] chargeMagicPrefabs = new Magic[(int)ElementType.Count];
-
-    [SerializeField, Tooltip("마법이 발사되는 위치")]
-    private Transform MagicFirePositionTr;
 
     private PoolSystem poolSystem;
 
@@ -57,11 +65,11 @@ public class PlayerMagic : MonoBehaviour
         Debug.Assert(poolSystem, "Error : Pool System is not created");
 
         // 발사할 마법의 개수를 미리 지정해놓는다
-        poolSystem.InitPool(baseMagicPrefabs[(int)ElementType.Fire], 3);
-        poolSystem.InitPool(baseMagicPrefabs[(int)ElementType.Ice], 2);
-        poolSystem.InitPool(baseMagicPrefabs[(int)ElementType.Lightning], 4);   // 번개 구름이랑 겹칠 수 있음
-
-        poolSystem.InitPool(chargeMagicPrefabs[(int)ElementType.Ice], 1);
+        for (int i = 0; i < (int)ElementType.Count; i++)
+        {
+            poolSystem.InitPool(baseMagicPrefabs[i], baseMagicPrefabs[i].PoolSize);
+            poolSystem.InitPool(chargeMagicPrefabs[i], chargeMagicPrefabs[i].PoolSize);
+        }
     }
 
     /// <summary>
@@ -78,7 +86,8 @@ public class PlayerMagic : MonoBehaviour
         // 속성 바꾸면 차지 풀림
 
         int addedElementIndex = changeNextElement ? 1 : -1;
-        CurrentElement = (ElementType)(((int)CurrentElement + addedElementIndex) % (int)ElementType.Count);
+        int currentElementNum = ((int)CurrentElement + addedElementIndex) % (int)ElementType.Count;
+        CurrentElement = (ElementType)currentElementNum;
 
         onChangeElement?.Invoke(CurrentElement);
     }
@@ -107,9 +116,30 @@ public class PlayerMagic : MonoBehaviour
         chargeEffect.SetColor(CurrentElement);
     }
 
-    private void OnCharge()
+    // 차지 충전 중 보여줄 정보
+    public void OnCharge()
     {
-        // 차지 충전 중 보여줄 정보
+        if (!chargeEffect.ChargeCompleted || 
+            chargeMagicPrefabs[(int)CurrentElement].IsSelfTarget)
+        {
+            magicIndicator.SetActive(false);
+            return;
+        }
+
+        // 타겟 지정형 마법이면 마법진 그리기
+        RaycastHit hit;
+        if (Physics.Raycast(rightHandTransform.position, rightHandTransform.forward, out hit,
+                20, 1 << LayerMask.NameToLayer("Default")))
+        {
+            // 마법진 그리기
+            if (!magicIndicator.activeSelf)
+            {
+                magicIndicator.SetActive(true);
+            }
+
+            targetPos = hit.point + Vector3.up * 0.05f;
+            magicIndicator.transform.position = targetPos;
+        }
     }
 
     public void EndCharge()
@@ -118,16 +148,11 @@ public class PlayerMagic : MonoBehaviour
         {
             // 현재 속성의 마법 시전
             var magic = poolSystem.GetInstance<Magic>(chargeMagicPrefabs[(int)CurrentElement]);
-            if (magic.IsSelfTarget)
-            {
-                magic.SetPosition(transform.position);
-            }
-            else
-            {
-                
-            }
+            magic.SetPosition(magic.IsSelfTarget ? transform.position : targetPos);
+            magic.StartMagic();
         }
         chargeEffect.gameObject.SetActive(false);
+        magicIndicator.SetActive(false);
     }
 
     #endregion
@@ -141,6 +166,7 @@ public class PlayerMagic : MonoBehaviour
         // 마나 닳게 처리
         if (gripMagics[(int)CurrentElement])
         {
+            gripMagics[(int)CurrentElement].gameObject.SetActive(true);
             gripMagics[(int)CurrentElement].TurnOn();
         }
     }
