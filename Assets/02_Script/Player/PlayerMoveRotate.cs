@@ -33,7 +33,6 @@ public class PlayerMoveRotate : MonoBehaviour
         if (Physics.Raycast(leftHandTransform.position, leftHandTransform.forward, out hit,
                 teleportRange, 1 << LayerMask.NameToLayer("Default")))
         {
-            //print(hit.collider.name);
             // 벽에 텔레포트 하지 않도록 보정
             if (Vector3.Dot(hit.normal, Vector3.up) > 0.5f)
             {

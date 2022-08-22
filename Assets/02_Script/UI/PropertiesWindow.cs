@@ -59,7 +59,7 @@ public class PropertiesWindow : MonoBehaviour
         isRotate = true;
         currentAngle += moveAngle;                                                         //현재 각도를 저장하고 회전각도를 더하므로  Circle을 회전시킴
         angle = new Vector3(0, 0, currentAngle);
-        pp_base.transform.DORotate(angle, speed).SetEase(ease);
+        pp_base.transform.DOLocalRotate(angle, speed).SetEase(ease);
         if (currentAngle <= -360f) { currentAngle = 0.0f; }                 //회전을 한 바퀴 돌면 각도 초기화
     }
 
@@ -70,7 +70,7 @@ public class PropertiesWindow : MonoBehaviour
         isRotate = true;
         currentAngle += reversAngle; 
         angle = new Vector3(0, 0, currentAngle);
-        pp_base.transform.DORotate(angle, speed).SetEase(ease);
+        pp_base.transform.DOLocalRotate(angle, speed).SetEase(ease);
         if (currentAngle >= 360f) { currentAngle = 0.0f; }
        
     }
