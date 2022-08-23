@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 
 /// <summary>
@@ -30,6 +31,22 @@ public class ChargeEffect : MonoBehaviour
     [SerializeField, Tooltip("차지에 필요한 시간")]
     private float chargeTime = 5.0f;
 
+    [SerializeField] 
+    private GameObject chargeGauge;
+    [SerializeField, Tooltip("차지 게이지 이미지")]
+    private Image chargeGaugeFill;
+
+    private float chargePercent = 0.0f;
+    private float ChargePercent
+    {
+        get => chargePercent;
+        set
+        {
+            chargePercent = value;
+            chargeGaugeFill.fillAmount = chargePercent;
+        }
+    }
+
     public bool ChargeCompleted { get; private set; }
 
     private void Awake()
@@ -48,35 +65,37 @@ public class ChargeEffect : MonoBehaviour
 
         SetColor(ElementType.Fire);
         StartCoroutine(nameof(IEChargeGauge));
+
+        chargeGauge.SetActive(true);
     }
 
     private IEnumerator IEChargeGauge()
     {
-        float chargePercent = 0.0f;
+        ChargePercent = 0.0f;
         float chargeSpeed = 1.0f / chargeTime;
 
-        while (chargePercent < 0.5f)
+        while (ChargePercent < 0.5f)
         {
-            chargePercent += Time.deltaTime * chargeSpeed;
+            ChargePercent += Time.deltaTime * chargeSpeed;
             yield return null;
         }
         particleSystems[ringIndex].gameObject.SetActive(true);
-        transform.DOScale(Vector3.one * chargeScale.y, 0.5f);
+        transform.DOScale(Vector3.one * chargeScale.y, chargeScaleUpTime);
 
-        while (chargePercent < 1.0f)
+        while (ChargePercent < 1.0f)
         {
-            chargePercent += Time.deltaTime * chargeSpeed;
+            ChargePercent += Time.deltaTime * chargeSpeed;
             yield return null;
         }
         particleSystems[glowIndex].gameObject.SetActive(true);
-        transform.DOScale(Vector3.one * chargeScale.z, 0.5f);
+        transform.DOScale(Vector3.one * chargeScale.z, chargeScaleUpTime);
 
         ChargeCompleted = true;
     }
 
     private void OnDisable()
     {
-        
+        chargeGauge.SetActive(false);
     }
 
     public void SetColor(ElementType element)
@@ -90,5 +109,6 @@ public class ChargeEffect : MonoBehaviour
         }
 
         lightFlicker.UpdateColor(particleColor);
+        chargeGaugeFill.color = particleColor;
     }
 }
