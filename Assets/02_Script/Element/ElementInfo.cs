@@ -43,6 +43,9 @@ public class ElementInfo : ScriptableObject
         }
     }
 
+    /// <summary>
+    /// 얼음 속성 공격은 빙결 수치에 따라 일정시간동안 슬로우(공속, 이속)를 준다
+    /// </summary>
     [Serializable]
     public class Ice
     {
@@ -56,11 +59,14 @@ public class ElementInfo : ScriptableObject
         public float stackBonusSlow;
     }
 
+    /// <summary>
+    /// 전기 속성은 추가 경직 보너스를 준다
+    /// </summary>
     [Serializable]
     public class Lightning
     {
         // 경직 보너스
-        //public float 
+        public float hitGaugeMultiplier = 2.5f;
     }
 
     public static ElementInfo Instance { get; private set; }
