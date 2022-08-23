@@ -39003,11 +39003,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSelfTarget: 1
+  poolSize: 1
   hitDuration: 1.2
   remainTime: 2
   elementDamage:
     damage: 50
-    elementType: 2
+    elementType: 1
     stack: 3
 --- !u!1 &1994824758168566
 GameObject:

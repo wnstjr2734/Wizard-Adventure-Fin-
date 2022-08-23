@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections;
-using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 /// <summary>
 /// Allows creation of simple lightning bolts
@@ -9,13 +10,6 @@ using System.Collections.Generic;
 [RequireComponent(typeof(LineRenderer))]
 public class LightningBolt : GripMagic
 {
-    [Tooltip("라이트닝 볼트 목표 위치. " +
-             "If null, EndPosition is used.")]
-    public GameObject EndObject;
-
-    [Tooltip("The end position where the lightning will end at. This is in world space if EndObject is null, otherwise this is offset from EndObject position.")]
-    public Vector3 EndPosition;
-
     [SerializeField, Tooltip("최대 사정거리")] 
     private float maxDistance = 20.0f;
 
@@ -29,15 +23,15 @@ public class LightningBolt : GripMagic
     private float duration = 0.05f;
     private float timer;
 
-    [SerializeField, Tooltip("timer 끝나도 계속 지속할지")]
-    private bool continuousMode = false;
-
     [SerializeField, Range(0.0f, 1.0f)]
     [Tooltip("How chaotic should the lightning be? (0-1)")]
     private float chaosFactor = 0.15f;
 
-    [Tooltip("In manual mode, the trigger method must be called to create a bolt")]
-    public bool ManualMode;
+    [SerializeField, Tooltip("timer 끝나도 계속 지속할지")]
+    private bool continuousMode = false;
+
+    [SerializeField, Tooltip("최대 몇 명까지 연쇄 공격 가능한지")] 
+    private int maxTargetCount = 1;
 
     [Header("Damage")] 
     [SerializeField, Tooltip("번개 맞으면 줄 데미지 정보")]
@@ -55,6 +49,7 @@ public class LightningBolt : GripMagic
     public System.Random RandomGenerator = new System.Random();
 
     private LineRenderer lineRenderer;
+    private List<KeyValuePair<Vector3, Vector3>>[] segmentsArr;
     private List<KeyValuePair<Vector3, Vector3>> segments = new List<KeyValuePair<Vector3, Vector3>>();
     private int startIndex;
 
@@ -67,6 +62,8 @@ public class LightningBolt : GripMagic
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 0;
+
+        segmentsArr = new List<KeyValuePair<Vector3, Vector3>>[maxTargetCount];
     }
 
     private void Start()
@@ -140,7 +137,7 @@ public class LightningBolt : GripMagic
         }
     }
 
-    public void RandomVector(ref Vector3 start, ref Vector3 end, float offsetAmount, out Vector3 result)
+    public void RandomVector(Vector3 start, Vector3 end, float offsetAmount, out Vector3 result)
     {
         if (orthographic)
         {
@@ -175,14 +172,25 @@ public class LightningBolt : GripMagic
         timer = duration + Mathf.Min(0.0f, timer);
 
         start = transform.position;
-        end = ShootLightningBolt(start, transform.forward);
+        var targets = GetTargets(start, transform.forward);
 
         startIndex = 0;
-        GenerateLightningBolt(start, end, Generations, Generations, 0.0f);
-        UpdateLineRenderer();
-    }
+        if (targets != null)
+        {
+            Vector3[] targetPoses = new Vector3[targets.Length];
+            for (int i = 0; i < targetPoses.Length; i++)
+            {
+                targetPoses[i] = targets[i].transform.position;
+            }
 
-    private void GenerateLightningBolt(Vector3 start, Vector3 end, int generation, int totalGenerations, float offsetAmount)
+            GenerateLightningBolt(start, targetPoses, Generations, 0.0f);
+            UpdateLineRenderer();
+            GiveDamage(targets);
+        }
+    }
+    
+
+    private void GenerateLightningBolt(Vector3 start, Vector3[] targetPoses, int generation, float offsetAmount)
     {
         if (generation < 0 || generation > 8)
         {
@@ -190,10 +198,16 @@ public class LightningBolt : GripMagic
         }
         else if (orthographic)
         {
-            start.z = end.z = Mathf.Min(start.z, end.z);
+            // Orthographic 고려 안 함
+            //start.z = end.z = Mathf.Min(start.z, end.z);
         }
 
-        segments.Add(new KeyValuePair<Vector3, Vector3>(start, end));
+        segments.Add(new KeyValuePair<Vector3, Vector3>(start, targetPoses[0]));
+        for (int i = 0; i < targetPoses.Length - 1; i++)
+        {
+            segments.Add(new KeyValuePair<Vector3, Vector3>(targetPoses[i], targetPoses[i+1]));
+        }
+        
         if (generation == 0)
         {
             return;
@@ -202,7 +216,7 @@ public class LightningBolt : GripMagic
         Vector3 randomVector;
         if (offsetAmount <= 0.0f)
         {
-            offsetAmount = (end - start).magnitude * chaosFactor;
+            offsetAmount = (targetPoses[^1] - start).magnitude * chaosFactor;
         }
 
         while (generation-- > 0)
@@ -212,13 +226,13 @@ public class LightningBolt : GripMagic
             for (int i = previousStartIndex; i < startIndex; i++)
             {
                 start = segments[i].Key;
-                end = segments[i].Value;
+                Vector3 end = segments[i].Value;
 
                 // determine a new direction for the split
                 Vector3 midPoint = (start + end) * 0.5f;
 
                 // adjust the mid point to be the new location
-                RandomVector(ref start, ref end, offsetAmount, out randomVector);
+                RandomVector(start, end, offsetAmount, out randomVector);
                 midPoint += randomVector;
 
                 // add two new segments
@@ -252,64 +266,55 @@ public class LightningBolt : GripMagic
         segments.Clear();
     }
 
-    private Vector3 ShootLightningBolt(Vector3 position, Vector3 direction)
+    private Collider[] GetTargets(Vector3 position, Vector3 direction)
     {
-        bool rayHit = Physics.Raycast(position, direction, out var hit, 20, lightningLayerMask);
-        Collider hitEnemy;
-
-        // 히트 스캔 방식 - 조준 보정 필요
-        if (rayHit)
+        Vector3 endPosition = position + maxDistance * direction;
+        
+        // 번개는 범위 내 가장 가까운 녀석을 공격한다
+        // 적만 맞추기
+        var enemies = Physics.OverlapCapsule(position, endPosition, 3, lightningLayerMask);
+        if (enemies.Length > 0)
         {
-            // 라이트닝 볼트 위치 지정
-            hitEnemy = hit.collider;
+            // 공격 지점과의 거리를 기준으로 정렬
+            var query = enemies.OrderBy(x => Vector3.Distance(position, x.transform.position));
+            return query.Take(maxTargetCount).ToArray();
         }
-        // 직선 거리에 없을 땐 가장 가까운 녀석을 기준으로 함
+        // 만약 직선 거리에서도 없었다면 지형을 맞춘다
         else
         {
-            Vector3 endPosition = position + maxDistance * direction;
-            // 적만 맞추기
-            var enemies = Physics.OverlapCapsule(position, endPosition, 3,
-                lightningLayerMask);
-            if (enemies.Length > 0)
+            RaycastHit hit;
+            if (Physics.Raycast(position, direction, out hit, maxDistance, 1 << LayerMask.NameToLayer("Default")))
             {
-                // 가장 가까운 적을 맞춤
-                float minDistance = System.Single.MaxValue;
-                hitEnemy = enemies[0];
-                foreach (var enemy in enemies)
-                {
-                    float distance = Vector3.Distance(position, enemy.transform.position);
-                    if (distance < minDistance)
-                    {
-                        hitEnemy = enemy;
-                        minDistance = distance;
-                    }
-                }
+                return new Collider[]{hit.collider};
             }
-            // 만약 직선 거리에서도 없었다면 지형을 맞춘다
+            // 맞출 수 없는 경우 - 무시
             else
             {
-                Physics.Raycast(position, direction, out hit, maxDistance, 1 << LayerMask.NameToLayer("Default"));
-                return hit.point;
+                return null;
             }
         }
+    }
 
-        // 데미지 전달
-        var status = hitEnemy.GetComponent<CharacterStatus>();
-        if (status)
+    // 데미지 전달
+    private void GiveDamage(Collider[] targets)
+    {
+        foreach (var target in targets)
         {
-            status.TakeDamage(elementDamage);
+            var status = target.GetComponent<CharacterStatus>();
+            if (status)
+            {
+                status.TakeDamage(elementDamage);
+            }
         }
-
-        return hitEnemy.transform.position;
     }
 
     public override void TurnOn()
     {
-        
+        continuousMode = true;
     }
 
     public override void TurnOff()
     {
-        
+        continuousMode = false;
     }
 }

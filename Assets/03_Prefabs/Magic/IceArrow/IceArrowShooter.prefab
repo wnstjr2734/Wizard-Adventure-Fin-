@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSelfTarget: 0
+  poolSize: 2
   shootCount: 5
   shootDelay: 0.1
   projectilePrefab: {fileID: 2985234799057828069, guid: ffe1a280a11480149b7ebddea1994110, type: 3}

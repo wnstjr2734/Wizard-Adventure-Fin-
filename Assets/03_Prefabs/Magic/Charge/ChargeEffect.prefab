@@ -19071,6 +19071,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeScale: {x: 0.02, y: 0.05, z: 0.1}
+  chargeScaleUpTime: 0.5
   elementColor:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0, g: 1, b: 1, a: 1}
@@ -19086,7 +19087,7 @@ GameObject:
   m_Component:
   - component: {fileID: 483858}
   - component: {fileID: 10881876}
-  - component: {fileID: 11432914}
+  - component: {fileID: 421469865623358189}
   - component: {fileID: 577820094712554866}
   m_Layer: 0
   m_Name: Point light
@@ -19172,7 +19173,7 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &11432914
+--- !u!114 &421469865623358189
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19181,10 +19182,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 172562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1190e786ef1d70d4fa192530ba6a63f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f1447c586491a8429ca61b14cd45321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveFunction: sin
+  waveStyle: 0
   startValue: 2
   amplitude: 0.5
   phase: 0
