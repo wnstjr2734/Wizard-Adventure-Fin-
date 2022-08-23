@@ -50,13 +50,13 @@ public class ElementInfo : ScriptableObject
     public class Ice
     {
         [Tooltip("최대 스택")]
-        public int maxStack;
+        public int maxStack = 5;
         [Tooltip("지속 시간")]
-        public float duration;
-        [Tooltip("초기 슬로우 정도")]
-        public float initSlowRate;
+        public float duration = 3.0f;
+        [Tooltip("초기 슬로우 정도")] 
+        public float initSlowPercent = 25f;
         [Tooltip("추가 슬로우 정도")] 
-        public float stackBonusSlow;
+        public float stackBonusSlowPercent = 5f;
     }
 
     /// <summary>
@@ -83,7 +83,7 @@ public class ElementInfo : ScriptableObject
     public Ice IceInfo => iceInfo;
     public Lightning LightningInfo => lightningInfo;
 
-    private void OnEnable()
+    private void Awake()
     {
         Instance = this;
         Debug.Log("Element Info Init");

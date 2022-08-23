@@ -8,6 +8,7 @@ using UnityEngine;
 /// 캐릭터(플레이어, 적) 능력치(체력, 공속, 이속 등) 정보
 /// 작성자 - 차영철
 /// </summary>
+[RequireComponent(typeof(Collider))]
 public class CharacterStatus : MonoBehaviour
 {
     // float는 부동소수점이므로 연산 오차가 발생할 수 있음
@@ -18,16 +19,21 @@ public class CharacterStatus : MonoBehaviour
     private static WaitForSeconds ws = new WaitForSeconds(checkTime);
     private static WaitForSeconds slowTime;
 
+    // Event
+    public event Action<float> onHpChange;      // 체력 변경
+    public event Action onDead;                 // 죽었을 때
+    public event Action<float> onSpeedChenge;   // 슬로우
+    public event Action onShocked;              // 경직
+
     [SerializeField, Tooltip("최대 체력")] 
     private int maxHp = 100;
     private int currentHp;
+    // 죽은 이후에도 화상 등으로 데미지를 입어 다시 죽는 일을 방지
+    private bool isDead = false;
 
 
-
-    [SerializeField, Tooltip("공격 속도")] 
-    private float attackSpeed = 1.0f;
-    [SerializeField, Tooltip("이동 속도")]
-    private float moveSpeed = 1.0f;
+    [SerializeField, Tooltip("속도 계수(공속, 이속)")] 
+    private float speedMultiplier = 1.0f;
 
     // 각 지속효과 별 스택
     private int burnStack = 0;  // 화상
@@ -35,11 +41,13 @@ public class CharacterStatus : MonoBehaviour
 
     private Coroutine burnCoroutine;
     private Coroutine slowCoroutine;
-    
-    public event Action<float> onHpChange;      // 체력 변경
-    public event Action onDead;                 // 죽었을 때
-    public event Action<float> onSpeedChenge;   // 슬로우
-    public event Action onShocked;              // 경직
+
+
+    private GameObject burnEffect;
+    private GameObject frozenEffect;
+    private GameObject shockEffect;
+
+    private Collider hitCollider;
 
     #region Properties
     public int CurrentHp
@@ -47,18 +55,26 @@ public class CharacterStatus : MonoBehaviour
         get => currentHp;
         private set
         {
+            if (isDead)
+            {
+                return;
+            }
+
             currentHp = value;
             onHpChange?.Invoke((float)currentHp / maxHp);
             if (currentHp <= 0)
             {
                 currentHp = 0;
+                isDead = true;
                 onDead?.Invoke();
+                hitCollider.enabled = false;
             }
         }
     }
 
-    // 히트 게이지 적용
-    // 히트 게이지가 꽉차면 경직을 주고 리셋
+    // 경직 게이지 적용
+    // 경직 게이지가 꽉차면 경직을 주고 리셋
+    
 
     public int BurnStack
     {
@@ -80,9 +96,11 @@ public class CharacterStatus : MonoBehaviour
             slowStack = math.min(value, iceInfo.maxStack);
 
             // 속도 변경
-            // 속도 변경 알림
+            speedMultiplier = 1 - (iceInfo.initSlowPercent + iceInfo.stackBonusSlowPercent * slowStack) * 0.01f;
+            onSpeedChenge?.Invoke(speedMultiplier);
 
             // 이펙트 변경
+            
         }
     }
 
@@ -91,7 +109,7 @@ public class CharacterStatus : MonoBehaviour
 
     private void Awake()
     {
-        
+        hitCollider = GetComponent<Collider>();
     }
 
     private void OnEnable()
@@ -119,11 +137,17 @@ public class CharacterStatus : MonoBehaviour
         switch (elementDamage.elementType)
         {
             case ElementType.Fire:
-                StopCoroutine(burnCoroutine);
+                if (burnCoroutine != null)
+                {
+                    StopCoroutine(burnCoroutine);
+                }
                 burnCoroutine = StartCoroutine(IEApplyBurn(elementDamage.stack));
                 break;
             case ElementType.Ice:
-                StopCoroutine(slowCoroutine);
+                if (slowCoroutine != null)
+                {
+                    StopCoroutine(slowCoroutine);
+                }
                 slowCoroutine = StartCoroutine(IESlow(elementDamage.stack));
                 break;
             case ElementType.Lightning:
@@ -155,6 +179,7 @@ public class CharacterStatus : MonoBehaviour
         }
 
         BurnStack = 0;
+        burnCoroutine = null;
     }
 
     private IEnumerator IESlow(int addedStack)
@@ -164,11 +189,11 @@ public class CharacterStatus : MonoBehaviour
         
         // 슬로우 스택 리셋
         slowStack = 0;
-
+        slowCoroutine = null;
     }
 
     private void ApplyHitGaugeBonus(int damage)
     {
-
+        
     }
 }

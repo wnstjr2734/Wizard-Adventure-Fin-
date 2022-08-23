@@ -19070,13 +19070,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db696b1db37d81d468f7b1f496cf99a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chargeScale: {x: 0.02, y: 0.05, z: 0.1}
+  chargeScale: {x: 0.05, y: 0.08, z: 0.1}
   chargeScaleUpTime: 0.5
   elementColor:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0, g: 1, b: 1, a: 1}
   - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   chargeTime: 5
+  chargeGauge: {fileID: 0}
+  chargeGaugeFill: {fileID: 0}
 --- !u!1 &172562
 GameObject:
   m_ObjectHideFlags: 0
