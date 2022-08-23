@@ -23528,7 +23528,7 @@ MonoBehaviour:
   remainTime: 1.05
   elementDamage:
     damage: 100
-    elementType: 1
+    elementType: 0
     stack: 4
 --- !u!1 &189624
 GameObject:
