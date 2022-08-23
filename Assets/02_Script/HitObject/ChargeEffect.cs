@@ -18,8 +18,11 @@ public class ChargeEffect : MonoBehaviour
     [SerializeField, Tooltip("단계별 차지 정도")]
     private Vector3 chargeScale = new Vector3(0.2f, 0.5f, 1.0f);
 
+    [SerializeField, Tooltip("차지 단계 올라가는 애니메이션 보여주는 시간")] 
+    private float chargeScaleUpTime = 0.5f;
+
     private ParticleSystem[] particleSystems;
-    private Light light;
+    private LightFlicker lightFlicker;
 
     [SerializeField, Tooltip("불, 얼음, 전기 속성 색상")] 
     private Color[] elementColor = new Color[] {Color.red, Color.cyan, Color.yellow};
@@ -32,7 +35,7 @@ public class ChargeEffect : MonoBehaviour
     private void Awake()
     {
         particleSystems = GetComponentsInChildren<ParticleSystem>();
-        light = GetComponentInChildren<Light>();
+        lightFlicker = GetComponentInChildren<LightFlicker>();
         print("particleSystems count : " + particleSystems.Length);
     }
 
@@ -43,7 +46,7 @@ public class ChargeEffect : MonoBehaviour
         particleSystems[glowIndex].gameObject.SetActive(false);
         ChargeCompleted = false;
 
-        SetColor(PlayerMagic.ElementType.Fire);
+        SetColor(ElementType.Fire);
         StartCoroutine(nameof(IEChargeGauge));
     }
 
@@ -76,7 +79,7 @@ public class ChargeEffect : MonoBehaviour
         
     }
 
-    public void SetColor(PlayerMagic.ElementType element)
+    public void SetColor(ElementType element)
     {
         Color particleColor = elementColor[(int) element];
 
@@ -86,6 +89,6 @@ public class ChargeEffect : MonoBehaviour
             main.startColor = particleColor;
         }
 
-        light.color = particleColor;
+        lightFlicker.UpdateColor(particleColor);
     }
 }
