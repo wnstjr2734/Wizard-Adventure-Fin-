@@ -123,6 +123,7 @@ public class EnemyFSM : MonoBehaviour
     {
        if(agent.stoppingDistance >= dist)
         {
+            //charStatus.TakeDamage()
             // 플레이어에게 damage를 입힌다.
             // 그리고 피격사운드를 재생한다.
         }
