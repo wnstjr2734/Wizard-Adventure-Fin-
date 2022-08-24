@@ -31,9 +31,12 @@ public class EnemyFSM : MonoBehaviour
     private float dist;
     public float chaseDistance;
     public float attackDistance;
+    public float freezeSpeed;           // 냉기 피해 입었을 때 애니메이션 재생 속도
     protected NavMeshAgent agent;
     protected Animator animator;
     public CharacterStatus charStatus;
+
+    public ElementDamage elementDamage;
 
 
     protected void Awake()
@@ -41,6 +44,9 @@ public class EnemyFSM : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
         charStatus = GetComponent<CharacterStatus>();
+
+        //charStatus.onShocked += OnDamaged;
+        //charStatus.onDead += 죽었을 때 함수;
     }
 
     private void Start()
@@ -58,6 +64,7 @@ public class EnemyFSM : MonoBehaviour
         {
             this.transform.LookAt(attackTarget);
         }
+        OnFreeze();                 // 냉기피해를 입었을 때 애니메이션 속도 조절
     }
 
     IEnumerator UpdateState()
@@ -119,11 +126,12 @@ public class EnemyFSM : MonoBehaviour
         }
     }
 
-    public virtual void OnAttackHit()
+    public virtual void OnAttackHit()               
+        // 근접몬스터의(footman, warlord) 공격 애니메이션 키프레임에 도달했을 때 플레이어에게 데미지를 입히도록 하고 싶다.
     {
        if(agent.stoppingDistance >= dist)
         {
-            //charStatus.TakeDamage()
+            charStatus.TakeDamage(elementDamage);
             // 플레이어에게 damage를 입힌다.
             // 그리고 피격사운드를 재생한다.
         }
@@ -137,6 +145,18 @@ public class EnemyFSM : MonoBehaviour
 
     #region Hit Reaction
 
+    public void OnFreeze()               // 몬스터가 냉기 피해를 입었을 때 모든 애니메이션 재생 속도를 느려지게 만들고 싶다.
+    {
+        //if(냉기피해를 입었다면)
+        //{
+        //    animator.speed = freezeSpeed;
+
+        //}
+        //else
+        //{
+        //    animator.speed = 1.0f;
+        //}
+    }
    
     public void OnDamaged(int amount)
     {

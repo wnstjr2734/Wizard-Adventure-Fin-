@@ -9,23 +9,14 @@ using UnityEngine.UI;
 /// </summary>
 public class HP_Slider : MonoBehaviour
 {
-    public int maxHP = 2;
-    int hp;
     public Slider sliderHP;
+    CharacterStatus status;
 
-    public int HP
-    {
-        get { return hp; }
-        set
-        {
-            hp = value;
-            sliderHP.value = hp;
-        }
-    }
+    
     void Start()
     {
-        sliderHP.maxValue = maxHP;
-        HP = maxHP;
+        //sliderHP.maxValue = maxHP;
+        status.onHpChange += UpdateSlider;
     }
 
     // Update is called once per frame
@@ -33,4 +24,9 @@ public class HP_Slider : MonoBehaviour
     {
 
     }
+
+    void UpdateSlider(float percent)
+    {
+        sliderHP.value = percent;
+    }    
 }
