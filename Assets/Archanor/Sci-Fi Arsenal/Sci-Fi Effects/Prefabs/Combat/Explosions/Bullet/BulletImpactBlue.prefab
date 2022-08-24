@@ -30,7 +30,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.91, z: 18.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
+<<<<<<< HEAD
+=======
   m_ConstrainProportionsScale: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_Children:
   - {fileID: 452112}
   - {fileID: 456726}
@@ -146,12 +149,18 @@ ParticleSystemRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+<<<<<<< HEAD
+=======
   m_StaticShadowCaster: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+<<<<<<< HEAD
+=======
   m_RayTraceProcedural: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -177,7 +186,10 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 1
+<<<<<<< HEAD
+=======
   m_MeshDistribution: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -194,17 +206,23 @@ ParticleSystemRenderer:
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
+<<<<<<< HEAD
+=======
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_VertexStreams: 000304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+<<<<<<< HEAD
+=======
   m_MeshWeighting: 1
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_MaskInteraction: 0
 --- !u!198 &19874822
 ParticleSystem:
@@ -213,19 +231,30 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122474}
+<<<<<<< HEAD
+  serializedVersion: 6
+=======
   serializedVersion: 8
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+<<<<<<< HEAD
+=======
   emitterVelocityMode: 1
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
+<<<<<<< HEAD
+  useRigidbodyForVelocity: 1
+=======
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -703,7 +732,10 @@ ParticleSystem:
         m_RotationOrder: 0
     randomizeRotationDirection: 0
     maxNumParticles: 300
+<<<<<<< HEAD
+=======
     customEmitterVelocity: {x: 0, y: 0, z: 0}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -2268,6 +2300,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+<<<<<<< HEAD
+=======
   LifetimeByEmitterSpeedModule:
     enabled: 0
     m_Curve:
@@ -2324,6 +2358,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     m_Range: {x: 0, y: 1}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   ForceModule:
     enabled: 0
     x:
@@ -3700,13 +3735,25 @@ ParticleSystem:
     range: {x: 0, y: 1}
   CollisionModule:
     enabled: 0
+<<<<<<< HEAD
+    serializedVersion: 3
+=======
     serializedVersion: 4
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
     type: 1
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
+<<<<<<< HEAD
+    plane0: {fileID: 0}
+    plane1: {fileID: 0}
+    plane2: {fileID: 0}
+    plane3: {fileID: 0}
+    plane4: {fileID: 0}
+    plane5: {fileID: 0}
+=======
     m_Planes:
     - {fileID: 0}
     - {fileID: 0}
@@ -3714,6 +3761,7 @@ ParticleSystem:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -3887,11 +3935,23 @@ ParticleSystem:
     interiorCollisions: 0
   TriggerModule:
     enabled: 0
+<<<<<<< HEAD
+    collisionShape0: {fileID: 0}
+    collisionShape1: {fileID: 0}
+    collisionShape2: {fileID: 0}
+    collisionShape3: {fileID: 0}
+    collisionShape4: {fileID: 0}
+    collisionShape5: {fileID: 0}
+=======
     serializedVersion: 2
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
     inside: 1
     outside: 0
     enter: 0
     exit: 0
+<<<<<<< HEAD
+    radiusScale: 1
+=======
     colliderQueryMode: 0
     radiusScale: 1
     primitives:
@@ -3901,6 +3961,7 @@ ParticleSystem:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -4880,7 +4941,10 @@ Transform:
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+<<<<<<< HEAD
+=======
   m_ConstrainProportionsScale: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_Children: []
   m_Father: {fileID: 461740}
   m_RootOrder: 0
@@ -4892,19 +4956,30 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 138686}
+<<<<<<< HEAD
+  serializedVersion: 6
+=======
   serializedVersion: 8
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+<<<<<<< HEAD
+=======
   emitterVelocityMode: 1
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
+<<<<<<< HEAD
+  useRigidbodyForVelocity: 1
+=======
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -5382,7 +5457,10 @@ ParticleSystem:
         m_RotationOrder: 0
     randomizeRotationDirection: 0
     maxNumParticles: 300
+<<<<<<< HEAD
+=======
     customEmitterVelocity: {x: 0, y: 0, z: 0}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -6938,6 +7016,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+<<<<<<< HEAD
+=======
   LifetimeByEmitterSpeedModule:
     enabled: 0
     m_Curve:
@@ -6994,6 +7074,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     m_Range: {x: 0, y: 1}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   ForceModule:
     enabled: 0
     x:
@@ -8370,13 +8451,25 @@ ParticleSystem:
     range: {x: 0, y: 1}
   CollisionModule:
     enabled: 0
+<<<<<<< HEAD
+    serializedVersion: 3
+=======
     serializedVersion: 4
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
     type: 1
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
+<<<<<<< HEAD
+    plane0: {fileID: 0}
+    plane1: {fileID: 0}
+    plane2: {fileID: 0}
+    plane3: {fileID: 0}
+    plane4: {fileID: 0}
+    plane5: {fileID: 0}
+=======
     m_Planes:
     - {fileID: 0}
     - {fileID: 0}
@@ -8384,6 +8477,7 @@ ParticleSystem:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -8557,11 +8651,23 @@ ParticleSystem:
     interiorCollisions: 1
   TriggerModule:
     enabled: 0
+<<<<<<< HEAD
+    collisionShape0: {fileID: 0}
+    collisionShape1: {fileID: 0}
+    collisionShape2: {fileID: 0}
+    collisionShape3: {fileID: 0}
+    collisionShape4: {fileID: 0}
+    collisionShape5: {fileID: 0}
+=======
     serializedVersion: 2
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
     inside: 1
     outside: 0
     enter: 0
     exit: 0
+<<<<<<< HEAD
+    radiusScale: 1
+=======
     colliderQueryMode: 0
     radiusScale: 1
     primitives:
@@ -8571,6 +8677,7 @@ ParticleSystem:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -9521,12 +9628,18 @@ ParticleSystemRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+<<<<<<< HEAD
+=======
   m_StaticShadowCaster: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+<<<<<<< HEAD
+=======
   m_RayTraceProcedural: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -9552,7 +9665,10 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 1
+<<<<<<< HEAD
+=======
   m_MeshDistribution: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -9569,17 +9685,23 @@ ParticleSystemRenderer:
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
+<<<<<<< HEAD
+=======
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_VertexStreams: 000304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+<<<<<<< HEAD
+=======
   m_MeshWeighting: 1
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_MaskInteraction: 0
 --- !u!1 &141530
 GameObject:
@@ -9609,7 +9731,10 @@ Transform:
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+<<<<<<< HEAD
+=======
   m_ConstrainProportionsScale: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_Children: []
   m_Father: {fileID: 461740}
   m_RootOrder: 1
@@ -9621,19 +9746,30 @@ ParticleSystem:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 141530}
+<<<<<<< HEAD
+  serializedVersion: 6
+=======
   serializedVersion: 8
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 1
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
+<<<<<<< HEAD
+=======
   emitterVelocityMode: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
+<<<<<<< HEAD
+  useRigidbodyForVelocity: 1
+=======
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -10147,7 +10283,10 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     maxNumParticles: 500
+<<<<<<< HEAD
+=======
     customEmitterVelocity: {x: 0, y: 0, z: 0}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -11712,6 +11851,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+<<<<<<< HEAD
+=======
   LifetimeByEmitterSpeedModule:
     enabled: 0
     m_Curve:
@@ -11768,6 +11909,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     m_Range: {x: 0, y: 1}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   ForceModule:
     enabled: 0
     x:
@@ -13198,13 +13340,25 @@ ParticleSystem:
     range: {x: 0, y: 1}
   CollisionModule:
     enabled: 0
+<<<<<<< HEAD
+    serializedVersion: 3
+=======
     serializedVersion: 4
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
     type: 0
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
+<<<<<<< HEAD
+    plane0: {fileID: 0}
+    plane1: {fileID: 0}
+    plane2: {fileID: 0}
+    plane3: {fileID: 0}
+    plane4: {fileID: 0}
+    plane5: {fileID: 0}
+=======
     m_Planes:
     - {fileID: 0}
     - {fileID: 0}
@@ -13212,6 +13366,7 @@ ParticleSystem:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -13385,11 +13540,23 @@ ParticleSystem:
     interiorCollisions: 1
   TriggerModule:
     enabled: 0
+<<<<<<< HEAD
+    collisionShape0: {fileID: 0}
+    collisionShape1: {fileID: 0}
+    collisionShape2: {fileID: 0}
+    collisionShape3: {fileID: 0}
+    collisionShape4: {fileID: 0}
+    collisionShape5: {fileID: 0}
+=======
     serializedVersion: 2
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
     inside: 1
     outside: 0
     enter: 0
     exit: 0
+<<<<<<< HEAD
+    radiusScale: 1
+=======
     colliderQueryMode: 0
     radiusScale: 1
     primitives:
@@ -13399,6 +13566,7 @@ ParticleSystem:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -14349,12 +14517,18 @@ ParticleSystemRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+<<<<<<< HEAD
+=======
   m_StaticShadowCaster: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+<<<<<<< HEAD
+=======
   m_RayTraceProcedural: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -14380,7 +14554,10 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
+<<<<<<< HEAD
+=======
   m_MeshDistribution: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -14397,17 +14574,23 @@ ParticleSystemRenderer:
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
+<<<<<<< HEAD
+=======
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_VertexStreams: 000304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+<<<<<<< HEAD
+=======
   m_MeshWeighting: 1
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_MaskInteraction: 0
 --- !u!1 &193304
 GameObject:
@@ -14420,7 +14603,10 @@ GameObject:
   - component: {fileID: 439862}
   - component: {fileID: 10835594}
   - component: {fileID: 11478734}
+<<<<<<< HEAD
+=======
   - component: {fileID: 6812272009332306826}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_Layer: 0
   m_Name: Point light
   m_TagString: Untagged
@@ -14438,7 +14624,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+<<<<<<< HEAD
+=======
   m_ConstrainProportionsScale: 0
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_Children: []
   m_Father: {fileID: 461740}
   m_RootOrder: 2
@@ -14502,7 +14691,10 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+<<<<<<< HEAD
+=======
   m_UseViewFrustumForShadowCasterCull: 1
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!114 &11478734
@@ -14519,6 +14711,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 0.15
   killAfterLife: 1
+<<<<<<< HEAD
+=======
 --- !u!114 &6812272009332306826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14539,3 +14733,4 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
+>>>>>>> 56f4603179cba94869b7f20f301c6bb98bd91352
