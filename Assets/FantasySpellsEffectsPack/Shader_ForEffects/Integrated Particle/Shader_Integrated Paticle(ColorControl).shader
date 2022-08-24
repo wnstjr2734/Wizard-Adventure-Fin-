@@ -29,12 +29,13 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (ColorControl
 						#pragma vertex vert
 						#pragma fragment frag
 						#pragma target 3.0
+						#pragma multi_compile_instancing
 						#pragma multi_compile_particles
 						#pragma multi_compile_fog
 
 						#include "UnityCG.cginc"
 
-						sampler2D _MainTex;
+						UNITY_DECLARE_SCREENSPACE_TEXTURE(_MainTex);
 
 						fixed4 _TintColor;
 						fixed4 _TintColor2;
@@ -48,6 +49,8 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (ColorControl
 							half4 vertex : POSITION;
 							half4 color : COLOR;
 							half2 texcoord : TEXCOORD0;
+					
+							UNITY_VERTEX_INPUT_INSTANCE_ID //Insert	
 						};
 
 						struct v2f {
@@ -58,6 +61,8 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (ColorControl
 							#ifdef SOFTPARTICLES_ON
 								half4 projPos : TEXCOORD2;
 							#endif
+					
+							UNITY_VERTEX_OUTPUT_STEREO //Insert
 						};
 
 						float4 _MainTex_ST;
@@ -65,6 +70,11 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (ColorControl
 						v2f vert(appdata_t v)
 						{
 							v2f o;
+
+							UNITY_SETUP_INSTANCE_ID(v); //Insert
+							UNITY_INITIALIZE_OUTPUT(v2f, o); //Insert
+							UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); //Insert
+
 							o.vertex = UnityObjectToClipPos(v.vertex);
 							
 							#ifdef SOFTPARTICLES_ON
@@ -82,6 +92,8 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (ColorControl
 
 						half4 frag(v2f i ) : SV_Target
 						{
+							UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i); //Insert
+
                            #ifdef SOFTPARTICLES_ON
 								half sceneZ = LinearEyeDepth(UNITY_SAMPLE_DEPTH(tex2Dproj(_CameraDepthTexture,UNITY_PROJ_COORD(i.projPos))));
 								half partZ = i.projPos.z;
@@ -89,7 +101,7 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (ColorControl
                                 i.color.a *= fade;
                             #endif
 
-							half4 tex = tex2D(_MainTex,i.texcoord);
+							half4 tex = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex,i.texcoord);
 							half4 color = half4(0, 0, 0, 0);
 							
 							//Compose each color data using color info and color factor

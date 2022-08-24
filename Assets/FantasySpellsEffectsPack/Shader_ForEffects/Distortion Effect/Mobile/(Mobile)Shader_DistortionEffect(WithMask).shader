@@ -30,6 +30,7 @@ Shader "GAPH Custom Shader/Distortion Effect/Mobile/Mobile - Distortion Effect(W
 					#pragma vertex vert
 					#pragma fragment frag
 					#pragma fragmentoption ARB_precision_hint_fastest
+					#pragma multi_compile_instancing
 					#pragma multi_compile_particles
 					#include "UnityCG.cginc"
 
@@ -37,6 +38,8 @@ Shader "GAPH Custom Shader/Distortion Effect/Mobile/Mobile - Distortion Effect(W
 						float4 vertex : POSITION;
 						float2 texcoord: TEXCOORD0;
 						fixed4 color : COLOR;
+					
+						UNITY_VERTEX_INPUT_INSTANCE_ID //Insert	
 					};
 
 					struct v2f {
@@ -48,13 +51,15 @@ Shader "GAPH Custom Shader/Distortion Effect/Mobile/Mobile - Distortion Effect(W
 						#ifdef SOFTPARTICLES_ON
 							float4 projPos : TEXCOORD3;
 						#endif
+
+						UNITY_VERTEX_OUTPUT_STEREO //Insert
 					};
 
 					fixed4 _TintColor;
 
-					sampler2D _Mask;
-					sampler2D _NormalMap;
-					sampler2D _GrabTextureMobile;
+					UNITY_DECLARE_SCREENSPACE_TEXTURE(_Mask);
+					UNITY_DECLARE_SCREENSPACE_TEXTURE(_NormalMap);
+					UNITY_DECLARE_SCREENSPACE_TEXTURE(_GrabTextureMobile);
 
 					float _DistortFactor;
 					float _ColorFactor;			
@@ -66,6 +71,10 @@ Shader "GAPH Custom Shader/Distortion Effect/Mobile/Mobile - Distortion Effect(W
 					v2f vert (appdata_t v)
 					{
 						v2f o;
+
+						UNITY_SETUP_INSTANCE_ID(v); //Insert
+						UNITY_INITIALIZE_OUTPUT(v2f, o); //Insert
+						UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); //Insert
 
 						#ifdef SHADER_API_D3D11
 							o.vertex = UnityObjectToClipPos(v.vertex);
@@ -99,6 +108,8 @@ Shader "GAPH Custom Shader/Distortion Effect/Mobile/Mobile - Distortion Effect(W
 
 					half4 frag( v2f i ) : COLOR
 					{
+						UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i); //Insert
+
 						#ifdef SOFTPARTICLES_ON
 							float sceneZ = LinearEyeDepth (UNITY_SAMPLE_DEPTH(tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.projPos))));
 							float partZ = i.projPos.z;
@@ -106,12 +117,12 @@ Shader "GAPH Custom Shader/Distortion Effect/Mobile/Mobile - Distortion Effect(W
 							i.color.a *= fade;
 						#endif
 
-						half2 normal = UnpackNormal(tex2D( _NormalMap, i.uvnormal )).rg;
+						half2 normal = UnpackNormal(UNITY_SAMPLE_SCREENSPACE_TEXTURE( _NormalMap, i.uvnormal )).rg;
 						half2 distortValue = normal * _DistortFactor * _GrabTextureMobile_TexelSize.xy * 10;
 						i.uvgrab.xy = (distortValue * i.uvgrab.z) + i.uvgrab.xy;
 
 						half4 distort = tex2Dproj( _GrabTextureMobile, UNITY_PROJ_COORD(i.uvgrab));
-						half4 mask = tex2D(_Mask,i.uvmask);
+						half4 mask = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_Mask,i.uvmask);
 						
 						half4 res = distort;
 						res.a = _TintColor.a * i.color.a * mask.a;

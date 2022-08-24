@@ -29,14 +29,15 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (WithNormal)"
 						#pragma vertex vert
 						#pragma fragment frag
 						#pragma target 3.0
+						#pragma multi_compile_instancing
 						#pragma multi_compile_particles
 						#pragma multi_compile_fog
 						#pragma shader_feature IS_TEXTUREBLEND
 
 						#include "UnityCG.cginc"
 
-						sampler2D _MainTex;
-                        sampler2D _NormalTex;
+						UNITY_DECLARE_SCREENSPACE_TEXTURE(_MainTex);
+                        UNITY_DECLARE_SCREENSPACE_TEXTURE(_NormalTex);
 
 						half4 _TintColor;
                         
@@ -55,6 +56,8 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (WithNormal)"
 							#else
 								half2 texcoord : TEXCOORD0;
 							#endif
+					
+							UNITY_VERTEX_INPUT_INSTANCE_ID //Insert	
 						};
 
 						struct v2f {
@@ -69,6 +72,8 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (WithNormal)"
 							#ifdef SOFTPARTICLES_ON
 								half4 projPos : TEXCOORD4;
 							#endif
+
+							UNITY_VERTEX_OUTPUT_STEREO //Insert
 						};
 
 						half4 _MainTex_ST;
@@ -77,6 +82,11 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (WithNormal)"
 						v2f vert(appdata_t v)
 						{
 							v2f o;
+							
+							UNITY_SETUP_INSTANCE_ID(v); //Insert
+							UNITY_INITIALIZE_OUTPUT(v2f, o); //Insert
+							UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); //Insert
+
 							o.vertex = UnityObjectToClipPos(v.vertex);
 							
 							#ifdef SOFTPARTICLES_ON
@@ -101,6 +111,8 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (WithNormal)"
 
 						half4 frag(v2f i ) : SV_Target
 						{
+							UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i); //Insert
+
                             #ifdef SOFTPARTICLES_ON
 								half sceneZ = LinearEyeDepth(UNITY_SAMPLE_DEPTH(tex2Dproj(_CameraDepthTexture,UNITY_PROJ_COORD(i.projPos))));
 								half partZ = i.projPos.z;
@@ -108,13 +120,13 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (WithNormal)"
                                 i.color.a *= fade;
                             #endif
 
-                            half2 distort = UnpackNormal(tex2D(_NormalTex, i.texcoord2)).rg;
-                            half4 tex = tex2D(_MainTex,i.texcoord.xy + distort.xy * _DistortFactor); //Compose normal and tex
+                            half2 distort = UnpackNormal(UNITY_SAMPLE_SCREENSPACE_TEXTURE(_NormalTex, i.texcoord2)).rg;
+                            half4 tex = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex,i.texcoord.xy + distort.xy * _DistortFactor); //Compose normal and tex
 							#ifdef IS_TEXTUREBLEND
-								half4 tex2 = tex2D(_MainTex, i.texcoordBlend.xy + distort.xy * _DistortFactor);
+								half4 tex2 = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.texcoordBlend.xy + distort.xy * _DistortFactor);
 								tex = lerp(tex, tex2, i.texcoordBlend.z);
 							#endif
-							half4 tex3 = tex2D(_MainTex, i.texcoord);
+							half4 tex3 = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.texcoord);
 
 							tex = half4(//Compose each color data using color factors
                                 (tex.r) * _ColorRedFactor * 0.75f,

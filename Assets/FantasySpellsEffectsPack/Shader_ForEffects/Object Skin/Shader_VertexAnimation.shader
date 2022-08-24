@@ -26,20 +26,23 @@
 				CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+                #pragma multi_compile_instancing
                 #pragma multi_compile_particles
 				#pragma target 3.0
 
 				#include "UnityCG.cginc"
 
-				sampler2D _MainTex;
-				sampler2D _NoiseMap;
-                sampler2D _TexNormal;
+				UNITY_DECLARE_SCREENSPACE_TEXTURE(_MainTex);
+				UNITY_DECLARE_SCREENSPACE_TEXTURE(_NoiseMap);
+                UNITY_DECLARE_SCREENSPACE_TEXTURE(_TexNormal);
 
 				struct appdata_t {
 					float4 vertex : POSITION;
 					float2 texcoord : TEXCOORD0;
                     float3 normal : NORMAL;
 					float3 viewDir : TEXCOORD2;
+					
+					UNITY_VERTEX_INPUT_INSTANCE_ID //Insert	
 				};
 
 				struct v2f {
@@ -49,6 +52,8 @@
 					float3 viewDir : TEXCOORD2;
 					float3 normal : TEXCOORD3;
 					UNITY_FOG_COORDS(4)
+					
+					UNITY_VERTEX_OUTPUT_STEREO //Insert
 				};
 
 				half4 _MainTex_ST;
@@ -62,6 +67,10 @@
 				v2f vert(appdata_t v)
 				{
 					v2f o;
+
+					UNITY_SETUP_INSTANCE_ID(v); //Insert
+					UNITY_INITIALIZE_OUTPUT(v2f, o); //Insert
+					UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); //Insert
                     
 					//Change local pos to wold and set noise value
 					float4 Noise = mul(unity_ObjectToWorld, v.vertex) * _NoiseValue * float4(0.1f, 0.1f, 1.5f, 1);
@@ -90,10 +99,12 @@
 
 				half4 frag(v2f i) : SV_Target
 				{
-					half2 distort = UnpackNormal(tex2D(_TexNormal, i.texcoord2)).rg;
+                    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i); //Insert
+
+					half2 distort = UnpackNormal(UNITY_SAMPLE_SCREENSPACE_TEXTURE(_TexNormal, i.texcoord2)).rg;
 					//Animate main texture using time and distort value.
-					half4 tex = tex2D(_MainTex, i.texcoord.xy + distort.x / 6 - (_Speed * _Time / 8)) * _Color;
-					tex *= tex2D(_MainTex, i.texcoord.xy + distort.y / 4 + (_Speed * _Time.xx / 12));
+					half4 tex = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.texcoord.xy + distort.x / 6 - (_Speed * _Time / 8)) * _Color;
+					tex *= UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.texcoord.xy + distort.y / 4 + (_Speed * _Time.xx / 12));
                     tex = pow(tex,0.8);
 
 					//Compose all data with animate tex and rim light

@@ -24,11 +24,13 @@ Shader "GAPH Custom Shader/Dissolve Texture/Dissolve Texture (SimpleFade)" {
 					#pragma vertex vert
 					#pragma fragment frag
 					#pragma target 3.0
+					#pragma multi_compile_instancing
 					#pragma multi_compile_fog
 
 					#include "UnityCG.cginc"
 
-					sampler2D _MainTex;
+					UNITY_DECLARE_SCREENSPACE_TEXTURE(_MainTex);
+
 					float _Factor;
 					fixed4 _TintColor; 
 					fixed4 _TintColor2;
@@ -38,6 +40,8 @@ Shader "GAPH Custom Shader/Dissolve Texture/Dissolve Texture (SimpleFade)" {
 					struct appdata_t {
 						float4 vertex : POSITION;
 						float2 texcoord : TEXCOORD0;
+					
+						UNITY_VERTEX_INPUT_INSTANCE_ID //Insert	
 					};
 
 					struct v2f {
@@ -47,6 +51,8 @@ Shader "GAPH Custom Shader/Dissolve Texture/Dissolve Texture (SimpleFade)" {
 						#ifdef SOFTPARTICLES_ON
 							float4 projPos : TEXCOORD2;
 						#endif
+
+						UNITY_VERTEX_OUTPUT_STEREO //Insert
 					};
 
 					float4 _MainTex_ST;
@@ -54,6 +60,10 @@ Shader "GAPH Custom Shader/Dissolve Texture/Dissolve Texture (SimpleFade)" {
 					v2f vert(appdata_t v)
 					{
 						v2f o;
+
+						UNITY_SETUP_INSTANCE_ID(v); //Insert
+						UNITY_INITIALIZE_OUTPUT(v2f, o); //Insert
+						UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); //Insert
 													
 						#ifdef SHADER_API_D3D11
 							o.vertex = UnityObjectToClipPos(v.vertex);
@@ -75,6 +85,8 @@ Shader "GAPH Custom Shader/Dissolve Texture/Dissolve Texture (SimpleFade)" {
 
 					fixed4 frag(v2f i) : SV_Target
 					{
+						UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i); //Insert
+
 						#ifdef SOFTPARTICLES_ON
 							float sceneZ = LinearEyeDepth(SAMPLER_DEPTH_TEXTURE_PROJ(_CameraDepthTexture,UNITY_PROJ_COORD(i.projPos)));
 							float partZ = i.projPos.z;
@@ -82,7 +94,7 @@ Shader "GAPH Custom Shader/Dissolve Texture/Dissolve Texture (SimpleFade)" {
 							i.color.a *= fade;
 						#endif
 
-						half4 tex = tex2D(_MainTex, i.texcoord);
+						half4 tex = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.texcoord);
 						//Cutout tex using every each color channel.
 						half saturate_Color = tex.r - (_CutOut) + tex.g-(_CutOut) + tex.b - ( _CutOut); 
 						//Set cutout  tex & cutout value to alpha using cutout state, tex info.

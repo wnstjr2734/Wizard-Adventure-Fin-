@@ -30,12 +30,13 @@
 				CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+                #pragma multi_compile_instancing
 
 				#include "UnityCG.cginc"
 
-				sampler2D _MainTex;
-				sampler2D _Mask;
-				sampler2D _NormalTex;
+				UNITY_DECLARE_SCREENSPACE_TEXTURE(_MainTex);
+				UNITY_DECLARE_SCREENSPACE_TEXTURE(_Mask);
+				UNITY_DECLARE_SCREENSPACE_TEXTURE(_NormalTex);
 
 				half4 _TintColor;
                 half _CutOut;
@@ -48,6 +49,8 @@
 					half4 color : COLOR;
 					float2 texcoord : TEXCOORD0;
                     float2 texcoord2 : TEXCOORD1;
+					
+					UNITY_VERTEX_INPUT_INSTANCE_ID //Insert	
 				};
 
 				struct v2f {
@@ -57,6 +60,8 @@
                     float2 texcoord2 : TEXCOORD1;
 					float2 uvmask : TEXCOORD2;
 					UNITY_FOG_COORDS(2)
+					
+					UNITY_VERTEX_OUTPUT_STEREO //Insert
 				};
 
 				half4 _MainTex_ST;
@@ -66,6 +71,10 @@
 				v2f vert(appdata_t v)
 				{
 					v2f o;
+
+					UNITY_SETUP_INSTANCE_ID(v); //Insert
+					UNITY_INITIALIZE_OUTPUT(v2f, o); //Insert
+					UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); //Insert
 
 					o.vertex = UnityObjectToClipPos(v.vertex);
 
@@ -80,11 +89,13 @@
 
 				half4 frag(v2f i) : Color
 				{
-					half2 distort = UnpackNormal(tex2D(_NormalTex, i.texcoord2)).rg;
-					half4 tex = tex2D(_MainTex, i.texcoord.xy + distort.xy / 10 - (_Speed * _Time / 10));
+                    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i); //Insert
+
+					half2 distort = UnpackNormal(UNITY_SAMPLE_SCREENSPACE_TEXTURE(_NormalTex, i.texcoord2)).rg;
+					half4 tex = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.texcoord.xy + distort.xy / 10 - (_Speed * _Time / 10));
                     tex = pow(tex,3);
 
-                    half4 mask = saturate(tex2D(_Mask,i.uvmask));
+                    half4 mask = saturate(UNITY_SAMPLE_SCREENSPACE_TEXTURE(_Mask,i.uvmask));
 
                     half4 res = _ColorStrength * i.color * _TintColor * tex;
                     half alpha = res * mask.a * (_ColorStrength * 10);
