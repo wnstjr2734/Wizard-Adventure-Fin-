@@ -31,7 +31,6 @@ public class EnemyFSM : MonoBehaviour
     private float dist;
     public float chaseDistance;
     public float attackDistance;
-    //public float freezeSpeed;           // 냉기 피해 입었을 때 애니메이션 재생 속도
     protected NavMeshAgent agent;
     protected Animator animator;
     public CharacterStatus charStatus;
@@ -65,11 +64,8 @@ public class EnemyFSM : MonoBehaviour
         {
             var targetPos = attackTarget.position;
             targetPos.y = transform.position.y;
-            //this.transform.LookAt(attackTarget);
             transform.forward = (targetPos - transform.position).normalized;
         }
-        //OnFreeze();                 // 냉기피해를 입었을 때 애니메이션 속도 조절
-        //OnShocked();                // 전기피해를 입었을 때 경직 애니메이션 발동
     }
 
     IEnumerator UpdateState()
@@ -97,7 +93,7 @@ public class EnemyFSM : MonoBehaviour
 
     void Idle()
     {
-        // Enemy와 Player의 거리를 측정하고, 추격 거리 이내면 Player를 향해 다가온다.
+        // Enemy와 Player의 거리를 측정하고, 추격 거리 이내면 Move State로 전환한다.
         if (dist <= chaseDistance)
         {
             state = EnemyState.Move;
@@ -154,25 +150,14 @@ public class EnemyFSM : MonoBehaviour
     public void OnFreeze(float freezeSpeed)               
     {
         animator.speed = freezeSpeed;
-        //if(냉기피해를 입었다면)
-        //{
-        //    animator.speed = freezeSpeed;
-
-        //}
-        //else
-        //{
-        //    animator.speed = 1.0f;
-        //}
+        
     }
 
     public void OnShocked()
     {
         print("Shock Animation");
         animator.SetTrigger("isShocked");
-        //if(Input.GetKeyDown(KeyCode.K))
-        //{
-        //    animator.SetTrigger("isShocked");
-        //}
+        state = EnemyState.Idle;
     }
    
     public void OnDamaged(int amount)
