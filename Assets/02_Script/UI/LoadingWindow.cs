@@ -18,34 +18,55 @@ public class LoadingWindow : MonoBehaviour
     public TextMeshProUGUI loading_text;
     public GameObject circle;
     public float rotate;
-    Text text;    
-    int index;
+    string[] now;
+    public int index;
+    bool loading_Comp = false;
     
 
     // Start is called before the first frame update
     void Start()
-    {
-        loading_text = GetComponent<TextMeshProUGUI>();
-       
+    {       
+        now = new string[] { "",".", "..", "..." };
+        CircleRotate();
+        StartCoroutine(nameof(IETextCycle));
     }
 
     // Update is called once per frame
     void Update()
     {
-        TextChange(index);
+        
     }
+
+
+
+    IEnumerator IETextCycle()
+    {
+        while (index < now.Length)
+        {
+            TextChange(index);
+            yield return new WaitForSeconds(1.0f);
+            index++;
+            if (index >= now.Length)  {  index = 0;  }
+            if (loading_Comp) { break; }
+        }
+        
+
+    }
+
 
     void TextChange(int num)
     {
-        float time = 1f;
-        string load = "Now Loading...";
-        text.DOText(load, time);
-
+        loading_text.text = "Now Loading" + now[num];     
     }
 
     void CircleRotate()
     {
-        
+        float speed = 3f;
+        Vector3 rot = new Vector3(0, 0, -360);
+        RotateMode rotMode = RotateMode.FastBeyond360;
+        Ease ease = Ease.Linear;
+        LoopType loop = LoopType.Incremental;
+        circle.transform.DOLocalRotate(rot, speed, rotMode).SetEase(ease).SetLoops(-1, loop);
     }
 
 
