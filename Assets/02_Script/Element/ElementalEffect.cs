@@ -45,10 +45,8 @@ public class ElementalEffect : MonoBehaviour
         {
             var shape = effect.shape;
             shape.shapeType = shapeType;
+            shape.meshRenderer = renderer as MeshRenderer;
+            shape.skinnedMeshRenderer = renderer as SkinnedMeshRenderer;
         }
-
-        // 대상이 효과가 끝났으면 
-        // 대상이 죽으면 이펙트 해제해야한다
-
     }
 }
