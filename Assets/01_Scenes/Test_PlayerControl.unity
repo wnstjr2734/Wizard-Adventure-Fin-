@@ -389,8 +389,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca5c68f5694e72947a5aacadc42508a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 100
+  maxHp: 1000
+  shockThreshold: 50
+  shockResistPercent: 0
+  shockRecovery: 15
   speedMultiplier: 1
+  effectTarget: {fileID: 184566848}
+--- !u!1 &202247245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 202247247}
+  - component: {fileID: 202247246}
+  m_Layer: 0
+  m_Name: Element Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &202247246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202247245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b52037389336f43852c1f94b46ac90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectPrefabs:
+  - {fileID: 3338100429397108634, guid: a61c92c2d915fae45b7386576cf3ac7f, type: 3}
+  - {fileID: 8137235674593113972, guid: c184b061a593bf0409dd268c34b09ef9, type: 3}
+  - {fileID: 6019212318032244348, guid: 0802a2e3be3cd494fa90905965c1f2cf, type: 3}
+  initEffectCount: 3
+--- !u!4 &202247247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202247245}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &453421610
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,8 +670,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca5c68f5694e72947a5aacadc42508a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 100
+  maxHp: 1000
+  shockThreshold: 50
+  shockResistPercent: 0
+  shockRecovery: 15
   speedMultiplier: 1
+  effectTarget: {fileID: 514779825}
 --- !u!1 &758219525
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,8 +965,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca5c68f5694e72947a5aacadc42508a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 100
+  maxHp: 1000
+  shockThreshold: 50
+  shockResistPercent: 0
+  shockRecovery: 15
   speedMultiplier: 1
+  effectTarget: {fileID: 1193025468}
 --- !u!1 &1575877763
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,8 +1082,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca5c68f5694e72947a5aacadc42508a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 100
+  maxHp: 1000
+  shockThreshold: 50
+  shockResistPercent: 0
+  shockRecovery: 15
   speedMultiplier: 1
+  effectTarget: {fileID: 1575877767}
 --- !u!1 &2071168017
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,15 +25,27 @@ public class CharacterStatus : MonoBehaviour
     public event Action<float> onSpeedChenge;   // 슬로우
     public event Action onShocked;              // 경직
 
+    [Header("능력치")]
     [SerializeField, Tooltip("최대 체력")] 
     private int maxHp = 100;
     private int currentHp;
     // 죽은 이후에도 화상 등으로 데미지를 입어 다시 죽는 일을 방지
     private bool isDead = false;
 
+    [SerializeField, Tooltip("경직 판정 기준치")]
+    private int shockThreshold = 50;
+    [SerializeField, Tooltip("경직 저항도(퍼센트)")]
+    private float shockResistPercent = 0;
+    [SerializeField, Tooltip("경직 회복량(초 기준)")]
+    private float shockRecovery = 15f;
+    private float currentShockAmount = 0;
 
     [SerializeField, Tooltip("속도 계수(공속, 이속)")] 
     private float speedMultiplier = 1.0f;
+
+    [Header("원소 효과")] 
+    [SerializeField, Tooltip("이펙트 대상이 될 트랜스폼")]
+    private Transform effectTarget;
 
     // 각 지속효과 별 스택
     private int burnStack = 0;  // 화상
@@ -42,10 +54,7 @@ public class CharacterStatus : MonoBehaviour
     private Coroutine burnCoroutine;
     private Coroutine slowCoroutine;
 
-
-    private GameObject burnEffect;
-    private GameObject frozenEffect;
-    private GameObject shockEffect;
+    private ElementalEffect[] elementEffects = new ElementalEffect[(int)ElementType.None];
 
     private Collider hitCollider;
 
@@ -74,16 +83,50 @@ public class CharacterStatus : MonoBehaviour
 
     // 경직 게이지 적용
     // 경직 게이지가 꽉차면 경직을 주고 리셋
-    
+    public float ShockGauge
+    {
+        get => currentShockAmount;
+        set
+        {
+            currentShockAmount = value;
+            if (currentShockAmount > shockThreshold)
+            {
+                onShocked?.Invoke();
+                currentShockAmount = 0;
+            }
+            // 
+            else if (currentShockAmount < 0)
+            {
+                currentShockAmount = 0;
+            }
+        }
+    }
+
+    // 패턴에 따라 경직 저항도가 강해지거나 약해질 수 있도록 설정 가능
+    public float ShockResistPercent
+    {
+        get => shockResistPercent;
+        set => shockResistPercent = value;
+    }
 
     public int BurnStack
     {
         get => burnStack;
         private set
         {
-            var fireInfo = ElementInfo.Instance.FireInfo;
-            burnStack = math.min(value, fireInfo.maxStack);
-            // 이펙트
+            var fireInfo = ElementInfo.Fire;
+            Debug.Assert(fireInfo != null, "Error : Fire Info can't null");
+            burnStack = math.min(value, fireInfo.MaxStack);
+
+            if (burnStack == 0)
+            {
+                ReturnElementEffect(ElementType.Fire);
+            }
+            else
+            {
+                var effect = GetElementEffect(ElementType.Fire);
+                // 스택 단계에 따른 효과 조정
+            }
         }
     }
 
@@ -92,18 +135,24 @@ public class CharacterStatus : MonoBehaviour
         get => slowStack;
         private set
         {
-            var iceInfo = ElementInfo.Instance.IceInfo;
-            slowStack = math.min(value, iceInfo.maxStack);
+            var iceInfo = ElementInfo.Ice;
+            slowStack = math.min(value, iceInfo.MaxStack);
 
             // 속도 변경
-            speedMultiplier = 1 - (iceInfo.initSlowPercent + iceInfo.stackBonusSlowPercent * slowStack) * 0.01f;
+            speedMultiplier = 1 - (iceInfo.InitSlowPercent + iceInfo.StackBonusSlowPercent * slowStack) * 0.01f;
             onSpeedChenge?.Invoke(speedMultiplier);
 
-            // 이펙트 변경
-            
+            if (slowStack == 0)
+            {
+                ReturnElementEffect(ElementType.Ice);
+            }
+            else
+            {
+                var effect = GetElementEffect(ElementType.Ice);
+                // 스택 단계에 따른 효과 조정
+            }
         }
     }
-
     #endregion
 
 
@@ -119,9 +168,21 @@ public class CharacterStatus : MonoBehaviour
 
     private void Start()
     {
-        if (slowTime != null)
+        slowTime = new WaitForSeconds(ElementInfo.Ice.Duration);
+    }
+
+    private void Update()
+    {
+        // 경직 회복
+        currentShockAmount = math.max(currentShockAmount - shockRecovery * Time.deltaTime, 0);
+    }
+
+    private void OnDisable()
+    {
+        // 원소 효과 묻어있는거 반환
+        for (int elementNum = 0; elementNum < (int)ElementType.None; elementNum++)
         {
-            slowTime = new WaitForSeconds(ElementInfo.Instance.IceInfo.duration);
+            ReturnElementEffect((ElementType)elementNum);
         }
     }
 
@@ -132,6 +193,7 @@ public class CharacterStatus : MonoBehaviour
     {
         // 데미지 정보 적용
         CurrentHp -= elementDamage.damage;
+        AddShock(elementDamage.damage);
 
         // 속성에 따라 이펙트 적용
         switch (elementDamage.elementType)
@@ -151,8 +213,26 @@ public class CharacterStatus : MonoBehaviour
                 slowCoroutine = StartCoroutine(IESlow(elementDamage.stack));
                 break;
             case ElementType.Lightning:
-                ApplyHitGaugeBonus(elementDamage.damage);
+                AddShock(elementDamage.damage * (ElementInfo.Lightning.AddedShockMultiplier));
+                StopCoroutine(nameof(IEElectricShockEffect));
+                StartCoroutine(nameof(IEElectricShockEffect));
                 break;
+        }
+    }
+
+    private void AddShock(float addedAmount)
+    {
+        currentShockAmount += addedAmount * (1 - 0.01f * shockResistPercent);
+
+        if (currentShockAmount > shockThreshold)
+        {
+            onShocked?.Invoke();
+            currentShockAmount = 0;
+        }
+        // 
+        else if (currentShockAmount < 0)
+        {
+            currentShockAmount = 0;
         }
     }
 
@@ -160,9 +240,9 @@ public class CharacterStatus : MonoBehaviour
     {
         BurnStack = burnStack + addedStack;
 
-        var fireInfo = ElementInfo.Instance.FireInfo;
-        float remainTime = fireInfo.duration;
-        float interval = fireInfo.interval;
+        var fireInfo = ElementInfo.Fire;
+        float remainTime = fireInfo.Duration;
+        float interval = fireInfo.Interval;
         while (remainTime > validTime)
         {
             remainTime -= checkTime;
@@ -171,11 +251,11 @@ public class CharacterStatus : MonoBehaviour
             if (interval < validTime)
             {
                 // 화상 데미지 입히기
-                CurrentHp -= fireInfo.initDamage + fireInfo.stackBonusDamage * burnStack;
-                interval = fireInfo.interval;
+                CurrentHp -= fireInfo.InitDamage + fireInfo.StackBonusDamage * burnStack;
+                interval = fireInfo.Interval;
             }
 
-            yield return checkTime;
+            yield return ws;
         }
 
         BurnStack = 0;
@@ -184,16 +264,45 @@ public class CharacterStatus : MonoBehaviour
 
     private IEnumerator IESlow(int addedStack)
     {
-        SlowStack = slowStack + addedStack;
+        SlowStack += addedStack;
         yield return slowTime;
         
         // 슬로우 스택 리셋
-        slowStack = 0;
+        SlowStack = 0;
         slowCoroutine = null;
     }
 
-    private void ApplyHitGaugeBonus(int damage)
+    private IEnumerator IEElectricShockEffect()
     {
-        
+        var effect = GetElementEffect(ElementType.Lightning);
+        yield return new WaitForSeconds(0.3f);
+        ReturnElementEffect(ElementType.Lightning);
+    }
+
+    private ElementalEffect GetElementEffect(ElementType elementType)
+    {
+        //ref var effect = elementEffects[(int)elementType];
+        if (!elementEffects[(int)elementType])
+        {
+            elementEffects[(int)elementType] = ElementManager.Instance.GetEffect(elementType);
+
+            // 이펙트를 몸체에 달기
+            elementEffects[(int)elementType].SetEffectTarget(effectTarget);
+
+        }
+
+        return elementEffects[(int)elementType];
+    }
+
+    private void ReturnElementEffect(ElementType elementType)
+    {
+        if (!elementEffects[(int)elementType])
+        {
+            // null일 땐 Object Pool에 effect 반환 안 함
+            return;
+        }
+
+        ElementManager.Instance.ReturnEffect(elementType, elementEffects[(int)elementType]);
+        elementEffects[(int)elementType] = null;
     }
 }
