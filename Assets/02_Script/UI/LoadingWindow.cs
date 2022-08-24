@@ -17,10 +17,10 @@ public class LoadingWindow : MonoBehaviour
 
     public TextMeshProUGUI loading_text;
     public GameObject circle;
-    public float rotate;
-    string[] now;
-    public int index;
-    bool loading_Comp = false;
+    private float rotate;
+    private string[] now;
+    private int index;
+    private bool loading_Comp = false;
     
 
     // Start is called before the first frame update
@@ -49,17 +49,16 @@ public class LoadingWindow : MonoBehaviour
             if (index >= now.Length)  {  index = 0;  }
             if (loading_Comp) { break; }
         }
-        
 
     }
 
 
-    void TextChange(int num)
+    private void TextChange(int num)
     {
         loading_text.text = "Now Loading" + now[num];     
     }
 
-    void CircleRotate()
+    private void CircleRotate()
     {
         float speed = 3f;
         Vector3 rot = new Vector3(0, 0, -360);

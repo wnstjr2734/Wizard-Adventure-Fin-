@@ -10,8 +10,8 @@ public class PropertiesWindow : MonoBehaviour
 {
 
     public GameObject pp_base;
-    public float speed = 1.0f;
-    public float currentAngle = 0.0f;
+    private float speed = 1.0f;
+    private float currentAngle = 0.0f;
     private float moveAngle = -120f, reversAngle = 120f;
     private float horizontal;
     private bool isRotate = false;    
@@ -19,14 +19,14 @@ public class PropertiesWindow : MonoBehaviour
     Ease ease;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         //회전 속도의 변화
         ease = Ease.InOutCubic; 
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         //좌우 입력값을 -1,0,1 로 받음
         horizontal = Input.GetAxisRaw("Horizontal");
@@ -53,7 +53,7 @@ public class PropertiesWindow : MonoBehaviour
     }
 
     //속성 선택 창이 왼쪽으로 회전
-    void LeftMove()
+    private void LeftMove()
     {        
         print("왼쪽");
         isRotate = true;
@@ -64,7 +64,7 @@ public class PropertiesWindow : MonoBehaviour
     }
 
     //속성 선택 창이 오른쪽으로 회전
-    void RightMove()
+    private void RightMove()
     {
         print("오른쪽");
         isRotate = true;
