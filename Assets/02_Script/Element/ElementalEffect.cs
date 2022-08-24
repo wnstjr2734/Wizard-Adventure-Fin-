@@ -33,7 +33,7 @@ public class ElementalEffect : MonoBehaviour
         }
         else if (renderer is SkinnedMeshRenderer)
         {
-            shapeType = ParticleSystemShapeType.MeshRenderer;
+            shapeType = ParticleSystemShapeType.SkinnedMeshRenderer;
         }
         else
         {

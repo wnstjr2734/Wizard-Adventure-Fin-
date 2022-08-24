@@ -31,7 +31,7 @@ public class EnemyFSM : MonoBehaviour
     private float dist;
     public float chaseDistance;
     public float attackDistance;
-    public float freezeSpeed;           // 냉기 피해 입었을 때 애니메이션 재생 속도
+    //public float freezeSpeed;           // 냉기 피해 입었을 때 애니메이션 재생 속도
     protected NavMeshAgent agent;
     protected Animator animator;
     public CharacterStatus charStatus;
@@ -45,7 +45,8 @@ public class EnemyFSM : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         charStatus = GetComponent<CharacterStatus>();
 
-        //charStatus.onShocked += OnDamaged;
+        charStatus.onSpeedChenge += OnFreeze;
+        charStatus.onShocked += OnShocked;
         //charStatus.onDead += 죽었을 때 함수;
     }
 
@@ -62,10 +63,13 @@ public class EnemyFSM : MonoBehaviour
         //print(dist);
         if(state == EnemyState.Attack)
         {
-            this.transform.LookAt(attackTarget);
+            var targetPos = attackTarget.position;
+            targetPos.y = transform.position.y;
+            //this.transform.LookAt(attackTarget);
+            transform.forward = (targetPos - transform.position).normalized;
         }
-        OnFreeze();                 // 냉기피해를 입었을 때 애니메이션 속도 조절
-        OnShocked();                // 전기피해를 입었을 때 경직 애니메이션 발동
+        //OnFreeze();                 // 냉기피해를 입었을 때 애니메이션 속도 조절
+        //OnShocked();                // 전기피해를 입었을 때 경직 애니메이션 발동
     }
 
     IEnumerator UpdateState()
@@ -146,8 +150,10 @@ public class EnemyFSM : MonoBehaviour
 
     #region Hit Reaction
 
-    public void OnFreeze()               // 몬스터가 냉기 피해를 입었을 때 모든 애니메이션 재생 속도를 느려지게 만들고 싶다.
+    // 몬스터가 냉기 피해를 입었을 때 모든 애니메이션 재생 속도를 느려지게 만들고 싶다.
+    public void OnFreeze(float freezeSpeed)               
     {
+        animator.speed = freezeSpeed;
         //if(냉기피해를 입었다면)
         //{
         //    animator.speed = freezeSpeed;
@@ -161,10 +167,12 @@ public class EnemyFSM : MonoBehaviour
 
     public void OnShocked()
     {
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            animator.SetTrigger("isShocked");
-        }
+        print("Shock Animation");
+        animator.SetTrigger("isShocked");
+        //if(Input.GetKeyDown(KeyCode.K))
+        //{
+        //    animator.SetTrigger("isShocked");
+        //}
     }
    
     public void OnDamaged(int amount)

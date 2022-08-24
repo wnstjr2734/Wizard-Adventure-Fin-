@@ -10,7 +10,8 @@ using UnityEngine.UI;
 public class HP_Slider : MonoBehaviour
 {
     public Slider sliderHP;
-    CharacterStatus status;
+    [SerializeField]
+    private CharacterStatus status;
 
     
     void Start()

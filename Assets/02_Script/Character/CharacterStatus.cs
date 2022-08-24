@@ -81,27 +81,6 @@ public class CharacterStatus : MonoBehaviour
         }
     }
 
-    // 경직 게이지 적용
-    // 경직 게이지가 꽉차면 경직을 주고 리셋
-    public float ShockGauge
-    {
-        get => currentShockAmount;
-        set
-        {
-            currentShockAmount = value;
-            if (currentShockAmount > shockThreshold)
-            {
-                onShocked?.Invoke();
-                currentShockAmount = 0;
-            }
-            // 
-            else if (currentShockAmount < 0)
-            {
-                currentShockAmount = 0;
-            }
-        }
-    }
-
     // 패턴에 따라 경직 저항도가 강해지거나 약해질 수 있도록 설정 가능
     public float ShockResistPercent
     {
