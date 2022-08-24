@@ -65,6 +65,7 @@ public class EnemyFSM : MonoBehaviour
             this.transform.LookAt(attackTarget);
         }
         OnFreeze();                 // 냉기피해를 입었을 때 애니메이션 속도 조절
+        OnShocked();                // 전기피해를 입었을 때 경직 애니메이션 발동
     }
 
     IEnumerator UpdateState()
@@ -156,6 +157,14 @@ public class EnemyFSM : MonoBehaviour
         //{
         //    animator.speed = 1.0f;
         //}
+    }
+
+    public void OnShocked()
+    {
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            animator.SetTrigger("isShocked");
+        }
     }
    
     public void OnDamaged(int amount)
