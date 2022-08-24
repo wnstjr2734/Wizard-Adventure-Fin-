@@ -28,20 +28,23 @@
 				CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+                #pragma multi_compile_instancing
                 #pragma multi_compile_particles
 				#pragma target 3.0
 
 				#include "UnityCG.cginc"
 
-				sampler2D _MainTex;
-				sampler2D _NormalTex;
-                sampler2D _TexNormal;
+				UNITY_DECLARE_SCREENSPACE_TEXTURE(_MainTex);
+				UNITY_DECLARE_SCREENSPACE_TEXTURE(_NormalTex);
+                UNITY_DECLARE_SCREENSPACE_TEXTURE(_TexNormal);
 
 				struct appdata_t {
 					float4 vertex : POSITION;
 					float2 texcoord : TEXCOORD0;
                     float3 normal : NORMAL;
 					float3 viewDir : TEXCOORD2;
+					
+					UNITY_VERTEX_INPUT_INSTANCE_ID //Insert	
 				};
 
 				struct v2f {
@@ -52,6 +55,8 @@
 					float3 viewDir : TEXCOORD3;
 					float3 normal : TEXCOORD4;
 					UNITY_FOG_COORDS(5)
+					
+					UNITY_VERTEX_OUTPUT_STEREO //Insert
 				};
 
 				half4 _MainTex_ST;
@@ -68,6 +73,10 @@
 				v2f vert(appdata_t v)
 				{
 					v2f o;
+					
+					UNITY_SETUP_INSTANCE_ID(v); //Insert
+					UNITY_INITIALIZE_OUTPUT(v2f, o); //Insert
+					UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o); //Insert
 
 					o.vertex = UnityObjectToClipPos(v.vertex);
 
@@ -82,16 +91,18 @@
 
 				half4 frag(v2f i) : SV_Target
 				{
-					half2 distort = UnpackNormal(tex2D(_TexNormal, i.texcoord2 * 2.0f)).rg;
-                    half2 rimnormal = UnpackNormal(tex2D(_NormalTex, i.texcoord3)).rg;
+                    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i); //Insert
+
+					half2 distort = UnpackNormal(UNITY_SAMPLE_SCREENSPACE_TEXTURE(_TexNormal, i.texcoord2 * 2.0f)).rg;
+                    half2 rimnormal = UnpackNormal(UNITY_SAMPLE_SCREENSPACE_TEXTURE(_NormalTex, i.texcoord3)).rg;
 					//Add rimnormal data to original normal texture value
 					i.normal.xy += rimnormal.xy;
 
 					//Animate main texture using time and distort value.
-					half4 tex = tex2D(_MainTex, i.texcoord.x + distort.x / 5 - (_Speed * _Time / 8)) * _Color * 2.0f;
-					tex *= tex2D(_MainTex, i.texcoord.y + distort.y / 5 + (_Speed * _Time / 8));
-					tex *= tex2D(_MainTex, i.texcoord.xy + distort.xy / 9 + (_Speed * _Time / 12));
-					tex *= tex2D(_MainTex, i.texcoord.xy + distort.xy / 9 - (_Speed * _Time / 12));
+					half4 tex = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.texcoord.x + distort.x / 5 - (_Speed * _Time / 8)) * _Color * 2.0f;
+					tex *= UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.texcoord.y + distort.y / 5 + (_Speed * _Time / 8));
+					tex *= UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.texcoord.xy + distort.xy / 9 + (_Speed * _Time / 12));
+					tex *= UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.texcoord.xy + distort.xy / 9 - (_Speed * _Time / 12));
                     tex = pow(tex,0.9) * _TexStrength;
 
 					//Set rim light with changed normal info
