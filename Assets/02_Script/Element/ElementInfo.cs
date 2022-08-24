@@ -43,24 +43,30 @@ public class ElementInfo : ScriptableObject
         }
     }
 
+    /// <summary>
+    /// 얼음 속성 공격은 빙결 수치에 따라 일정시간동안 슬로우(공속, 이속)를 준다
+    /// </summary>
     [Serializable]
     public class Ice
     {
         [Tooltip("최대 스택")]
-        public int maxStack;
+        public int maxStack = 5;
         [Tooltip("지속 시간")]
-        public float duration;
-        [Tooltip("초기 슬로우 정도")]
-        public float initSlowRate;
+        public float duration = 3.0f;
+        [Tooltip("초기 슬로우 정도")] 
+        public float initSlowPercent = 25f;
         [Tooltip("추가 슬로우 정도")] 
-        public float stackBonusSlow;
+        public float stackBonusSlowPercent = 5f;
     }
 
+    /// <summary>
+    /// 전기 속성은 추가 경직 보너스를 준다
+    /// </summary>
     [Serializable]
     public class Lightning
     {
         // 경직 보너스
-        //public float 
+        public float hitGaugeMultiplier = 2.5f;
     }
 
     public static ElementInfo Instance { get; private set; }
@@ -77,7 +83,7 @@ public class ElementInfo : ScriptableObject
     public Ice IceInfo => iceInfo;
     public Lightning LightningInfo => lightningInfo;
 
-    private void OnEnable()
+    private void Awake()
     {
         Instance = this;
         Debug.Log("Element Info Init");
