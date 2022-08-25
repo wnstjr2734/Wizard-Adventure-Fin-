@@ -458,7 +458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magicShield: {fileID: 3316794523160131668}
-  pcMode: 1
+  pcMode: 0
   handPosZ: 0.3
   pressedHandPosZ: 0.5
   releasedHandPosZ: 0.2

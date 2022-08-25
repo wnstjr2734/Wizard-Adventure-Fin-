@@ -91,7 +91,7 @@ public class Projectile : Magic
 
     private void OnCollisionEnter(Collision collision)
     {
-        print(collision.gameObject.name);
+        //print(collision.gameObject.name);
         // 캐릭터 스탯이 있는 경우에만 데미지 및 속성 효과 주기
         var status = collision.gameObject.GetComponent<CharacterStatus>();
         if (status)

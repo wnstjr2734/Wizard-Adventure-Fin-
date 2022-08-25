@@ -109,6 +109,17 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "c7909af5-6282-4581-bd22-7f1e6f02a568",
+                    "path": "<OculusTouchController>{LeftHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Teleport",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "2D Vector",
                     "id": "6bdede03-f446-4630-ac75-325464cf7e8e",
                     "path": "2DVector",
@@ -242,6 +253,17 @@
                 },
                 {
                     "name": "",
+                    "id": "9c481816-b078-4d8a-a8bb-3bfef6d3fa32",
+                    "path": "<OculusTouchController>{LeftHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shield",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a49516d6-a98e-4474-90c4-fa059e3e0832",
                     "path": "<Keyboard>/1",
                     "interactions": "",
@@ -264,6 +286,17 @@
                 },
                 {
                     "name": "",
+                    "id": "c2c64e50-e819-48f4-b17d-b83ffddf5f37",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Change Next Element",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "bcc9991e-9ca1-4b5c-8287-3bb4344ae086",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
@@ -275,8 +308,30 @@
                 },
                 {
                     "name": "",
+                    "id": "248e73db-8160-4da5-949c-e42aaf61ea69",
+                    "path": "<OculusTouchController>{RightHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c0049061-50ce-4a1e-9e2f-05a5d6f5788e",
                     "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Charge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2df60661-4e9f-4696-b905-c4a38531aef8",
+                    "path": "<OculusTouchController>{RightHand}/triggerPressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
