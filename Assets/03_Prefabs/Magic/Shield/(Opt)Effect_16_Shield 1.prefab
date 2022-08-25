@@ -212,7 +212,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
+  scalingMode: 0
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
@@ -5033,9 +5033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1021e1b0c37a13447ae000f90cee36a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shieldEffect: {fileID: 0}
-  blockEffectPrefab: {fileID: 0}
-  blockSound: {fileID: 0}
+  blockEffectPrefab: {fileID: 1270699962191098, guid: 7b25cb9f33fbb21468a3986eae18abcf, type: 3}
 --- !u!65 &264048177524693846
 BoxCollider:
   m_ObjectHideFlags: 0

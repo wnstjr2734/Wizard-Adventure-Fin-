@@ -163,11 +163,11 @@ public class PlayerController : MonoBehaviour
     {
         if (playerInput.actions["Shield"].WasPressedThisFrame())
         {
-            magicShield.ActiveShield(true);
+            magicShield.gameObject.SetActive(true);
         }
         if (playerInput.actions["Shield"].WasReleasedThisFrame())
         {
-            magicShield.ActiveShield(false);
+            magicShield.gameObject.SetActive(false);
         }
     }
 
