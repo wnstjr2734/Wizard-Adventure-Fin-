@@ -34,9 +34,8 @@ public class EnemyFSM : MonoBehaviour
     protected NavMeshAgent agent;
     protected Animator animator;
     public CharacterStatus charStatus;
-
     public ElementDamage elementDamage;
-
+    private bool moveLock;
 
     protected void Awake()
     {
@@ -59,7 +58,6 @@ public class EnemyFSM : MonoBehaviour
     private void Update()
     {
         dist = Vector3.Distance(this.transform.position, attackTarget.transform.position);
-        //print(dist);
         if(state == EnemyState.Attack)
         {
             var targetPos = attackTarget.position;
@@ -102,9 +100,9 @@ public class EnemyFSM : MonoBehaviour
 
     void Move()
     {
-        agent.isStopped = false;
-        if(dist > attackDistance)
+        if(dist > attackDistance && moveLock == false)
         {
+            agent.isStopped = false;
             animator.SetBool("isMove", true);
             agent.SetDestination(attackTarget.transform.position);
         }
@@ -156,8 +154,9 @@ public class EnemyFSM : MonoBehaviour
     public void OnShocked()
     {
         print("Shock Animation");
+        moveLock = true;
         animator.SetTrigger("isShocked");
-        state = EnemyState.Idle;
+        StartCoroutine(ShockMoveLock());
     }
    
     public void OnDamaged(int amount)
@@ -209,4 +208,11 @@ public class EnemyFSM : MonoBehaviour
         agent.isStopped = false;
         gameObject.SetActive(false);
     }
+
+    private IEnumerator ShockMoveLock()
+    {
+        yield return new WaitForSeconds(3.0f);
+        moveLock = false;
+    }
+
 }

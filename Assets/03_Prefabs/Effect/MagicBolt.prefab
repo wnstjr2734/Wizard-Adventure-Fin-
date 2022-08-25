@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 7848085812633889304}
   - component: {fileID: 4851780127822731664}
   - component: {fileID: -5672684248950821727}
-  - component: {fileID: 58678279256425478}
   m_Layer: 9
   m_Name: MagicBolt
   m_TagString: Projectile
@@ -4910,17 +4909,3 @@ MonoBehaviour:
   hitEffectPrefab: {fileID: 19863974, guid: eb5fb8e17f36c8049b43a4c8ce962437, type: 3}
   shootSound: {fileID: 0}
   hitSound: {fileID: 0}
---- !u!114 &58678279256425478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 105806}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0afd8837750f38746a15ca0d50c31cd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 4.5
-  range: 5
