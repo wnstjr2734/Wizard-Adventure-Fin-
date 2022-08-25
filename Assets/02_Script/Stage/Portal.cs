@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//메모장
 //해당 위치로 플레이어 이동
 //만약 튜토리얼 스테이지 미 클리어 상태라면
 //해당 위치로 이동 불가
@@ -11,30 +13,77 @@ using UnityEngine;
 //화면 페이드아웃
 //해당 위치로 플레이어 이동
 //화면 페이드 인
+/// <summary>
+/// 각 스테이지 적 생성 및 적 수에 따른 포탈 활성화 관리
+/// 플레이어 포탈이동
+/// 작성자 - 이준석
+/// </summary>
 public class Portal : MonoBehaviour
 {
-    
-    [SerializeField] private GameObject player;
-    public Transform portalPoint;
+    [SerializeField]
+    private GameObject player;
+    [SerializeField]
+    private CharacterStatus[] targets;
+    [SerializeField]
+    public int remainCount;    //남은 적 수
+    private bool istrigger;     //트리거 스위치
 
+    [Header("포탈 / 플레이어 스폰 위치")]
+    public GameObject portal;
+    public Transform portalPoint;   //포탈 탄 후 플레이어 스폰 위치
+    
+   
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        istrigger = false;
+        portal.SetActive(false);
+        StartRoom();
     }
 
-    // Update is called once per frame
-    void Update()
+    // 포탈 시작
+    public void StartRoom()
     {
-        
+        foreach (var target in targets)
+        {
+            target.gameObject.SetActive(true);
+            target.onDead += DecreaseCount;
+        }
+        // 남은 몬스터 개수
+        remainCount = targets.Length;
+        CheckEnd();
     }
 
+    private void DecreaseCount()
+    {
+        remainCount--;
+        CheckEnd();
+    }
+
+    private void CheckEnd()
+    {
+        if (remainCount <= 0)
+        {
+            Debug.Log("남은적" + remainCount);
+            istrigger = true;
+            Debug.Log(istrigger);
+            // 포탈 활성화
+            portal.SetActive(true);
+        }
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if(other.CompareTag("Player") && istrigger == true)
         {
             player.transform.position = portalPoint.position;
+            Debug.Log("포탈 이동");
         }
-        
+
+        //if(other.name.Contains("Enemy Test") == true)
+        //{
+        //    StartRoom();
+        //}
     }
 }
