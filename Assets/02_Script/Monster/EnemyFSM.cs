@@ -31,13 +31,11 @@ public class EnemyFSM : MonoBehaviour
     private float dist;
     public float chaseDistance;
     public float attackDistance;
-    public float freezeSpeed;           // 냉기 피해 입었을 때 애니메이션 재생 속도
     protected NavMeshAgent agent;
     protected Animator animator;
     public CharacterStatus charStatus;
-
     public ElementDamage elementDamage;
-
+    private bool moveLock;
 
     protected void Awake()
     {
@@ -45,7 +43,8 @@ public class EnemyFSM : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         charStatus = GetComponent<CharacterStatus>();
 
-        //charStatus.onShocked += OnDamaged;
+        charStatus.onSpeedChenge += OnFreeze;
+        charStatus.onShocked += OnShocked;
         //charStatus.onDead += 죽었을 때 함수;
     }
 
@@ -59,13 +58,12 @@ public class EnemyFSM : MonoBehaviour
     private void Update()
     {
         dist = Vector3.Distance(this.transform.position, attackTarget.transform.position);
-        //print(dist);
         if(state == EnemyState.Attack)
         {
-            this.transform.LookAt(attackTarget);
+            var targetPos = attackTarget.position;
+            targetPos.y = transform.position.y;
+            transform.forward = (targetPos - transform.position).normalized;
         }
-        OnFreeze();                 // 냉기피해를 입었을 때 애니메이션 속도 조절
-        OnShocked();                // 전기피해를 입었을 때 경직 애니메이션 발동
     }
 
     IEnumerator UpdateState()
@@ -93,7 +91,7 @@ public class EnemyFSM : MonoBehaviour
 
     void Idle()
     {
-        // Enemy와 Player의 거리를 측정하고, 추격 거리 이내면 Player를 향해 다가온다.
+        // Enemy와 Player의 거리를 측정하고, 추격 거리 이내면 Move State로 전환한다.
         if (dist <= chaseDistance)
         {
             state = EnemyState.Move;
@@ -102,9 +100,9 @@ public class EnemyFSM : MonoBehaviour
 
     void Move()
     {
-        agent.isStopped = false;
-        if(dist > attackDistance)
+        if(dist > attackDistance && moveLock == false)
         {
+            agent.isStopped = false;
             animator.SetBool("isMove", true);
             agent.SetDestination(attackTarget.transform.position);
         }
@@ -146,25 +144,19 @@ public class EnemyFSM : MonoBehaviour
 
     #region Hit Reaction
 
-    public void OnFreeze()               // 몬스터가 냉기 피해를 입었을 때 모든 애니메이션 재생 속도를 느려지게 만들고 싶다.
+    // 몬스터가 냉기 피해를 입었을 때 모든 애니메이션 재생 속도를 느려지게 만들고 싶다.
+    public void OnFreeze(float freezeSpeed)               
     {
-        //if(냉기피해를 입었다면)
-        //{
-        //    animator.speed = freezeSpeed;
-
-        //}
-        //else
-        //{
-        //    animator.speed = 1.0f;
-        //}
+        animator.speed = freezeSpeed;
+        
     }
 
     public void OnShocked()
     {
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            animator.SetTrigger("isShocked");
-        }
+        print("Shock Animation");
+        moveLock = true;
+        animator.SetTrigger("isShocked");
+        StartCoroutine(ShockMoveLock());
     }
    
     public void OnDamaged(int amount)
@@ -216,4 +208,11 @@ public class EnemyFSM : MonoBehaviour
         agent.isStopped = false;
         gameObject.SetActive(false);
     }
+
+    private IEnumerator ShockMoveLock()
+    {
+        yield return new WaitForSeconds(3.0f);
+        moveLock = false;
+    }
+
 }

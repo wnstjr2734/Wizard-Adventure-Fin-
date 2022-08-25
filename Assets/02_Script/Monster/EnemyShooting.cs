@@ -9,6 +9,7 @@ using UnityEngine;
 public class EnemyShooting : MonoBehaviour
 {
     private Animator animator;
+    public Transform attackTarget;
     public GameObject projFactory;
     public GameObject firePos;
 
@@ -22,7 +23,12 @@ public class EnemyShooting : MonoBehaviour
     {
         GameObject projInst = Instantiate(projFactory);
         projInst.transform.position = firePos.transform.position;
-        projInst.transform.rotation = firePos.transform.rotation;
+        projInst.transform.LookAt(attackTarget);
+        var proj = projInst.GetComponent<Projectile>();
+        if (proj)
+        {
+            proj.StartMagic();
+        }
         ParticleSystem ps = projInst.GetComponent<ParticleSystem>();
         ps.Stop();
         ps.Play();

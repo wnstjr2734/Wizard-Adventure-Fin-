@@ -11,6 +11,12 @@ public class Billboard : MonoBehaviour
     Transform camTransform;
     public Transform attackTarget;
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        
+    }
+
     void Start()
     {
         //camTransform = Camera.main.transform;
