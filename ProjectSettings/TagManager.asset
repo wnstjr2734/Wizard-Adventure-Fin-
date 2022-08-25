@@ -7,6 +7,7 @@ TagManager:
   - Omni only
   - Enemy
   - Projectile
+  - Right Hand
   layers:
   - Default
   - TransparentFX

@@ -13,17 +13,23 @@ public class PlayerMoveRotate : MonoBehaviour
 
     [Header("Teleport")] 
     [SerializeField] private float teleportRange = 7.0f;
-
     [SerializeField] private float controlPointHeightMultiplier = 0.25f;
     [SerializeField] private Transform leftHandTransform;
     [SerializeField] private LineRenderer line;
     [SerializeField] private Transform teleportTarget;
     [SerializeField] private Transform footPos;
+    [SerializeField] private float dashTime = 0.25f;
+
+    private bool isTeleporting = false;
+
+    private int mapLayerMask;
+    private int enemyLayerMask;
 
     [SerializeField]
     private float gravity = 9.81f;
     private float yVelocity = 0;
     private Vector2 rotation;
+
 
     private RaycastHit hit;
 
@@ -32,6 +38,9 @@ public class PlayerMoveRotate : MonoBehaviour
     private void Awake()
     {
         cc = GetComponent<CharacterController>();
+
+        mapLayerMask = 1 << LayerMask.NameToLayer("Default");
+        enemyLayerMask = 1 << LayerMask.NameToLayer("Enemy");
     }
 
     private void Update()
@@ -47,7 +56,10 @@ public class PlayerMoveRotate : MonoBehaviour
         }
 
         yVelocity -= gravity * Time.deltaTime;
-        cc.Move(new Vector3(0, yVelocity, 0));
+        if (cc.enabled)
+        {
+            cc.Move(new Vector3(0, yVelocity, 0));
+        }
     }
 
     public void StartTeleport()
@@ -60,16 +72,29 @@ public class PlayerMoveRotate : MonoBehaviour
     public void OnTeleport()
     {
         if (Physics.Raycast(leftHandTransform.position, leftHandTransform.forward, out hit,
-                teleportRange, 1 << LayerMask.NameToLayer("Default")))
+                teleportRange, mapLayerMask | enemyLayerMask))
         {
-            //print(hit.collider.name);
-            // 벽에 텔레포트 하지 않도록 보정
-            if (Vector3.Dot(hit.normal, Vector3.up) > 0.5f)
+            Vector3 teleportPos;
+            int hitLayerMask = 1 << hit.collider.gameObject.layer;
+            // 몬스터와 충돌하는 경우 혹은 벽에 텔레포트하는 경우 충돌점 앞에 이동하도록 보정
+            if ((hitLayerMask & enemyLayerMask) > 0 || 
+                Vector3.Dot(hit.normal, Vector3.up) < 0.5f)
+            {
+                RaycastHit hit2;
+                Vector3 revisedPos = hit.point + hit.normal;
+                bool canRevise = Physics.Raycast(revisedPos, Vector3.down, out hit2, Single.PositiveInfinity, mapLayerMask);
+                Debug.Assert(canRevise, "Error : can't revised Teleport Pos");
+                // Z-fighting이 일어나지 않게 텔레포트 위치 보정
+                teleportPos = hit2.point + Vector3.up * 0.05f;
+            }
+            // 그렇지 않다면 이동 보정을 하지 않음
+            else
             {
                 // Z-fighting이 일어나지 않게 텔레포트 위치 보정
-                teleportTarget.position = hit.point + Vector3.up * 0.05f;
-                DrawTeleportLineCurve(line.transform.position, teleportTarget.position);
+                teleportPos = hit.point + Vector3.up * 0.05f;
             }
+            teleportTarget.position = teleportPos;
+            DrawTeleportLineCurve(line.transform.position, teleportTarget.position);
         }
     }
 
@@ -79,9 +104,32 @@ public class PlayerMoveRotate : MonoBehaviour
         line.gameObject.SetActive(false);
         teleportTarget.gameObject.SetActive(false);
 
+        if (!isTeleporting)
+        {
+            StartCoroutine(nameof(IEDash));
+        }
+    }
+
+    private IEnumerator IEDash()
+    {
+        // 텔레포트 동안은 다시 텔레포트할 수 없다
+        isTeleporting = true;
         cc.enabled = false;
-        transform.position = teleportTarget.position - footPos.localPosition;
+        Vector3 origin = transform.position;
+        Vector3 targetPos = teleportTarget.position - footPos.localPosition; // 발 위치 보정
+
+        // 대쉬 하는 동안 Vignette 효과 적용
+
+        float multiplier = 1 / dashTime;
+        for (float t = 0.0f; t < dashTime; t += Time.deltaTime)
+        {
+            transform.position = Vector3.Lerp(origin, targetPos, t * multiplier);
+            yield return null;
+        }
+        transform.position = targetPos;
+
         cc.enabled = true;
+        isTeleporting = false;
     }
 
     private void DrawTeleportLineCurve(Vector3 startPos, Vector3 endPos)
@@ -108,7 +156,10 @@ public class PlayerMoveRotate : MonoBehaviour
         // For simplicity's sake, we just keep movement in a single plane here.
         // Rotate direction according to world Y rotation of player.
         var move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
-        cc.Move(move * scaledMoveSpeed);
+        if (cc.enabled)
+        {
+            cc.Move(move * scaledMoveSpeed);
+        }
     }
 
     public void Look(Vector2 rotate)

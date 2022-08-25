@@ -484,7 +484,8 @@ MonoBehaviour:
   line: {fileID: 1913308818}
   teleportTarget: {fileID: 180392128}
   footPos: {fileID: 1671820100867529847}
-  gravity: 9.81
+  dashTime: 0.05
+  gravity: 5
 --- !u!114 &883560392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,7 +531,7 @@ MonoBehaviour:
   shockResistPercent: 0
   shockRecovery: 15
   speedMultiplier: 1
-  effectTarget: {fileID: 0}
+  effectTarget: {fileID: 1671820100625382658}
 --- !u!1 &1671820100867529840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1055,42 +1056,12 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 9069085338425953236, guid: 28f03852f3b749948a2e3cf3052db0b0, type: 3}
+      propertyPath: m_TagString
+      value: Right Hand
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28f03852f3b749948a2e3cf3052db0b0, type: 3}
---- !u!1 &7766834605573765504 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9069085338425953236, guid: 28f03852f3b749948a2e3cf3052db0b0, type: 3}
-  m_PrefabInstance: {fileID: 1590487536839062100}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &8473065431754981554
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7766834605573765504}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
---- !u!135 &7222901632249890147
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7766834605573765504}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.1
-  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!1001 &3162350209963556404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1121,6 +1092,14 @@ PrefabInstance:
     - target: {fileID: 4382445835262307058, guid: 4ac2b2bac35f51d45811ce906f7868aa, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382445835262311526, guid: 4ac2b2bac35f51d45811ce906f7868aa, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382445835262311526, guid: 4ac2b2bac35f51d45811ce906f7868aa, type: 3}
+      propertyPath: m_TagString
+      value: Right Hand
       objectReference: {fileID: 0}
     - target: {fileID: 4382445835262401162, guid: 4ac2b2bac35f51d45811ce906f7868aa, type: 3}
       propertyPath: m_RootOrder
@@ -1174,6 +1153,10 @@ PrefabInstance:
       propertyPath: playerMagic
       value: 
       objectReference: {fileID: 883560392}
+    - target: {fileID: 7100424547864658896, guid: 4ac2b2bac35f51d45811ce906f7868aa, type: 3}
+      propertyPath: rightHandTr
+      value: 
+      objectReference: {fileID: 1671820101302063468}
     - target: {fileID: 8675540604148316202, guid: 4ac2b2bac35f51d45811ce906f7868aa, type: 3}
       propertyPath: m_RenderPostProcessing
       value: 1
@@ -1184,6 +1167,40 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ac2b2bac35f51d45811ce906f7868aa, type: 3}
+--- !u!1 &1671820101301650002 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4382445835262311526, guid: 4ac2b2bac35f51d45811ce906f7868aa, type: 3}
+  m_PrefabInstance: {fileID: 3162350209963556404}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &5704480616507597614
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671820101301650002}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &8927553725677468700
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671820101301650002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!1 &1671820101301663896 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4382445835262297772, guid: 4ac2b2bac35f51d45811ce906f7868aa, type: 3}

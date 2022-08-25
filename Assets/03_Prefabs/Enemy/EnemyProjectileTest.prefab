@@ -47,11 +47,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0cbeef6cb2ed50419996c9243033673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSelfTarget: 0
+  poolSize: 1
   moveSpeed: 7
   range: 15
   elementDamage:
     damage: 10
-    elementType: 0
+    elementType: 3
     stack: 1
   hitEffectPrefab: {fileID: 19825236, guid: 4bfe39525ff6bb1449f371c35579b84a, type: 3}
   shootSound: {fileID: 0}
