@@ -14,6 +14,7 @@ Shader "GAPH Custom Shader/Distortion Effect/Distortion Texture/Distortion Effec
 					#pragma vertex vert
 					#pragma fragment frag
 					#pragma fragmentoption ARB_precision_hint_fastest
+					#pragma multi_compile_instancing
 					#pragma multi_compile_particles
 					#include "UnityCG.cginc"
 
