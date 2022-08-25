@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Effect_16_Shield
-  m_Shader: {fileID: 4800000, guid: 4b8e1a6bc8abd854abf0112e5b660cc5, type: 3}
+  m_Shader: {fileID: 4800000, guid: 908c43086d65e4948acff0bedc99ca9b, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -82,6 +82,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _InvFade: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
