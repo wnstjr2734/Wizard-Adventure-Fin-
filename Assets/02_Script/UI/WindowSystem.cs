@@ -27,7 +27,10 @@ public class WindowSystem : Singleton<WindowSystem>
     // 최상단 Window를 구분
     private Stack<WindowClass> windowStack = new Stack<WindowClass>();
 
-    [SerializeField] private GameObject menuWindow;
+    [SerializeField] private GameObject mainTitle;
+    [SerializeField] private GameObject menu;
+    [SerializeField] private GameObject Loading;
+    [SerializeField] private GameObject gameOver;
 
     void Start()
     {
@@ -43,7 +46,7 @@ public class WindowSystem : Singleton<WindowSystem>
             // 창 닫을거 없으면 메뉴 켜기
             if (windowStack.Count == 0)
             {
-                OpenWindow(menuWindow, true);
+                OpenWindow(menu, true);
             }
             // 창 닫기
             else

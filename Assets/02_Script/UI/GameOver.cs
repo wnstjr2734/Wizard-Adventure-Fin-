@@ -8,16 +8,16 @@ using DG.Tweening;
 /// 게임 오버 창 활성 클래스
 /// </summary>
 public class GameOver : MonoBehaviour
-{
-    [SerializeField] GameObject gameOver;
+{    
     [SerializeField] Image back_img, frame_img, text_img;
-    [SerializeField] float playTime, delayTime;
     [SerializeField]  bool isPlayerdead = false;
+    float playTime, delayTime;
     Color[] clr;
 
     // Start is called before the first frame update
     void Start()
     {
+        playTime = delayTime = 3.0f;
         //gameOver.SetActive(false);
         Alpha0(isPlayerdead);
     }
@@ -50,10 +50,11 @@ public class GameOver : MonoBehaviour
     void OnActive()
     {
         print("재생");
-        Vector3 textScale = new Vector3(1.0f, 1.0f, 1.0f);
+        float fgoal = 0.45f;
+        Vector3 textScale = new Vector3(fgoal, fgoal, fgoal);
         Sequence suq = DOTween.Sequence();
-        suq.Prepend(back_img.DOFade(0.9f, playTime));
-        suq.Insert(delayTime-1.5f, frame_img.DOFade(1, playTime));
+        suq.Prepend(back_img.DOFade(0.95f, playTime));
+        suq.Insert(delayTime-1.5f, frame_img.DOFade(1, 3.0f));
         suq.Insert(delayTime, text_img.DOFade(1, playTime+2.0f));
         suq.Join(text_img.transform.DOScale(textScale, playTime));
        
@@ -66,6 +67,7 @@ public class GameOver : MonoBehaviour
     {
         if (!dead)
         {
+            float dgoal = 0.2f;
             clr = new Color[3];
             clr[0] = back_img.GetComponent<Image>().color;
             clr[1] = frame_img.GetComponent<Image>().color;
@@ -74,7 +76,7 @@ public class GameOver : MonoBehaviour
             back_img.color = clr[0];
             frame_img.color = clr[1];
             text_img.color = clr[2];
-            text_img.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            text_img.transform.localScale = new Vector3(dgoal, dgoal, dgoal);
         }
        
     }
