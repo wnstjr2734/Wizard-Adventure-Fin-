@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a9a3b24dc649bf44afb97c3b446213c, type: 3}
   m_Name: Tutorial_Attack
   m_EditorClassIdentifier: 
-  clip: {fileID: 32900000, guid: fc1d9584423b09b4d91b7dd0c8942abc, type: 3}
+  clip: {fileID: 32900000, guid: 1b69ff5877bb9744f84288c41cf88635, type: 3}
   explain_Title: "\uACF5\uACA9 \uB9C8\uBC95"
   explain: "\uC624\uB978\uCABD \uCEE8\uD2B8\uB864\uB7EC\uB97C \uC55E\uC73C\uB85C
     \uBED7\uC5B4\uC8FC\uC138\uC694 \n\uADF8\uB7EC\uBA74 \uACF5\uACA9\uB9C8\uBC95\uC774
