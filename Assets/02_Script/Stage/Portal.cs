@@ -38,8 +38,8 @@ public class Portal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cc = player.GetComponent<CharacterController>();
         player = GameObject.FindGameObjectWithTag("Player");
+        cc = player.GetComponent<CharacterController>();
         istrigger = false;
         portal.SetActive(false);
         StartRoom();
