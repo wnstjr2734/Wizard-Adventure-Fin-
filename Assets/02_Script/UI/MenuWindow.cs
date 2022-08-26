@@ -20,4 +20,16 @@ public class MenuWindow : MonoBehaviour
         // WindowSystem을 호출해 창을 닫는다
         WindowSystem.Instance.CloseWindow(true);
     }
+
+    public void OnLoad()
+    {
+        print("세이브 포인트로 이동");
+    }
+
+    public void OnMainMenu()
+    {
+        print("메인 메뉴로 이동");
+    }
+
+
 }

@@ -31,14 +31,6 @@ public class LoadingWindow : MonoBehaviour
         StartCoroutine(nameof(IETextCycle));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
-
     IEnumerator IETextCycle()
     {
         while (index < now.Length)
