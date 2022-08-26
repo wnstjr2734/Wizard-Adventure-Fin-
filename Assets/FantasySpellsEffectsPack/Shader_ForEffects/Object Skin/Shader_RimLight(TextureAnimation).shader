@@ -43,8 +43,13 @@
 					float2 texcoord : TEXCOORD0;
                     float3 normal : NORMAL;
 					float3 viewDir : TEXCOORD2;
+<<<<<<< HEAD
+
+					UNITY_VERTEX_INPUT_INSTANCE_ID //Insert
+=======
 					
 					UNITY_VERTEX_INPUT_INSTANCE_ID //Insert	
+>>>>>>> develop
 				};
 
 				struct v2f {
@@ -55,7 +60,11 @@
 					float3 viewDir : TEXCOORD3;
 					float3 normal : TEXCOORD4;
 					UNITY_FOG_COORDS(5)
+<<<<<<< HEAD
+
+=======
 					
+>>>>>>> develop
 					UNITY_VERTEX_OUTPUT_STEREO //Insert
 				};
 

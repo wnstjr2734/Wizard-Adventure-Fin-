@@ -11,7 +11,6 @@ using UnityEngine.AI;
 
 public class EnemyFSM : MonoBehaviour
 {
-    private int currentHP = 3; // 나중에 CharacterStatus에 통합시킬 것.
     // 몬스터는 Player Layer만 공격한다
     protected static int playerLayer;
     protected enum EnemyState
@@ -19,7 +18,7 @@ public class EnemyFSM : MonoBehaviour
         Idle,
         Move,
         Attack,
-        Damaged,
+        //Damaged,
         Die
     }
 
@@ -36,6 +35,7 @@ public class EnemyFSM : MonoBehaviour
     public CharacterStatus charStatus;
     public ElementDamage elementDamage;
     private bool moveLock;
+    private bool checkDead = false;
 
     protected void Awake()
     {
@@ -45,7 +45,7 @@ public class EnemyFSM : MonoBehaviour
 
         charStatus.onSpeedChenge += OnFreeze;
         charStatus.onShocked += OnShocked;
-        //charStatus.onDead += 죽었을 때 함수;
+        charStatus.onDead += OnDead;
     }
 
     private void Start()
@@ -155,37 +155,18 @@ public class EnemyFSM : MonoBehaviour
     {
         print("Shock Animation");
         moveLock = true;
-        animator.SetTrigger("isShocked");
-        StartCoroutine(ShockMoveLock());
-    }
-   
-    public void OnDamaged(int amount)
-    {
-        if (state == EnemyState.Die)
+        if(checkDead == true)
         {
-            return;
-        }
-        //damage만큼 체력을 감소시키고싶다.
-        currentHP -= amount;
-        //NavMeshAgent를 멈추고싶다.
-        agent.isStopped = true;
-        //만약 체력이 0이하라면
-        if (currentHP <= 0)
-        {
-            // 죽음상태
             state = EnemyState.Die;
-            animator.SetTrigger("isDie");
-            // 충돌체를 off하고싶다.
-            GetComponent<Collider>().enabled = false;
         }
-
         else
         {
-            // 리액션상태
-            state = EnemyState.Damaged;
-            animator.SetTrigger("isDamaged");
+            animator.SetTrigger("isShocked");
+            StartCoroutine(ShockMoveLock());
         }
     }
+
+    
 
     public virtual void OnReactFinished()
     {
@@ -199,13 +180,18 @@ public class EnemyFSM : MonoBehaviour
     
     protected virtual void OnDead()
     {
-        
+        // 죽음상태
+        checkDead = true;
+        state = EnemyState.Die;
+        animator.SetTrigger("isDie");
+        // 충돌체를 off하고싶다.
+        GetComponent<Collider>().enabled = false;
     }
 
     public virtual void OnDeathFinished()
     {
         //print("Death Finished");
-        agent.isStopped = false;
+        agent.isStopped = true;
         gameObject.SetActive(false);
     }
 

@@ -20,6 +20,8 @@ using UnityEngine;
 /// </summary>
 public class Portal : MonoBehaviour
 {
+
+    public CharacterController cc;
     [SerializeField]
     private GameObject player;
     [SerializeField]
@@ -37,6 +39,7 @@ public class Portal : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        cc = player.GetComponent<CharacterController>();
         istrigger = false;
         portal.SetActive(false);
         StartRoom();
@@ -75,15 +78,18 @@ public class Portal : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player") && istrigger == true)
+        StartCoroutine(CcOnOff());
+    }
+
+    IEnumerator CcOnOff()
+    {
+        cc.enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        if(!cc.enabled)
         {
             player.transform.position = portalPoint.position;
-            Debug.Log("Æ÷Å» ÀÌµ¿");
         }
-
-        //if(other.name.Contains("Enemy Test") == true)
-        //{
-        //    StartRoom();
-        //}
+        yield return new WaitForSeconds(0.5f);
+        cc.enabled = true;
     }
 }
