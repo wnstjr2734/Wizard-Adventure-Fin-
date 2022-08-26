@@ -11,10 +11,19 @@ using UnityEngine;
 public class ElementalEffect : MonoBehaviour
 {
     private ParticleSystem[] effects;
+    // 각각 constant, constantMin, constantMax를 저장
+    private Vector3[] initSizes;
 
     private void Awake()
     {
         effects = GetComponentsInChildren<ParticleSystem>();
+        
+        initSizes = new Vector3[effects.Length];
+        for (int i = 0; i < initSizes.Length; i++)
+        {
+            var startSize = effects[i].main.startSize;
+            initSizes[i] = new Vector3(startSize.constant, startSize.constantMin, startSize.constantMax);
+        }
     }
 
     public void SetEffectTarget(Transform target)
@@ -47,6 +56,19 @@ public class ElementalEffect : MonoBehaviour
             shape.shapeType = shapeType;
             shape.meshRenderer = renderer as MeshRenderer;
             shape.skinnedMeshRenderer = renderer as SkinnedMeshRenderer;
+        }
+    }
+
+    public void SetEffectSize(int stack)
+    {
+        for (int i = 0; i < effects.Length; i++)
+        {
+            var main = effects[i].main;
+            var startSize = main.startSize;
+            startSize.constant = initSizes[i].x * (1 + (stack - 1) * 0.2f);
+            startSize.constantMin = initSizes[i].y * (1 + (stack - 1) * 0.2f);
+            startSize.constantMax = initSizes[i].z * (1 + (stack - 1) * 0.2f);
+            main.startSize = startSize;
         }
     }
 }

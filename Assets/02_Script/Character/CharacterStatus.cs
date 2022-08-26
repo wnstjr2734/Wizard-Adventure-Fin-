@@ -94,7 +94,6 @@ public class CharacterStatus : MonoBehaviour
         private set
         {
             var fireInfo = ElementInfo.Fire;
-            Debug.Assert(fireInfo != null, "Error : Fire Info can't null");
             burnStack = math.min(value, fireInfo.MaxStack);
 
             if (burnStack == 0)
@@ -103,8 +102,9 @@ public class CharacterStatus : MonoBehaviour
             }
             else
             {
-                var effect = GetElementEffect(ElementType.Fire);
                 // 스택 단계에 따른 효과 조정
+                var effect = GetElementEffect(ElementType.Fire);
+                effect.SetEffectSize(burnStack);
             }
         }
     }
@@ -117,19 +117,21 @@ public class CharacterStatus : MonoBehaviour
             var iceInfo = ElementInfo.Ice;
             slowStack = math.min(value, iceInfo.MaxStack);
 
-            // 속도 변경
-            speedMultiplier = 1 - (iceInfo.InitSlowPercent + iceInfo.StackBonusSlowPercent * slowStack) * 0.01f;
-            onSpeedChenge?.Invoke(speedMultiplier);
-
+            // 슬로우 해제됨
             if (slowStack == 0)
             {
+                speedMultiplier = 1;
                 ReturnElementEffect(ElementType.Ice);
             }
+            // 슬로우 걸림
             else
             {
-                var effect = GetElementEffect(ElementType.Ice);
                 // 스택 단계에 따른 효과 조정
+                speedMultiplier = 1 - (iceInfo.InitSlowPercent + iceInfo.StackBonusSlowPercent * slowStack) * 0.01f;
+                var effect = GetElementEffect(ElementType.Ice);
+                effect.SetEffectSize(slowStack);
             }
+            onSpeedChenge?.Invoke(speedMultiplier);
         }
     }
     #endregion
