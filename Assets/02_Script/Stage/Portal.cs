@@ -32,6 +32,7 @@ public class Portal : MonoBehaviour
 
     [Header("포탈 / 플레이어 스폰 위치")]
     public GameObject portal;
+    public Collider portalCol;
     public Transform portalPoint;   //포탈 탄 후 플레이어 스폰 위치
     
    
@@ -39,10 +40,11 @@ public class Portal : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        portalCol = GetComponent<BoxCollider>();
+        portalCol.enabled = false;
         cc = player.GetComponent<CharacterController>();
         istrigger = false;
         portal.SetActive(false);
-        StartRoom();
     }
 
     // 포탈 시작
@@ -61,6 +63,7 @@ public class Portal : MonoBehaviour
     private void DecreaseCount()
     {
         remainCount--;
+        Debug.Log("남은적" + remainCount);
         CheckEnd();
     }
 
@@ -68,8 +71,8 @@ public class Portal : MonoBehaviour
     {
         if (remainCount <= 0)
         {
-            Debug.Log("남은적" + remainCount);
             istrigger = true;
+            portalCol.enabled = true;
             Debug.Log(istrigger);
             // 포탈 활성화
             portal.SetActive(true);
@@ -81,7 +84,7 @@ public class Portal : MonoBehaviour
         StartCoroutine(CcOnOff());
     }
 
-    IEnumerator CcOnOff()
+    private IEnumerator CcOnOff()
     {
         cc.enabled = false;
         yield return new WaitForSeconds(0.5f);

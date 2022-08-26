@@ -1590,7 +1590,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackTarget: {fileID: 0}
-  projFactory: {fileID: 8084610005226779589, guid: a65a067ec422a52438e812fc968b410f, type: 3}
+  projFactory: {fileID: 2772861662125921756, guid: ae52352f68746ca43bcf6fef69476dc0, type: 3}
   firePos: {fileID: 4110812702296192492}
 --- !u!114 &4110812702349178372
 MonoBehaviour:
