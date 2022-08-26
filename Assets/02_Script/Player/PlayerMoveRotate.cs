@@ -8,13 +8,18 @@ using UnityEngine;
 /// </summary>
 public class PlayerMoveRotate : MonoBehaviour
 {
+    [Header("Move Setting")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
+    [SerializeField, Tooltip("중력 설정값")]
+    private float gravity = 9.81f;
+    private float yVelocity = 0;
+    private Vector2 rotation;
 
     [Header("Teleport")] 
     [SerializeField] private float teleportRange = 7.0f;
     [SerializeField] private float controlPointHeightMultiplier = 0.25f;
-    [SerializeField] private Transform leftHandTransform;
+    [SerializeField] private Transform teleportDirectionTransform;
     [SerializeField] private LineRenderer line;
     [SerializeField] private Transform teleportTarget;
     [SerializeField] private Transform footPos;
@@ -25,11 +30,9 @@ public class PlayerMoveRotate : MonoBehaviour
     private int mapLayerMask;
     private int enemyLayerMask;
 
-    [SerializeField]
-    private float gravity = 9.81f;
-    private float yVelocity = 0;
-    private Vector2 rotation;
-
+    [Header("Hand Control")] 
+    [SerializeField, Tooltip("왼손 컨트롤러")]
+    private HandController leftHandController;
 
     private RaycastHit hit;
 
@@ -64,6 +67,7 @@ public class PlayerMoveRotate : MonoBehaviour
 
     public void StartTeleport()
     {
+        leftHandController.SetLeftHandAction(HandController.LeftAction.Teleport);
         line.gameObject.SetActive(true);
         teleportTarget.gameObject.SetActive(true);
         print("Get Down Teleport");
@@ -71,7 +75,7 @@ public class PlayerMoveRotate : MonoBehaviour
 
     public void OnTeleport()
     {
-        if (Physics.Raycast(leftHandTransform.position, leftHandTransform.forward, out hit,
+        if (Physics.Raycast(teleportDirectionTransform.position, teleportDirectionTransform.forward, out hit,
                 teleportRange, mapLayerMask | enemyLayerMask))
         {
             Vector3 teleportPos;
@@ -94,13 +98,14 @@ public class PlayerMoveRotate : MonoBehaviour
                 teleportPos = hit.point + Vector3.up * 0.05f;
             }
             teleportTarget.position = teleportPos;
-            DrawTeleportLineCurve(line.transform.position, teleportTarget.position);
+            DrawTeleportLineCurve(teleportDirectionTransform.position, teleportTarget.position);
         }
     }
 
     public void EndTeleport()
     {
         print("Get Up Teleport");
+        leftHandController.SetLeftHandAction(HandController.LeftAction.Default);
         line.gameObject.SetActive(false);
         teleportTarget.gameObject.SetActive(false);
 
@@ -137,7 +142,8 @@ public class PlayerMoveRotate : MonoBehaviour
         Vector3 mid = (startPos + endPos) * 0.5f;
         Vector3 controlPointPos = mid + Vector3.up * Vector3.Distance(startPos, endPos) * controlPointHeightMultiplier;
 
-        for (int i = 0; i < line.positionCount; i++)
+        line.SetPosition(0, startPos);
+        for (int i = 1; i < line.positionCount - 1; i++)
         {
             float t = (float)i / line.positionCount;
             var m = Vector3.Lerp(startPos, controlPointPos, t);
@@ -146,6 +152,7 @@ public class PlayerMoveRotate : MonoBehaviour
 
             line.SetPosition(i, b);
         }
+        line.SetPosition(line.positionCount - 1, endPos);
     }
 
     public void Move(Vector2 direction)

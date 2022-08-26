@@ -6,8 +6,18 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using Random = UnityEngine.Random;
 
-public class PlayerController : MonoBehaviour
+[DisallowMultipleComponent]
+public class PlayerController : Singleton<PlayerController>
 {
+    public enum MagicAbility
+    {
+        Base = 1,
+        Shield = 2,
+        Grip = 4,
+        Charge = 8,
+        ChangeElement = 16,
+    }
+
     [SerializeField]
     private MagicShield magicShield;
 
@@ -29,6 +39,11 @@ public class PlayerController : MonoBehaviour
     private PlayerMoveRotate playerMoveRotate;
     private PlayerMagic playerMagic;
 
+    // 배운 능력(비트마스크 방식)
+    public int learnedAbility = 0;
+
+    public bool CanControlPlayer => playerInput.currentActionMap.name.Equals("Player");
+
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -40,6 +55,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _main = Camera.main;
+        Debug.Log(playerInput.currentActionMap.name);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -64,6 +80,17 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
+        // 디버그 테스트
+        //if (Input.GetKeyDown(KeyCode.N))
+        //{
+        //    playerInput.SwitchCurrentActionMap("Test");
+        //}
+        //if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    playerInput.SwitchCurrentActionMap("Player");
+        //}
+
+
         if (pcMode)
         {
             MousePosToHandPos();
@@ -121,6 +148,11 @@ public class PlayerController : MonoBehaviour
 
     private void Grip()
     {
+        if (!CheckLearnedAbility(MagicAbility.Grip))
+        {
+            return;
+        }
+
         if (playerInput.actions["Grip"].WasPressedThisFrame())
         {
             playerMagic.TurnOnGrip();
@@ -133,6 +165,11 @@ public class PlayerController : MonoBehaviour
 
     private void Charge()
     {
+        if (!CheckLearnedAbility(MagicAbility.Charge))
+        {
+            return;
+        }
+
         if (playerInput.actions["Charge"].WasPressedThisFrame())
         {
             playerMagic.StartCharge();
@@ -149,6 +186,11 @@ public class PlayerController : MonoBehaviour
 
     private void ChangeElement()
     {
+        if (!CheckLearnedAbility(MagicAbility.ChangeElement))
+        {
+            return;
+        }
+
         if (playerInput.actions["Change Prev Element"].WasPressedThisFrame())
         {
             playerMagic.ChangeElement(false);
@@ -161,6 +203,11 @@ public class PlayerController : MonoBehaviour
 
     private void Shield()
     {
+        if (!CheckLearnedAbility(MagicAbility.Shield))
+        {
+            return;
+        }
+
         if (playerInput.actions["Shield"].WasPressedThisFrame())
         {
             magicShield.gameObject.SetActive(true);
@@ -198,4 +245,14 @@ public class PlayerController : MonoBehaviour
         playerMoveRotate.Look(rotate);
     }
     #endregion
+
+    public bool CheckLearnedAbility(MagicAbility ability)
+    {
+        return (learnedAbility & (int)ability) > 0;
+    }
+
+    public void LearnAbility(MagicAbility ability)
+    {
+        learnedAbility |= (int)ability;
+    }
 }

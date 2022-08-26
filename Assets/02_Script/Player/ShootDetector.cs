@@ -9,6 +9,9 @@ using UnityEngine;
 /// </summary>
 public class ShootDetector : MonoBehaviour
 {
+    [SerializeField, Tooltip("플레이어 조작 클래스")]
+    private PlayerController playerController;
+
     [SerializeField, Tooltip("발사할 기본 마법 정보를 담은 클래스")] 
     private PlayerMagic playerMagic;
 
@@ -17,6 +20,12 @@ public class ShootDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!playerController.CanControlPlayer ||
+            !playerController.CheckLearnedAbility(PlayerController.MagicAbility.Base))
+        {
+            return;
+        }
+
         // 충돌 감지 - 유저가 바라보는 방향으로 손을 뻗었을 때 충돌 판정한다
         if (other.CompareTag("Right Hand"))
         {

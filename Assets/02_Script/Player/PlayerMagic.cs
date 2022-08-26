@@ -12,7 +12,14 @@ using UnityEngine.Serialization;
 /// </summary>
 public class PlayerMagic : MonoBehaviour
 {
-    [FormerlySerializedAs("rightHandTransfrom")] [FormerlySerializedAs("rightHandTr")] [SerializeField, Tooltip("오른손 Transform")]
+    private enum MagicState
+    {
+        None,
+        Grip,
+        Charging,
+    }
+
+    [SerializeField, Tooltip("오른손 Transform")]
     private Transform rightHandTransform;
 
     [SerializeField, Tooltip("마법이 발사되는 위치")]
@@ -39,17 +46,14 @@ public class PlayerMagic : MonoBehaviour
     [Tooltip("불/얼음/전기 속성 차지 마법")]
     private Magic[] chargeMagicPrefabs = new Magic[(int)ElementType.None];
 
+    private MagicState magicState = MagicState.None;
+
     private PoolSystem poolSystem;
 
     // 현재 마법 속성
     public ElementType CurrentElement { get; private set; } = ElementType.Fire;
 
     public event Action<ElementType> onChangeElement;
-
-    private void Awake()
-    {
-        
-    }
 
     private void Start()
     {
@@ -75,10 +79,22 @@ public class PlayerMagic : MonoBehaviour
     public void ChangeElement(bool changeNextElement)
     {
         // 속성 바꾸면 그립 풀림
+        if (magicState == MagicState.Grip)
+        {
+            TurnOffGrip();
+        }
         // 속성 바꾸면 차지 풀림
+        if (magicState == MagicState.Charging)
+        {
+            EndCharge();
+        }
 
         int addedElementIndex = changeNextElement ? 1 : -1;
         int currentElementNum = ((int)CurrentElement + addedElementIndex) % (int)ElementType.None;
+        if (currentElementNum < 0)
+        {
+            currentElementNum += (int)ElementType.None;
+        }
         CurrentElement = (ElementType)currentElementNum;
 
         onChangeElement?.Invoke(CurrentElement);
@@ -88,7 +104,11 @@ public class PlayerMagic : MonoBehaviour
     // 기본 마법 발사
     public void ShootMagic(Vector3 position, Vector3 direction)
     {
-        // 쿨타임이면 무시
+        // 그립/차지 중이거나 쿨타임이면 무시
+        if (magicState != MagicState.None)
+        {
+            return;
+        }
 
         // 지정된 속성의 마법을 발사
         var magic = poolSystem.GetInstance<Magic>(baseMagicPrefabs[(int)CurrentElement]);
@@ -99,13 +119,12 @@ public class PlayerMagic : MonoBehaviour
     #endregion
 
     #region Charge Magic
-
     // 마법 충전이 완료됐을 때 이펙트
-    // 
     public void StartCharge()
     {
         chargeEffect.gameObject.SetActive(true);
         chargeEffect.SetColor(CurrentElement);
+        magicState = MagicState.Charging;
     }
 
     // 차지 충전 중 보여줄 정보
@@ -146,37 +165,35 @@ public class PlayerMagic : MonoBehaviour
         }
         chargeEffect.gameObject.SetActive(false);
         magicIndicator.SetActive(false);
+        magicState = MagicState.None;
     }
 
     #endregion
 
     #region Grip Magic
-
-    // 누르고 있는 동안 마법이 지속 시전됨
-
     public void TurnOnGrip()
     {
+        if (magicState != MagicState.None)
+        {
+            return;
+        }
+
         // 마나 닳게 처리
         if (gripMagics[(int)CurrentElement])
         {
             gripMagics[(int)CurrentElement].gameObject.SetActive(true);
             gripMagics[(int)CurrentElement].TurnOn();
+            magicState = MagicState.Grip;
         }
     }
 
     public void TurnOffGrip()
     {
-        if (gripMagics[(int)CurrentElement])
+        if (magicState == MagicState.Grip && gripMagics[(int)CurrentElement])
         {
             gripMagics[(int)CurrentElement].TurnOff();
+            magicState = MagicState.None;
         }
     }
-
-    // 화염, 전기 등 그랩 중일 때 판정하는 
-    private void OnGrip()
-    {
-
-    }
-
     #endregion
 }
