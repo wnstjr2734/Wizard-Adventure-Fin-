@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// Allows creation of simple lightning bolts
@@ -30,6 +31,10 @@ public class LightningBolt : GripMagic
     [SerializeField, Tooltip("timer 끝나도 계속 지속할지")]
     private bool continuousMode = false;
 
+    [SerializeField, Tooltip("데미지 판정 주기(초 단위)")]
+    private float damageJudgeInterval = 0.5f;
+    private float damageJudgedTime = Single.MinValue;
+
     [SerializeField, Tooltip("최대 몇 명까지 연쇄 공격 가능한지")] 
     private int maxTargetCount = 1;
 
@@ -49,7 +54,6 @@ public class LightningBolt : GripMagic
     public System.Random RandomGenerator = new System.Random();
 
     private LineRenderer lineRenderer;
-    private List<KeyValuePair<Vector3, Vector3>>[] segmentsArr;
     private List<KeyValuePair<Vector3, Vector3>> segments = new List<KeyValuePair<Vector3, Vector3>>();
     private int startIndex;
 
@@ -62,8 +66,6 @@ public class LightningBolt : GripMagic
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 0;
-
-        segmentsArr = new List<KeyValuePair<Vector3, Vector3>>[maxTargetCount];
     }
 
     private void Start()
@@ -168,7 +170,7 @@ public class LightningBolt : GripMagic
     /// </summary>
     public void Trigger()
     {
-        Vector3 start, end;
+        Vector3 start;
         timer = duration + Mathf.Min(0.0f, timer);
 
         start = transform.position;
@@ -181,15 +183,42 @@ public class LightningBolt : GripMagic
             for (int i = 0; i < targetPoses.Length; i++)
             {
                 targetPoses[i] = targets[i].transform.position;
+                if (targets[i] is CapsuleCollider)
+                {
+                    targetPoses[i] += ((CapsuleCollider)targets[i]).center;
+                }
+                else if (targets[i] is BoxCollider)
+                {
+                    targetPoses[i] += ((BoxCollider)targets[i]).center;
+                }
+                else if (targets[i] is SphereCollider)
+                {
+                    targetPoses[i] += ((SphereCollider)targets[i]).center;
+                }
             }
 
             GenerateLightningBolt(start, targetPoses, Generations, 0.0f);
             UpdateLineRenderer();
-            GiveDamage(targets);
+            // 데미지 판정
+            if (!continuousMode || Time.time - damageJudgedTime > 0.5f)
+            {
+                damageJudgedTime = Time.time;
+                GiveDamage(targets);
+            }
+        }
+        // 대상이 없는 경우 지형에 맞춘다
+        else
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(start, transform.forward, out hit, 
+                    maxDistance, 1 << LayerMask.NameToLayer("Default")))
+            {
+                GenerateLightningBolt(start, hit.point, Generations, 0.0f);
+                UpdateLineRenderer();
+            }
         }
     }
     
-
     private void GenerateLightningBolt(Vector3 start, Vector3[] targetPoses, int generation, float offsetAmount)
     {
         if (generation < 0 || generation > 8)
@@ -245,6 +274,55 @@ public class LightningBolt : GripMagic
         }
     }
 
+    private void GenerateLightningBolt(Vector3 start, Vector3 end, int generation, float offsetAmount)
+    {
+        if (generation < 0 || generation > 8)
+        {
+            return;
+        }
+        else if (orthographic)
+        {
+            start.z = end.z = Mathf.Min(start.z, end.z);
+        }
+
+        segments.Add(new KeyValuePair<Vector3, Vector3>(start, end));
+        if (generation == 0)
+        {
+            return;
+        }
+
+        Vector3 randomVector;
+        if (offsetAmount <= 0.0f)
+        {
+            offsetAmount = (end - start).magnitude * chaosFactor;
+        }
+
+        while (generation-- > 0)
+        {
+            int previousStartIndex = startIndex;
+            startIndex = segments.Count;
+            for (int i = previousStartIndex; i < startIndex; i++)
+            {
+                start = segments[i].Key;
+                end = segments[i].Value;
+
+                // determine a new direction for the split
+                Vector3 midPoint = (start + end) * 0.5f;
+
+                // adjust the mid point to be the new location
+                RandomVector(start, end, offsetAmount, out randomVector);
+                midPoint += randomVector;
+
+                // add two new segments
+                segments.Add(new KeyValuePair<Vector3, Vector3>(start, midPoint));
+                segments.Add(new KeyValuePair<Vector3, Vector3>(midPoint, end));
+            }
+
+            // halve the distance the lightning can deviate for each generation down
+            offsetAmount *= 0.5f;
+        }
+    }
+
     private void UpdateLineRenderer()
     {
         int segmentCount = (segments.Count - startIndex) + 1;
@@ -279,20 +357,9 @@ public class LightningBolt : GripMagic
             var query = enemies.OrderBy(x => Vector3.Distance(position, x.transform.position));
             return query.Take(maxTargetCount).ToArray();
         }
-        // 만약 직선 거리에서도 없었다면 지형을 맞춘다
-        else
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(position, direction, out hit, maxDistance, 1 << LayerMask.NameToLayer("Default")))
-            {
-                return new Collider[]{hit.collider};
-            }
-            // 맞출 수 없는 경우 - 무시
-            else
-            {
-                return null;
-            }
-        }
+
+        // 적 대상이 없는 경우 무시
+        return null;
     }
 
     // 데미지 전달
