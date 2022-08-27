@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MainTitle : MonoBehaviour
 {
-    //게임이 실행되면 가장 먼저 뜨는 화면임    
-       
+    //게임이 실행되면 가장 먼저 뜨는 화면임        
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +36,7 @@ public class MainTitle : MonoBehaviour
     public void OnStart()
     {
         print("게임 시작");
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);        
     }
     //계속하기를 하면 세이브 포인트로 이동
     public void OnContinue()

@@ -29,14 +29,18 @@ public class WindowSystem : Singleton<WindowSystem>
 
     [SerializeField] private GameObject mainTitle;
     [SerializeField] private GameObject menu;
-    [SerializeField] private GameObject Loading;
     [SerializeField] private GameObject gameOver;
+    public GameObject Loading;
+    private CanvasGroup cg;
 
     void Start()
     {
         Debug.Log("Window System Activate");
         DOTween.defaultTimeScaleIndependent = true;
         DOTween.timeScale = 1.0f;
+        cg = Loading.GetComponent<CanvasGroup>();
+        cg.alpha = 1.0f;
+        LoadingWindow.Instance.LoadScene("SampleMap_LJS Test 1");
     }
 
     private void Update()
@@ -54,6 +58,12 @@ public class WindowSystem : Singleton<WindowSystem>
                 CloseWindow(true);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+          // LoadingWindow.Instance.LoadScene("SampleMap_LJS Test 1");
+        }
+
     }
 
     public void OpenWindow(GameObject windowObject, bool isUserExitable)
@@ -97,5 +107,18 @@ public class WindowSystem : Singleton<WindowSystem>
     public void SetWindowMode(bool display)
     {
         Time.timeScale = display ? 0 : 1;
+    }
+
+    public void BackFade(bool Load)
+    {
+        if (!Load)
+        {
+            cg.DOFade(1, 3.0f);
+        }
+        if (Load)
+        {
+            cg.DOFade(0, 3.0f);
+        }
+
     }
 }
