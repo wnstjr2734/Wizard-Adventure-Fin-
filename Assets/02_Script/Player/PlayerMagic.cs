@@ -22,8 +22,14 @@ public class PlayerMagic : MonoBehaviour
     [SerializeField, Tooltip("오른손 Transform")]
     private Transform rightHandTransform;
 
+    [SerializeField, Tooltip("완드")] 
+    private GameObject wandObj;
+
     [SerializeField, Tooltip("마법이 발사되는 위치")]
     private Transform MagicFirePositionTr;
+
+    [SerializeField, Tooltip("손 모션 설정")] 
+    private HandController handController;
 
     [SerializeField, Tooltip("마법 위치 표시")] 
     private GameObject magicIndicator;
@@ -66,6 +72,9 @@ public class PlayerMagic : MonoBehaviour
             poolSystem.InitPool(baseMagicPrefabs[i], baseMagicPrefabs[i].PoolSize);
             poolSystem.InitPool(chargeMagicPrefabs[i], chargeMagicPrefabs[i].PoolSize);
         }
+
+        // 손 모양 지정
+        handController.SetRightHandAction(HandController.RightAction.WandGrip);
     }
 
     /// <summary>
@@ -112,7 +121,7 @@ public class PlayerMagic : MonoBehaviour
 
         // 지정된 속성의 마법을 발사
         var magic = poolSystem.GetInstance<Magic>(baseMagicPrefabs[(int)CurrentElement]);
-        magic.SetPosition(position);
+        magic.SetPosition(MagicFirePositionTr.position);
         magic.SetDirection(direction);
         magic.StartMagic();
     }
@@ -179,20 +188,29 @@ public class PlayerMagic : MonoBehaviour
         }
 
         // 마나 닳게 처리
-        if (gripMagics[(int)CurrentElement])
+        int currentElement = (int)CurrentElement;
+        Debug.Assert(gripMagics[currentElement], $"Error : grip Magic - {CurrentElement} not set");
+        gripMagics[currentElement].gameObject.SetActive(true);
+        gripMagics[currentElement].TurnOn();
+        magicState = MagicState.Grip;
+
+        // 얼음검일 때 손 보정
+        if (CurrentElement == ElementType.Ice)
         {
-            gripMagics[(int)CurrentElement].gameObject.SetActive(true);
-            gripMagics[(int)CurrentElement].TurnOn();
-            magicState = MagicState.Grip;
+            handController.SetRightHandAction(HandController.RightAction.SwordGrip);
+            wandObj.SetActive(false);
         }
     }
 
     public void TurnOffGrip()
     {
-        if (magicState == MagicState.Grip && gripMagics[(int)CurrentElement])
+        int currentElement = (int)CurrentElement;
+        if (magicState == MagicState.Grip && gripMagics[currentElement])
         {
-            gripMagics[(int)CurrentElement].TurnOff();
+            gripMagics[currentElement].TurnOff();
             magicState = MagicState.None;
+            handController.SetRightHandAction(HandController.RightAction.WandGrip);
+            wandObj.SetActive(true);
         }
     }
     #endregion
