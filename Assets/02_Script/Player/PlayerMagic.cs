@@ -85,8 +85,13 @@ public class PlayerMagic : MonoBehaviour
     /// ex) changeNextElement = true : 불 -> 얼음 -> 전기 -> 불
     /// ex) changeNextElement = false : 불 -> 전기 -> 얼음 -> 불
     /// </param>
-    public void ChangeElement(bool changeNextElement)
+    public void ChangeElement(int changeDirection)
     {
+        if (changeDirection == 0)
+        {
+            return;
+        }
+
         // 속성 바꾸면 그립 풀림
         if (magicState == MagicState.Grip)
         {
@@ -98,8 +103,7 @@ public class PlayerMagic : MonoBehaviour
             EndCharge();
         }
 
-        int addedElementIndex = changeNextElement ? 1 : -1;
-        int currentElementNum = ((int)CurrentElement + addedElementIndex) % (int)ElementType.None;
+        int currentElementNum = ((int)CurrentElement + changeDirection) % (int)ElementType.None;
         if (currentElementNum < 0)
         {
             currentElementNum += (int)ElementType.None;
