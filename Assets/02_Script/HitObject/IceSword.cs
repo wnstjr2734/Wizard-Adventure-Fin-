@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 /// <summary>
 /// 얼음검 효과 및 이펙트 구현
@@ -33,10 +36,14 @@ public class IceSword : GripMagic
     [SerializeField, Tooltip("눈 휘날리는 이펙트")]
     private ParticleSystem snowEffect;
 
+    //[SerializeField, Tooltip("검 휘두를 때 나오는 소리")]
+
     private Collider hitBox;
     private Rigidbody rigidBody;
     private Material material;
     private Light swordLight;
+
+    private AudioSource swordAudioSource;
 
     private readonly int cutoffHeightID = Shader.PropertyToID("_Cutoff_Height");
     
@@ -46,6 +53,8 @@ public class IceSword : GripMagic
         rigidBody = GetComponent<Rigidbody>();
         material = GetComponent<MeshRenderer>().material;
         swordLight = GetComponentInChildren<Light>();
+
+        swordAudioSource = GetComponentInChildren<AudioSource>();
 
         createSpeed = (cutoffHeight.y - cutoffHeight.x) / createTime;
     }
@@ -61,7 +70,9 @@ public class IceSword : GripMagic
     {
         // 검 속도 계산
         Vector3 currentPos = transform.position;
+        Vector3 currentSwordDir = (currentPos - previousPos).normalized;
         speed = Vector3.Distance(currentPos, previousPos) / Time.deltaTime;
+
         previousPos = currentPos;
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 /// <summary>
@@ -14,7 +15,11 @@ public class PlayerMoveRotate : MonoBehaviour
     [SerializeField, Tooltip("중력 설정값")]
     private float gravity = 9.81f;
     private float yVelocity = 0;
-    private Vector2 rotation;
+
+    // Rotation
+    [SerializeField] 
+    private Vector2 rotationScale = new Vector2(45.0f, 15.0f);
+    private Vector2Int previousRotDir = Vector2Int.zero;
 
     [Header("Teleport")] 
     [SerializeField] private float teleportRange = 7.0f;
@@ -171,11 +176,21 @@ public class PlayerMoveRotate : MonoBehaviour
 
     public void Look(Vector2 rotate)
     {
-        if (rotate.sqrMagnitude < 0.01)
+        var currentRotDir = new Vector2Int(Mathf.RoundToInt(rotate.x), Mathf.RoundToInt(rotate.y));
+        if (previousRotDir == currentRotDir)
+        {
             return;
-        var scaledRotateSpeed = rotateSpeed * Time.deltaTime;
-        rotation.y += rotate.x * scaledRotateSpeed;
-        rotation.x = Mathf.Clamp(rotation.x - rotate.y * scaledRotateSpeed, -89, 89);
-        transform.localEulerAngles = rotation;
+        }
+
+        Vector2 rotation = Vector2.zero;
+        rotation.y = previousRotDir.x * rotationScale.x;
+        rotation.x = -previousRotDir.y * rotationScale.y;
+
+        // 회전 적용
+        var localAngles = transform.localEulerAngles;
+        localAngles += new Vector3(rotation.x, rotation.y, 0);
+        transform.localEulerAngles = localAngles;
+
+        previousRotDir = currentRotDir;
     }
 }
