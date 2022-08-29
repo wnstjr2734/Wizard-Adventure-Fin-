@@ -10,13 +10,7 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class ThunderCloud : Magic
 {
-    [SerializeField, Tooltip("구름 최대 높이")]
     private float maxHeight = 15;
-
-    [SerializeField, Tooltip("구름이 천장에 닿을 때 더 낮게 설정할 높이")]
-    private float downHeight = 2f;
-
-    [SerializeField, Tooltip("구름 생성 크기")]
     private float circleSize = 10;
 
     [SerializeField, Tooltip("번개 공격 횟수")] 
@@ -71,8 +65,8 @@ public class ThunderCloud : Magic
         if (Physics.Raycast(transform.position, Vector3.up, out hit,
                 maxHeight, 1 << LayerMask.NameToLayer("Default")))
         {
-            // 천장 기준 아래 2m 위치에 생성되게 보정
-            transform.position = hit.point + Vector3.down * downHeight;
+            // 천장 기준 아래 1m 위치에 생성되게 보정
+            transform.position = hit.point + Vector3.down;
         }
         else
         {

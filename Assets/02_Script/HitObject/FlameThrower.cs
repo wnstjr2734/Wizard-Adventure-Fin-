@@ -40,8 +40,16 @@ public class FlameThrower : GripMagic
             return;
         }
 
-        print($"Give Damage to {other.name}");
-        GiveDamage(other.GetComponent<CharacterStatus>());
+        // 원뿔 범위 보정
+        Vector3 to = (other.transform.position - transform.position).normalized;
+        Vector3 dir = transform.forward;
+
+        // 일정 각도 이상이면 데미지 판정
+        float angleCos = Vector3.Dot(to, dir);
+        if (angleCos > judgeAngleCos)
+        {
+            GiveDamage(other.GetComponent<CharacterStatus>());
+        }
 
         waitTime = damageInterval;
     }

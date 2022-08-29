@@ -101,8 +101,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.16, z: 2.4}
-  m_Center: {x: 0, y: 0.0000063106418, z: 1.6}
+  m_Size: {x: 0.4, y: 0.13720727, z: 1.9472291}
+  m_Center: {x: 0, y: 0, z: 1.3821102}
 --- !u!54 &3045636909635407081
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -135,7 +135,7 @@ MonoBehaviour:
   poolSize: 1
   cutoffHeight: {x: -0.5, y: 2.5}
   createTime: 1
-  judgementSpeed: 3
+  judgementSpeed: 15
   elementDamage:
     damage: 25
     elementType: 1
