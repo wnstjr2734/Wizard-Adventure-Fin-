@@ -73,9 +73,14 @@ public class LoadingWindow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {        
-        now = new string[] { "",".", "..", "..." };        
-        CircleRotate();
-        StartCoroutine(nameof(IETextCycle));
+        now = new string[] { "",".", "..", "..." };
+
+        if (loading != null)
+        {
+            CircleRotate();
+            StartCoroutine(nameof(IETextCycle));
+        }
+      
     }
 
     IEnumerator IETextCycle()
@@ -154,8 +159,10 @@ public class LoadingWindow : MonoBehaviour
     {
         if (scene.name == loadSceneName)
         {
-            WindowSystem.Instance.BackFade(true);
+            WindowSystem.Instance.BackFade(true);            
             SceneManager.sceneLoaded -= LoadSceneEnd;
+            DOTween.KillAll();
+
         }
     }
 

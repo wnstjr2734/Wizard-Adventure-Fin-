@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 /// <summary>
@@ -38,9 +39,13 @@ public class WindowSystem : Singleton<WindowSystem>
         Debug.Log("Window System Activate");
         DOTween.defaultTimeScaleIndependent = true;
         DOTween.timeScale = 1.0f;
-        cg = Loading.GetComponent<CanvasGroup>();
-        cg.alpha = 1.0f;
-        LoadingWindow.Instance.LoadScene("SampleMap_LJS Test 1");
+        if (Loading != null)
+        {
+            cg = Loading.GetComponent<CanvasGroup>();
+            cg.alpha = 1.0f;
+        }
+       // SceneCheck();
+
     }
 
     private void Update()
@@ -61,7 +66,8 @@ public class WindowSystem : Singleton<WindowSystem>
 
         if (Input.GetKeyDown(KeyCode.I))
         {
-          // LoadingWindow.Instance.LoadScene("SampleMap_LJS Test 1");
+            LoadingWindow.Instance.LoadScene("SampleMap_LJS Test 1");
+            DOTween.KillAll();
         }
 
     }
@@ -111,14 +117,36 @@ public class WindowSystem : Singleton<WindowSystem>
 
     public void BackFade(bool Load)
     {
-        if (!Load)
+        
+
+        if (cg != null)
         {
-            cg.DOFade(1, 3.0f);
+            if (!Load)
+            {
+                cg.DOFade(1, 3.0f);
+            }
+            if (Load)
+            {
+                cg.DOFade(0, 3.0f);
+            }
         }
-        if (Load)
+        else
         {
-            cg.DOFade(0, 3.0f);
+            cg.DOKill();
         }
 
+       
+        
     }
+
+    void SceneCheck()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            LoadingWindow.Instance.LoadScene("SampleMap_LJS Test 1");
+            DOTween.KillAll();
+
+        }
+    }
+
 }
