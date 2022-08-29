@@ -43,6 +43,7 @@
 					float2 texcoord : TEXCOORD0;
                     float3 normal : NORMAL;
 					float3 viewDir : TEXCOORD2;
+					
 					UNITY_VERTEX_INPUT_INSTANCE_ID //Insert	
 				};
 
@@ -54,6 +55,7 @@
 					float3 viewDir : TEXCOORD3;
 					float3 normal : TEXCOORD4;
 					UNITY_FOG_COORDS(5)
+					
 					UNITY_VERTEX_OUTPUT_STEREO //Insert
 				};
 
