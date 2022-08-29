@@ -12,32 +12,76 @@ using DG.Tweening;
 public class LoadingWindow : MonoBehaviour
 {
     public static LoadingWindow instance;
+    public static LoadingWindow Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                var obj = FindObjectOfType<LoadingWindow>();
+                if (obj != null)
+                {
+                    instance = obj;
+                }
+                else
+                {
+                    instance = Create();
+                }
+            }
+            return instance;
+        }
 
-    private void Awake()    { instance = this; }
+        private set
+        {
+            instance = value;
+        }
+        
+    }
 
+    public static LoadingWindow Create()
+    {
+        var LoadingWindowPrefab = Resources.Load<LoadingWindow>("LoadingWindow");
+        return Instantiate(LoadingWindowPrefab);
+    }
+
+    private void Awake()
+    {
+        if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
+    [SerializeField]
+    private GameObject loading;
+    [SerializeField]
+    private Slider progressBar;
+    private CanvasGroup cg;
     public TextMeshProUGUI loading_text;
     public GameObject circle;
+
     private float rotate;
     private string[] now;
     private int index;
     private bool loading_Comp = false;
-    
+    private string loadSceneName;
+
+
 
     // Start is called before the first frame update
     void Start()
-    {       
+    {        
         now = new string[] { "",".", "..", "..." };
-        CircleRotate();
-        StartCoroutine(nameof(IETextCycle));
+
+        if (loading != null)
+        {
+            CircleRotate();
+            StartCoroutine(nameof(IETextCycle));
+        }
+      
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
 
     IEnumerator IETextCycle()
     {
@@ -51,7 +95,6 @@ public class LoadingWindow : MonoBehaviour
         }
 
     }
-
 
     private void TextChange(int num)
     {
@@ -68,5 +111,59 @@ public class LoadingWindow : MonoBehaviour
         circle.transform.DOLocalRotate(rot, speed, rotMode).SetEase(ease).SetLoops(-1, loop);
     }
 
+
+    public void LoadScene(string sceneName)
+    {
+        gameObject.SetActive(true);
+        SceneManager.sceneLoaded += LoadSceneEnd;
+        loadSceneName = sceneName;
+        StartCoroutine(Load(sceneName));
+    }
+
+    private IEnumerator Load(string sceneName)
+    {
+        progressBar.value = 0f;
+        yield return null;
+        WindowSystem.Instance.BackFade(false);
+        AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
+        op.allowSceneActivation = false;
+
+        float timer = 0.0f;
+        while (!op.isDone)
+        {
+            yield return null;
+            timer += Time.unscaledDeltaTime;
+
+            if (op.progress < 0.9f)
+            {
+                progressBar.value = Mathf.Lerp(progressBar.value, op.progress, timer);
+                if (progressBar.value >= op.progress)
+                {
+                    timer = 0f;
+                }
+            }
+            else
+            {
+                progressBar.value = Mathf.Lerp(progressBar.value, 1f, timer);
+
+                if (progressBar.value == 1.0f)
+                {
+                    op.allowSceneActivation = true;
+                    yield break;
+                }
+            }
+        }
+    }
+
+    private void LoadSceneEnd(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (scene.name == loadSceneName)
+        {
+            WindowSystem.Instance.BackFade(true);            
+            SceneManager.sceneLoaded -= LoadSceneEnd;
+            DOTween.KillAll();
+
+        }
+    }
 
 }
