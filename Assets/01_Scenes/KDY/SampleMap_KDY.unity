@@ -3291,7 +3291,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6631293784984406181}
   - component: {fileID: 6631293784984406180}
-  - component: {fileID: 6631293784984406182}
   m_Layer: 5
   m_Name: PP_Circle
   m_TagString: Untagged
@@ -3330,22 +3329,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -18.5}
   m_SizeDelta: {x: 0, y: 7}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6631293784984406182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6631293784984406178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 288911cee5bd8ac42aa5bed69be506ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pp:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!224 &6631293785380954664
 RectTransform:
   m_ObjectHideFlags: 0
