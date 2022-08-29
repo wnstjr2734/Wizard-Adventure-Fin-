@@ -17,10 +17,19 @@ public class HandController : MonoBehaviour
         Default, // 디폴트, 막기
         Teleport, // 텔레포트
     }
+
+    public enum RightAction
+    {
+        Default,    // 주먹
+        UiSelect,   // UI 선택 시 가리키기 액션
+        WandGrip,   // 평소 완드 집었을 때
+        SwordGrip,  // 얼음검
+    }
     
     [SerializeField, Tooltip("왼손 애니메이션 컨트롤러")]
     private Animator leftHandAnimator;
-    // 오른손은 사용 안 함
+    [SerializeField, Tooltip("오른손 애니메이션 컨트롤러")]
+    private Animator rightHandAnimator;
 
     // 애니메이션 스트링 해쉬 코드
     private readonly int animNumHash = Animator.StringToHash("AnimNum");
@@ -28,5 +37,10 @@ public class HandController : MonoBehaviour
     public void SetLeftHandAction(LeftAction action)
     {
         leftHandAnimator.SetInteger(animNumHash, (int)action);
+    }
+
+    public void SetRightHandAction(RightAction action)
+    {
+        rightHandAnimator.SetInteger(animNumHash, (int)action);
     }
 }
