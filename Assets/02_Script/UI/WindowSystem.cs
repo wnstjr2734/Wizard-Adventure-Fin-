@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 /// <summary>
@@ -27,13 +28,24 @@ public class WindowSystem : Singleton<WindowSystem>
     // 최상단 Window를 구분
     private Stack<WindowClass> windowStack = new Stack<WindowClass>();
 
-    [SerializeField] private GameObject menuWindow;
+    [SerializeField] private GameObject mainTitle;
+    [SerializeField] private GameObject menu;
+    [SerializeField] private GameObject gameOver;
+    public GameObject Loading;
+    private CanvasGroup cg;
 
     void Start()
     {
         Debug.Log("Window System Activate");
         DOTween.defaultTimeScaleIndependent = true;
         DOTween.timeScale = 1.0f;
+        if (Loading != null)
+        {
+            cg = Loading.GetComponent<CanvasGroup>();
+            cg.alpha = 1.0f;
+        }
+       // SceneCheck();
+
     }
 
     private void Update()
@@ -43,7 +55,7 @@ public class WindowSystem : Singleton<WindowSystem>
             // 창 닫을거 없으면 메뉴 켜기
             if (windowStack.Count == 0)
             {
-                OpenWindow(menuWindow, true);
+                OpenWindow(menu, true);
             }
             // 창 닫기
             else
@@ -51,6 +63,13 @@ public class WindowSystem : Singleton<WindowSystem>
                 CloseWindow(true);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            LoadingWindow.Instance.LoadScene("SampleMap_LJS Test 1");
+            DOTween.KillAll();
+        }
+
     }
 
     public void OpenWindow(GameObject windowObject, bool isUserExitable)
@@ -95,4 +114,39 @@ public class WindowSystem : Singleton<WindowSystem>
     {
         Time.timeScale = display ? 0 : 1;
     }
+
+    public void BackFade(bool Load)
+    {
+        
+
+        if (cg != null)
+        {
+            if (!Load)
+            {
+                cg.DOFade(1, 3.0f);
+            }
+            if (Load)
+            {
+                cg.DOFade(0, 3.0f);
+            }
+        }
+        else
+        {
+            cg.DOKill();
+        }
+
+       
+        
+    }
+
+    void SceneCheck()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            LoadingWindow.Instance.LoadScene("SampleMap_LJS Test 1");
+            DOTween.KillAll();
+
+        }
+    }
+
 }
