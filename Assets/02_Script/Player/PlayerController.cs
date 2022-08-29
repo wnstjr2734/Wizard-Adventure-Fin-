@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.XR;
 using Random = UnityEngine.Random;
 
 [DisallowMultipleComponent]
@@ -22,7 +23,7 @@ public class PlayerController : Singleton<PlayerController>
     private MagicShield magicShield;
 
     [Header("For Debug")] 
-    [SerializeField] private bool pcMode = true;
+    private bool isVR;
     [SerializeField] private float handPosZ = 0.3f;
     [SerializeField] private float pressedHandPosZ = 0.5f;
     [SerializeField] private float releasedHandPosZ = 0.3f;
@@ -34,6 +35,8 @@ public class PlayerController : Singleton<PlayerController>
     
     private Vector2 m_Look;
     private Vector2 m_Move;
+
+    private int previousChangeElementInput = 0;
 
     private PlayerInput playerInput;
     private PlayerMoveRotate playerMoveRotate;
@@ -56,6 +59,8 @@ public class PlayerController : Singleton<PlayerController>
     {
         _main = Camera.main;
         Debug.Log(playerInput.currentActionMap.name);
+
+        isVR = IsPresent();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -91,7 +96,7 @@ public class PlayerController : Singleton<PlayerController>
         //}
 
 
-        if (pcMode)
+        if (!isVR)
         {
             MousePosToHandPos();
             ShootMagic();
@@ -109,7 +114,21 @@ public class PlayerController : Singleton<PlayerController>
         Move(m_Move);
         Teleport();
     }
-    
+
+    public static bool IsPresent()
+    {
+        var xrDisplaySubsystems = new List<XRDisplaySubsystem>();
+        SubsystemManager.GetInstances<XRDisplaySubsystem>(xrDisplaySubsystems);
+        foreach (var xrDisplay in xrDisplaySubsystems)
+        {
+            if (xrDisplay.running)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // 마우스 위치를 손 위치로 적용
     private void MousePosToHandPos()
     {
@@ -191,14 +210,12 @@ public class PlayerController : Singleton<PlayerController>
             return;
         }
 
-        if (playerInput.actions["Change Prev Element"].WasPressedThisFrame())
+        int input = Mathf.RoundToInt(playerInput.actions["Change Element"].ReadValue<float>());
+        if (input != previousChangeElementInput)
         {
-            playerMagic.ChangeElement(false);
+            playerMagic.ChangeElement(input);
         }
-        if (playerInput.actions["Change Next Element"].WasPressedThisFrame())
-        {
-            playerMagic.ChangeElement(true);
-        }
+        previousChangeElementInput = input;
     }
 
     private void Shield()

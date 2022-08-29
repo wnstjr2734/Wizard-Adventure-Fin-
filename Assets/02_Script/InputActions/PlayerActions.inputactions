@@ -51,24 +51,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Change Prev Element",
-                    "type": "Button",
-                    "id": "ab358dbf-cb2e-4f48-9bd4-ed60dc9874a5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Change Next Element",
-                    "type": "Button",
-                    "id": "335fcb93-ea9b-49c6-ab86-9e1d694e0185",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Grip",
                     "type": "Button",
                     "id": "bf916483-0eb5-4796-9115-f33e4e722bfe",
@@ -91,6 +73,15 @@
                     "type": "Value",
                     "id": "79c1a5ee-e407-478b-8ee8-539954799caf",
                     "expectedControlType": "Analog",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Change Element",
+                    "type": "Value",
+                    "id": "3b610515-7e74-4b8c-9e6a-d09caf480ce7",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -231,6 +222,17 @@
                 },
                 {
                     "name": "",
+                    "id": "dbc0ae10-7e6a-4774-a91c-e733b110f3e6",
+                    "path": "<OculusTouchController>{LeftHand}/thumbstick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "af6cd30a-9a2b-4749-b1b1-1bd8a892b233",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -259,39 +261,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Shield",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a49516d6-a98e-4474-90c4-fa059e3e0832",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Change Prev Element",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1489bb81-412d-4a94-a77e-921c22dac6eb",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Change Next Element",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c2c64e50-e819-48f4-b17d-b83ffddf5f37",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Change Next Element",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -369,6 +338,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "PropertiesSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "b04a2d04-97e4-4e45-b493-8499c8bb6e35",
+                    "path": "<OculusTouchController>{RightHand}/thumbstick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Change Element",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "23900a40-e31d-441c-ad4c-d73983e91e48",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Change Element",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Negative",
+                    "id": "1b75ae9a-035b-4a2c-bf5b-2b58a859e564",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Change Element",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Positive",
+                    "id": "0e4766a2-5db0-4fec-b979-10b57403f334",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Change Element",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
