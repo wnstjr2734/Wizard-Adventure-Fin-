@@ -61,7 +61,7 @@ public class PlayerController : Singleton<PlayerController>
         Debug.Log(playerInput.currentActionMap.name);
 
         isVR = IsPresent();
-        OVRManager.display.RecenterPose();
+        //OVRManager.display.RecenterPose();
     }
 
     public void OnMove(InputAction.CallbackContext context)

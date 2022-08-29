@@ -39,6 +39,11 @@ public class PlayerMoveRotate : MonoBehaviour
     [SerializeField, Tooltip("왼손 컨트롤러")]
     private HandController leftHandController;
 
+    [Header("OVRCameraRig")]
+    private Transform m_CameraRig;
+    private Transform m_CentreEyeAnchor;
+    public OVRCameraRig m_OVRCameraRig;
+
     private RaycastHit hit;
 
     private CharacterController cc;
@@ -55,10 +60,6 @@ public class PlayerMoveRotate : MonoBehaviour
     {
         ApplyGravity();
     }
-
-    private Transform m_CameraRig;
-    private Transform m_CentreEyeAnchor;
-    public OVRCameraRig m_OVRCameraRig;
 
     void Start()
     {

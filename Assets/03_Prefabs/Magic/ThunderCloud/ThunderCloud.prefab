@@ -9681,6 +9681,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSelfTarget: 0
   poolSize: 1
+  maxHeight: 15
+  downHeight: 2
+  circleSize: 8
+  attackCount: 10
+  attackInterval: 0.25
   flareParticles:
   - {fileID: 19814192}
   - {fileID: 1882262684734219819}
@@ -9913,7 +9918,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5764706, g: 0.7607843, b: 0.8901961, a: 0.17254902}
+      maxColor: {r: 0.5991456, g: 0.6462042, b: 0.6792453, a: 0.17254902}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -9975,7 +9980,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 25
+      scalar: 15
       minScalar: 20
       maxCurve:
         serializedVersion: 2
@@ -10402,7 +10407,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 15
+      value: 10
       mode: 0
       spread: 0
       speed:
@@ -14692,7 +14697,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.60784316, g: 0.69411767, b: 0.8666667, a: 0.05882353}
+      maxColor: {r: 0.48593807, g: 0.50005937, b: 0.5283019, a: 0.05882353}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -15102,7 +15107,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 15, y: 1.25, z: 15}
+    m_Scale: {x: 10, y: 1.25, z: 10}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
