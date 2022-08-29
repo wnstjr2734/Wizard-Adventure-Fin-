@@ -26,6 +26,7 @@ public class EnemyFSM : MonoBehaviour
 
     
     public Transform attackTarget;
+    private CharacterStatus targetStatus;
     // 공격대상: Player
     private float dist;
     public float chaseDistance;
@@ -42,6 +43,7 @@ public class EnemyFSM : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
         charStatus = GetComponent<CharacterStatus>();
+        targetStatus = attackTarget.GetComponent<CharacterStatus>();
 
         charStatus.onSpeedChenge += OnFreeze;
         charStatus.onShocked += OnShocked;
@@ -123,6 +125,10 @@ public class EnemyFSM : MonoBehaviour
             animator.SetBool("isAttack", false);
             state = EnemyState.Move;
         }
+        if (attackTarget == null)
+        {
+            state = EnemyState.Idle;
+        }
     }
 
     public virtual void OnAttackHit()               
@@ -130,7 +136,7 @@ public class EnemyFSM : MonoBehaviour
     {
        if(agent.stoppingDistance >= dist)
         {
-            charStatus.TakeDamage(elementDamage);
+            targetStatus.TakeDamage(elementDamage);
             // 플레이어에게 damage를 입힌다.
             // 그리고 피격사운드를 재생한다.
         }
