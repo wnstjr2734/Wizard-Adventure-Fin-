@@ -100,7 +100,6 @@ public class PlayerMoveRotate : MonoBehaviour
         leftHandController.SetLeftHandAction(HandController.LeftAction.Teleport);
         line.gameObject.SetActive(true);
         teleportTarget.gameObject.SetActive(true);
-        print("Get Down Teleport");
     }
 
     public void OnTeleport()
@@ -134,7 +133,6 @@ public class PlayerMoveRotate : MonoBehaviour
 
     public void EndTeleport()
     {
-        print("Get Up Teleport");
         leftHandController.SetLeftHandAction(HandController.LeftAction.Default);
         line.gameObject.SetActive(false);
         teleportTarget.gameObject.SetActive(false);

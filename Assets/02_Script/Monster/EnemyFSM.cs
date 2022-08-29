@@ -43,6 +43,8 @@ public class EnemyFSM : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
         charStatus = GetComponent<CharacterStatus>();
+
+        attackTarget = GameObject.FindGameObjectWithTag("Player").transform;
         targetStatus = attackTarget.GetComponent<CharacterStatus>();
 
         charStatus.onSpeedChenge += OnFreeze;

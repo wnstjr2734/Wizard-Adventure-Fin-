@@ -74,16 +74,6 @@ public class PlayerController : Singleton<PlayerController>
         m_Look = context.ReadValue<Vector2>();
     }
 
-    public void OnTeleport(InputAction.CallbackContext context)
-    {
-        print("Teleport");
-    }
-
-    public void OnShield(InputAction.CallbackContext context)
-    {
-        print("Shield ");
-    }
-
     public void Update()
     {
         // 디버그 테스트

@@ -40,7 +40,6 @@ public class FlameThrower : GripMagic
             return;
         }
 
-        print($"Give Damage to {other.name}");
         GiveDamage(other.GetComponent<CharacterStatus>());
 
         waitTime = damageInterval;
