@@ -24,6 +24,7 @@ public class IceSword : GripMagic
     private float judgementSpeed = 15f;
     private float speed;
     private Vector3 previousPos;
+    private Vector3 currentSwordDir;
 
     [SerializeField] 
     private ElementDamage elementDamage;
@@ -70,7 +71,7 @@ public class IceSword : GripMagic
     {
         // 검 속도 계산
         Vector3 currentPos = transform.position;
-        Vector3 currentSwordDir = (currentPos - previousPos).normalized;
+        currentSwordDir = (currentPos - previousPos).normalized;
         speed = Vector3.Distance(currentPos, previousPos) / Time.deltaTime;
 
         previousPos = currentPos;
@@ -129,7 +130,7 @@ public class IceSword : GripMagic
         {
             var hitEffect = PoolSystem.Instance.GetInstance<GameObject>(hitEffectPrefab);
             hitEffect.transform.position = collision.contacts[0].point + collision.contacts[0].normal * 0.1f;
-            hitEffect.transform.forward = collision.contacts[0].normal;
+            hitEffect.transform.right = currentSwordDir;
 
             // 적이면 데미지 주기
             var status = collision.collider.GetComponent<CharacterStatus>();
