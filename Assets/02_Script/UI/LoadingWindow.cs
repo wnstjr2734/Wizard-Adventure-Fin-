@@ -19,20 +19,14 @@ public class LoadingWindow : MonoBehaviour
             if (instance == null)
             {
                 var obj = FindObjectOfType<LoadingWindow>();
-                if (obj != null)
-                {
-                    instance = obj;
-                }
-                else
-                {
-                    instance = Create();
-                }
+                instance = obj != null ? obj : Create();
+                //if (obj != null) {   instance = obj;  }
+                //else {   instance = Create();   }
             }
             return instance;
         }
 
-        private set
-        {
+        private set {
             instance = value;
         }
         
@@ -80,7 +74,7 @@ public class LoadingWindow : MonoBehaviour
             CircleRotate();
             StartCoroutine(nameof(IETextCycle));
         }
-      
+
     }
 
     IEnumerator IETextCycle()
@@ -90,10 +84,15 @@ public class LoadingWindow : MonoBehaviour
             TextChange(index);
             yield return new WaitForSeconds(1.0f);
             index++;
-            if (index >= now.Length)  {  index = 0;  }
-            if (loading_Comp) { break; }
-        }
-
+            if (index >= now.Length)
+            {
+                index = 0;
+            }
+            if (loading_Comp)
+            {
+                break;
+            }
+         }
     }
 
     private void TextChange(int num)
