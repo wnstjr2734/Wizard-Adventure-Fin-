@@ -68,7 +68,7 @@ public class ThunderCloud : Magic
     private void RevisePosition()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.up, out hit,
+        if (Physics.Raycast(transform.position + Vector3.up, Vector3.up, out hit,
                 maxHeight, 1 << LayerMask.NameToLayer("Default")))
         {
             // 천장 기준 아래 2m 위치에 생성되게 보정

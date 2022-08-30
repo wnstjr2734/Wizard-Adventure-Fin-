@@ -144,7 +144,7 @@ public class CharacterStatus : MonoBehaviour
 
     private void OnEnable()
     {
-        CurrentHp = maxHp;
+        ResetStatus();
     }
 
     private void Start()
@@ -165,6 +165,13 @@ public class CharacterStatus : MonoBehaviour
         {
             ReturnElementEffect((ElementType)elementNum);
         }
+    }
+
+    public void ResetStatus()
+    {
+        isDead = false;
+        CurrentHp = maxHp;
+        hitCollider.enabled = true;
     }
 
     /// <summary>

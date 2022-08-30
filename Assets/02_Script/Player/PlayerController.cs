@@ -221,7 +221,7 @@ public class PlayerController : Singleton<PlayerController>
         }
         if (playerInput.actions["Shield"].WasReleasedThisFrame())
         {
-            magicShield.gameObject.SetActive(false);
+            magicShield.TurnOff();
         }
     }
 

@@ -148,9 +148,10 @@ public class EnemyFSM : MonoBehaviour
             animator.SetBool("isAttack", false);
             state = EnemyState.Move;
         }
-        if (attackTarget == null)
+        if (targetStatus.CurrentHp <= 0)
         {
-            state = EnemyState.Idle;
+            animator.SetBool("isPlayerDead", true);
+            animator.SetBool("isAttack", false);
         }
     }
 

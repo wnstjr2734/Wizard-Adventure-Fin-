@@ -24,8 +24,9 @@ public class Portal : MonoBehaviour
     public CharacterController cc;
     [SerializeField]
     private GameObject player;
-    [SerializeField]
+    [SerializeField, Tooltip("방에 있는 몬스터들")]
     private CharacterStatus[] targets;
+    private Vector3[] initPos;
     [SerializeField]
     public int remainCount;    //남은 적 수
     private bool istrigger;     //트리거 스위치
@@ -34,8 +35,16 @@ public class Portal : MonoBehaviour
     public GameObject portal;
     public Collider portalCol;
     public Transform portalPoint;   //포탈 탄 후 플레이어 스폰 위치
-    
-   
+
+    private void Awake()
+    {
+        initPos = new Vector3[targets.Length];
+        for (int i = 0; i < targets.Length; i++)
+        {
+            initPos[i] = targets[i].transform.position;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +54,27 @@ public class Portal : MonoBehaviour
         cc = player.GetComponent<CharacterController>();
         istrigger = false;
         portal.SetActive(false);
+    }
+
+    /// <summary>
+    /// 방을 초기화한다
+    /// </summary>
+    public void ResetRoom()
+    {
+        remainCount = targets.Length;
+        for (int i = 0; i < targets.Length; i++)
+        {
+            targets[i].gameObject.SetActive(true);
+
+            // 몬스터 상태 리셋
+            targets[i].ResetStatus();
+            
+            // 몬스터 위치 리셋
+            targets[i].transform.position = initPos[i];
+        }
+
+        // 플레이어와 몬스터가 같이 전멸했을 때 포탈 열림
+        // 열린 포탈도 리셋해야한다
     }
 
     // 포탈 시작

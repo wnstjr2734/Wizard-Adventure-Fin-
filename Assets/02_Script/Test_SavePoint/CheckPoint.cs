@@ -10,6 +10,7 @@ public class CheckPoint : MonoBehaviour
     {
         gm = GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>();
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player"))

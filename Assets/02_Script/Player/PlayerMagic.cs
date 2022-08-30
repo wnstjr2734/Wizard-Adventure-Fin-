@@ -161,6 +161,12 @@ public class PlayerMagic : MonoBehaviour
                 magicIndicator.SetActive(true);
             }
 
+            // 벽이나 기둥에는 못하게 막기
+            if (Vector3.Dot(Vector3.up, hit.normal) < 0.7)
+            {
+                return;
+            }
+
             targetPos = hit.point + Vector3.up * 0.05f;
             magicIndicator.transform.position = targetPos;
             magicIndicator.transform.forward = Vector3.up;

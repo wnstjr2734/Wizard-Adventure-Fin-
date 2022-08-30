@@ -2,23 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+[DisallowMultipleComponent]
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager instance;
     public Vector3 lastCheckPointPos;
+    public static GameObject player;
 
-    private void Awake()
+    public Portal latestPoral = null;
+
+    private void Start()
     {
-        //instance = this;
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(instance);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
+    public void RestartGame()
+    {
+
+    }
 }
