@@ -38,13 +38,8 @@ public class WindowSystem : Singleton<WindowSystem>
     {
         Debug.Log("Window System Activate");
         DOTween.defaultTimeScaleIndependent = true;
-        DOTween.timeScale = 1.0f;
-        if (Loading != null)
-        {
-            cg = Loading.GetComponent<CanvasGroup>();
-            cg.alpha = 1.0f;
-        }
-       // SceneCheck();
+        DOTween.timeScale = 1.0f;       
+       SceneCheck();
 
     }
 
@@ -115,34 +110,48 @@ public class WindowSystem : Singleton<WindowSystem>
         Time.timeScale = display ? 0 : 1;
     }
 
+    //씬 이동시 페이드 효과
     public void BackFade(bool Load)
     {
-        
-
+        int num;
         if (cg != null)
         {
-            if (!Load)
-            {
-                cg.DOFade(1, 3.0f);
-            }
-            if (Load)
-            {
-                cg.DOFade(0, 3.0f);
-            }
+            //if (!Load)
+            //{  cg.DOFade(1, 3.0f);  }
+            //if (Load)
+            //{  cg.DOFade(0, 3.0f);  }
+
+            num = Load ? 0 : 1;
+            cg.DOFade(num, 3.0f);
+
         }
         else
         {
-            cg.DOKill();
+            cg.DOKill(); //씬 이동 시 Dotween 실행 종료
         }
-
-       
         
     }
 
+    //현재 씬을 체크하여 페이드 효과와 씬 이동 실행
     void SceneCheck()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            if (mainTitle != null)
+            {
+                cg = mainTitle.GetComponentInChildren<CanvasGroup>();
+                cg.alpha = 0.0f;
+            }
+        }
+
+
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
+            if (Loading != null)
+            {
+                cg = Loading.GetComponent<CanvasGroup>();
+                cg.alpha = 1.0f;
+            }
             LoadingWindow.Instance.LoadScene("SampleMap_LJS Test 1");
             DOTween.KillAll();
 

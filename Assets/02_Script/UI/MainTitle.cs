@@ -36,7 +36,8 @@ public class MainTitle : MonoBehaviour
     public void OnStart()
     {
         print("게임 시작");
-        SceneManager.LoadScene(1);        
+        StartCoroutine(nameof(IESceneChange));
+        
     }
     //계속하기를 하면 세이브 포인트로 이동
     public void OnContinue()
@@ -52,7 +53,15 @@ public class MainTitle : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       // OnStart();
+       
+    }
+
+    //3초 후에 씬 이동
+    IEnumerator IESceneChange()
+    {
+        WindowSystem.Instance.BackFade(false);
+        yield return new WaitForSeconds(3.0f);
+        SceneManager.LoadScene(1);
     }
 
 }
