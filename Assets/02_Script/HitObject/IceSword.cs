@@ -81,6 +81,7 @@ public class IceSword : GripMagic
     {
         StopCoroutine(nameof(IETurnOffSword));
         StartCoroutine(nameof(IETurnOnSword));
+        VibrationManager.Instance.SetVibration(0.3f, 0.3f, 0.3f, VibrationManager.ControllerType.RightTouch);
     }
 
     private IEnumerator IETurnOnSword()
@@ -140,5 +141,4 @@ public class IceSword : GripMagic
             }
         }
     }
-    
 }

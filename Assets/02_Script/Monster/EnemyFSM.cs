@@ -38,6 +38,26 @@ public class EnemyFSM : MonoBehaviour
     private bool moveLock;
     private bool checkDead = false;
 
+    #region(AudioClip)
+    public AudioSource audioSource;
+    [Header("AudioClip")]
+    public AudioClip footStep_1;
+    public AudioClip footStep_2;
+    [Tooltip("플레이어를 향해 달려오면서 내는 소리")]
+    public AudioClip chaseGrowl;
+    public AudioClip attack;
+    [Tooltip("공격하면서 내는 소리")]
+    public AudioClip attackGrowl;
+    [Tooltip("활시위 당길 때 나는 소리")]
+    public AudioClip arrowCharge;
+    [Tooltip("경직상태에서 내는 소리")]
+    public AudioClip shocked;
+    [Tooltip("몬스터가 죽으면서 내는 말소리")]
+    public AudioClip deadGrowl;
+    [Tooltip("몬스터가 죽으면서 나는 뼈부서지는 소리")]
+    public AudioClip dead;
+    #endregion
+
     protected void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -46,6 +66,7 @@ public class EnemyFSM : MonoBehaviour
 
         attackTarget = GameObject.FindGameObjectWithTag("Player").transform;
         targetStatus = attackTarget.GetComponent<CharacterStatus>();
+        audioSource = GetComponent<AudioSource>();
 
         charStatus.onSpeedChenge += OnFreeze;
         charStatus.onShocked += OnShocked;
@@ -138,15 +159,11 @@ public class EnemyFSM : MonoBehaviour
     {
        if(agent.stoppingDistance >= dist)
         {
-            targetStatus.TakeDamage(elementDamage);
             // 플레이어에게 damage를 입힌다.
+            targetStatus.TakeDamage(elementDamage);
             // 그리고 피격사운드를 재생한다.
+            AttackSound();
         }
-    }
-
-    public virtual void OnAttackFinished()
-    {
-      
     }
     #endregion
 
@@ -173,19 +190,8 @@ public class EnemyFSM : MonoBehaviour
             StartCoroutine(ShockMoveLock());
         }
     }
-
-    
-
-    public virtual void OnReactFinished()
-    {
-       
-    }
     #endregion
 
-    /// <summary>
-    /// 죽으면 타격되서도 안 되고, 멈춰야 한다
-    /// </summary>
-    
     protected virtual void OnDead()
     {
         // 죽음상태
@@ -203,10 +209,58 @@ public class EnemyFSM : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    // 경직상태에서 몬스터가 플레이어에게 다가오지 못 하도록 막아줄 필요가 있음.
     private IEnumerator ShockMoveLock()
     {
         yield return new WaitForSeconds(3.0f);
         moveLock = false;
     }
+
+    #region SFX
+
+    public void FootStep_1()
+    {
+        audioSource.PlayOneShot(footStep_1);
+    }
+
+    public void FootStep_2()
+    {
+        audioSource.PlayOneShot(footStep_2);
+    }
+
+    public void ChaseGrowl()
+    {
+        audioSource.PlayOneShot(chaseGrowl);
+    }
+
+    public void AttackSound()
+    {
+        audioSource.PlayOneShot(attack);
+        audioSource.PlayOneShot(attackGrowl);
+
+    }
+
+    public void ArrowCharge()
+    {
+        audioSource.PlayOneShot(arrowCharge);
+    }
+
+    public void ShockedSound()
+    {
+        audioSource.PlayOneShot(shocked);
+    }
+
+    public void DeadGrowl()
+    {
+        audioSource.PlayOneShot(deadGrowl);
+    }
+
+    public void DeadSound()
+    {
+        audioSource.PlayOneShot(dead);
+    }
+
+    #endregion
+
 
 }
