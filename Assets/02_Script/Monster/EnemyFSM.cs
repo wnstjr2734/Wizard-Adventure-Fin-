@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// 쫄몹들 State 설정 및 애니메이션 작동
+/// 쫄몹들 State 설정 및 애니메이션, 그리고 효과음
 /// 작성자 - 성종현
 /// </summary>
 
@@ -52,9 +52,9 @@ public class EnemyFSM : MonoBehaviour
     public AudioClip arrowCharge;
     [Tooltip("경직상태에서 내는 소리")]
     public AudioClip shocked;
-    [Tooltip("몬스터가 죽으면서 내는 말소리")]
+    [Tooltip("몬스터가 죽으면서 내는 소리")]
     public AudioClip deadGrowl;
-    [Tooltip("몬스터가 죽으면서 나는 뼈부서지는 소리")]
+    [Tooltip("몬스터가 죽으면서 나는 뼈부숴지는 소리")]
     public AudioClip dead;
     #endregion
 
