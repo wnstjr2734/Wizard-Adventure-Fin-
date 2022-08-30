@@ -69,15 +69,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "PropertiesSelect",
-                    "type": "Value",
-                    "id": "79c1a5ee-e407-478b-8ee8-539954799caf",
-                    "expectedControlType": "Analog",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Change Element",
                     "type": "Value",
                     "id": "3b610515-7e74-4b8c-9e6a-d09caf480ce7",
@@ -307,39 +298,6 @@
                     "action": "Charge",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "d79bfcb6-4af2-4233-aabe-a3775ed7091c",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PropertiesSelect",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "button",
-                    "id": "287b2701-c523-439d-b17e-e14bf73a1b66",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PropertiesSelect",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button",
-                    "id": "76e27e00-23eb-46a3-aea9-656a4f7d7918",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PropertiesSelect",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",

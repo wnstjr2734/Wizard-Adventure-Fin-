@@ -96,6 +96,7 @@ public class ChargeEffect : MonoBehaviour
     private void OnDisable()
     {
         chargeGauge.SetActive(false);
+        ChargePercent = 0.0f;
     }
 
     public void SetColor(ElementType element)

@@ -144,7 +144,6 @@ public class WindowSystem : Singleton<WindowSystem>
             }
         }
 
-
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             if (Loading != null)
