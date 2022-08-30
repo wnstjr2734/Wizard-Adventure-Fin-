@@ -110,29 +110,29 @@ public class WindowSystem : Singleton<WindowSystem>
         Time.timeScale = display ? 0 : 1;
     }
 
+    //씬 이동시 페이드 효과
     public void BackFade(bool Load)
     {
-
+        int num;
         if (cg != null)
         {
-            if (!Load)
-            {
-                cg.DOFade(1, 3.0f);
-            }
-            if (Load)
-            {
-                cg.DOFade(0, 3.0f);
-            }
+            //if (!Load)
+            //{  cg.DOFade(1, 3.0f);  }
+            //if (Load)
+            //{  cg.DOFade(0, 3.0f);  }
+
+            num = Load ? 0 : 1;
+            cg.DOFade(num, 3.0f);
+
         }
         else
         {
-            cg.DOKill();
+            cg.DOKill(); //씬 이동 시 Dotween 실행 종료
         }
-
-       
         
     }
 
+    //현재 씬을 체크하여 페이드 효과와 씬 이동 실행
     void SceneCheck()
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)

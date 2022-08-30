@@ -53,9 +53,10 @@ public class MainTitle : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       // OnStart();
+       
     }
 
+    //3초 후에 씬 이동
     IEnumerator IESceneChange()
     {
         WindowSystem.Instance.BackFade(false);
