@@ -24,10 +24,19 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Look",
+                    "name": "Rotate X",
                     "type": "Value",
-                    "id": "a8a41d70-8a08-4535-b020-a0cbf9416f9c",
-                    "expectedControlType": "Vector2",
+                    "id": "9985ffa0-bf9f-4124-ae14-c2574f46c38e",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Rotate Y",
+                    "type": "Value",
+                    "id": "9ae0c52b-73b8-4b26-be95-23085a4ded55",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -164,72 +173,6 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "2D Vector",
-                    "id": "0a08cb8d-de24-4b47-97ae-d9d8235b145d",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "Up",
-                    "id": "934c842b-383c-4cdb-aff7-e1410196ac4c",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Down",
-                    "id": "f07c9287-5939-4560-b60b-ba131539f817",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Left",
-                    "id": "708ea1fc-886f-40b1-be7d-b496123e65e5",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Right",
-                    "id": "902b2eb7-4d24-4906-9f7a-19d94c4552b3",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "dbc0ae10-7e6a-4774-a91c-e733b110f3e6",
-                    "path": "<OculusTouchController>{LeftHand}/thumbstick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -382,6 +325,83 @@
                     "processors": "",
                     "groups": "",
                     "action": "Change Element",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "66192999-9cdf-4a97-9193-384407ae9278",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate X",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Negative",
+                    "id": "dccb800b-ec47-410a-a432-2a8938a7976c",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate X",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Positive",
+                    "id": "295eb93e-373d-479e-b3db-e3884f94577f",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate X",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "131e7558-4bd3-4493-83eb-d72fdc56b0ab",
+                    "path": "<OpenVROculusTouchController>{LeftHand}/thumbstick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate Y",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "a6634632-bef7-437c-bca1-59b4dc9d2cd3",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate Y",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Negative",
+                    "id": "12d3ad82-ee83-4058-a435-56795baa71f5",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate Y",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Positive",
+                    "id": "e8c5c040-3f9a-466e-8bfb-f22a4f7ad75b",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate Y",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

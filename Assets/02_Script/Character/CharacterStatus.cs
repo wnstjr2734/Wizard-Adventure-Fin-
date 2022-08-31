@@ -160,7 +160,7 @@ public class CharacterStatus : MonoBehaviour
 
     private void OnDisable()
     {
-        // 원소 효과 묻어있는거 반환
+        // 죽었을 때 원소 효과 반환
         for (int elementNum = 0; elementNum < (int)ElementType.None; elementNum++)
         {
             ReturnElementEffect((ElementType)elementNum);
@@ -172,6 +172,25 @@ public class CharacterStatus : MonoBehaviour
         isDead = false;
         CurrentHp = maxHp;
         hitCollider.enabled = true;
+
+        // 불 리셋
+        if (burnCoroutine != null)
+        {
+            StopCoroutine(burnCoroutine);
+        }
+        burnCoroutine = null;
+        burnStack = 0;
+
+        // 얼음 리셋
+        if (slowCoroutine != null)
+        {
+            StopCoroutine(slowCoroutine);
+        }
+        slowCoroutine = null;
+        slowStack = 0;
+
+        // 전기 리셋
+        ReturnElementEffect(ElementType.Lightning);
     }
 
     /// <summary>
