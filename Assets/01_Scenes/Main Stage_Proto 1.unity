@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 1e5e7044a2285784bbddc9bea740ff1a, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: c0e9a48d5d82eac4a9679861fc3587d0, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 4898378491ef60842ba2f05a4fb24f18, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -176,7 +176,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a071169827d4c7c4fb6456342ea390b2, type: 2}
+  - {fileID: 2100000, guid: 49075b21a17035a44b23687bef26d420, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4210,9 +4210,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1346799177}
-  bloodEffectMat: {fileID: 2100000, guid: a071169827d4c7c4fb6456342ea390b2, type: 2}
-  deadlyBloodAlpha: 0.5
-  bloodEffectTime: 0.8
+  bloodEffectMat: {fileID: 2100000, guid: 49075b21a17035a44b23687bef26d420, type: 2}
+  bloodBlendAmounts: {x: 0.25, y: 0.5}
+  bloodEffectTimes: {x: 0.2, y: 0.1, z: 0.5}
+  crisisHpPercent: 0.3
   gameOver: {fileID: 1869098722}
 --- !u!4 &1713859878 stripped
 Transform:
