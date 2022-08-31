@@ -15,8 +15,12 @@ public class EnemySpawn : MonoBehaviour
     public Portal portal;
     private bool isTriggered = false;
 
+    [SerializeField]
+    private TutorialWindow window;
     [SerializeField, Tooltip("방 이동했을 때 띄울 튜토리얼 창 정보")]
     private TutorialExplainData tutorialData;
+    [SerializeField, Tooltip("배울 기능")]
+    private PlayerController.MagicAbility[] learnAbility;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,7 +33,8 @@ public class EnemySpawn : MonoBehaviour
             // 튜토리얼 활성화
             if (tutorialData != null)
             {
-                WindowSystem.Instance.OpenWindow(TutorialWindow.Instance.gameObject, true);
+                WindowSystem.Instance.OpenWindow(window.gameObject, true);
+                window.Open(tutorialData);
             }
         }
     }

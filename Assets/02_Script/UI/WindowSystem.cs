@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// 전체 Window를 관리하는 클래스로, 모든 Window는 이 클래스를 거쳐서 켜야한다
@@ -34,11 +35,14 @@ public class WindowSystem : Singleton<WindowSystem>
     public GameObject Loading;
     private CanvasGroup cg;
 
+    [SerializeField] private PlayerInput playerInput;
+
     void Start()
     {
         Debug.Log("Window System Activate");
         DOTween.defaultTimeScaleIndependent = true;
         DOTween.timeScale = 1.0f;       
+        
        SceneCheck();
 
     }
@@ -107,7 +111,12 @@ public class WindowSystem : Singleton<WindowSystem>
 
     public void SetWindowMode(bool display)
     {
+        // UI 보여줄 때는 게임이 멈춰야함
         Time.timeScale = display ? 0 : 1;
+
+        // UI 보여줄 때는 이동, 회전, 마법을 사용하면 안 됨
+        var actionMap = display ? "UI" : "Player";
+        playerInput.SwitchCurrentActionMap(actionMap);
     }
 
     //씬 이동시 페이드 효과

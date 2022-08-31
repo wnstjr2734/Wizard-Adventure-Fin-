@@ -131,7 +131,6 @@ public class PlayerMoveRotate : MonoBehaviour
                 RaycastHit hit2;
                 Vector3 revisedPos = hit.point + hit.normal;
                 bool canRevise = Physics.Raycast(revisedPos, Vector3.down, out hit2, Single.PositiveInfinity, mapLayerMask);
-                Debug.Assert(canRevise, "Error : can't revised Teleport Pos");
                 // Z-fighting이 일어나지 않게 텔레포트 위치 보정
                 teleportPos = hit2.point + Vector3.up * 0.05f;
             }
