@@ -467,6 +467,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 19836790, guid: 0ec3eab347dd6c7468868aff68fc06e1, type: 3}
+      propertyPath: ShapeModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19836790, guid: 0ec3eab347dd6c7468868aff68fc06e1, type: 3}
+      propertyPath: EmissionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19836790, guid: 0ec3eab347dd6c7468868aff68fc06e1, type: 3}
+      propertyPath: RotationModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19836790, guid: 0ec3eab347dd6c7468868aff68fc06e1, type: 3}
+      propertyPath: SizeBySpeedModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19836790, guid: 0ec3eab347dd6c7468868aff68fc06e1, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 19836790, guid: 0ec3eab347dd6c7468868aff68fc06e1, type: 3}
+      propertyPath: InitialModule.startSizeY.scalar
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 19883772, guid: 0ec3eab347dd6c7468868aff68fc06e1, type: 3}
       propertyPath: EmissionModule.enabled
       value: 1
