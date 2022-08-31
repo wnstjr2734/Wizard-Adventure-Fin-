@@ -35,7 +35,7 @@ public class EnemyFSM : MonoBehaviour
     protected Animator animator;
     public CharacterStatus charStatus;
     public ElementDamage elementDamage;
-    private bool moveLock;
+    private bool moveLock = false;
     private bool checkDead = false;
 
     #region(AudioClip)
@@ -83,6 +83,7 @@ public class EnemyFSM : MonoBehaviour
     private void Update()
     {
         dist = Vector3.Distance(this.transform.position, attackTarget.transform.position);
+        Debug.Log(dist);
         if(state == EnemyState.Attack)
         {
             var targetPos = attackTarget.position;
@@ -179,7 +180,7 @@ public class EnemyFSM : MonoBehaviour
 
     public void OnShocked()
     {
-        print("Shock Animation");
+        //print("Shock Animation");
         moveLock = true;
         if(checkDead == true)
         {
