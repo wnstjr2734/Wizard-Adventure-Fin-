@@ -224,10 +224,7 @@ public class PlayerController : Singleton<PlayerController>
             playerMagic.ChangeElement(input);
         }
         previousChangeElementInput = input;
-        if (input == 0)
-        {
-            properties.SetActive(false);
-        }
+       
     }
 
     private void Shield()

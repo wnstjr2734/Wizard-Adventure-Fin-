@@ -122,10 +122,5 @@ public class PropertiesWindow : MonoBehaviour
         //print("현재 속성 : " + et[pp_num]);
         return et[pp_num];        
     }
-
-    private void OnEnable()
-    {                
-        InProperties(pp_Angle);
-    }
-
+   
 }
