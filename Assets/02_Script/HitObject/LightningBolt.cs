@@ -200,7 +200,7 @@ public class LightningBolt : GripMagic
             GenerateLightningBolt(start, targetPoses, Generations, 0.0f);
             UpdateLineRenderer();
             // 데미지 판정
-            if (!continuousMode || Time.time - damageJudgedTime > 0.5f)
+            if (!continuousMode || Time.time - damageJudgedTime > damageJudgeInterval)
             {
                 damageJudgedTime = Time.time;
                 GiveDamage(targets);

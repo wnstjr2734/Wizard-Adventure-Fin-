@@ -385,22 +385,6 @@ MonoBehaviour:
     m_ActionId: ba22827e-5c2d-4775-9da2-b6d85fb2f180
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1671820100625382657}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnLook
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: a8a41d70-8a08-4535-b020-a0cbf9416f9c
-    m_ActionName: Player/Rotate[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
-  - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 0c5c627e-66d0-420e-bc14-0eb1e56f3603
     m_ActionName: Player/Shoot Magic[/Mouse/leftButton]
@@ -424,6 +408,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 3b610515-7e74-4b8c-9e6a-d09caf480ce7
     m_ActionName: Player/Change Element[/Keyboard/1,/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9985ffa0-bf9f-4124-ae14-c2574f46c38e
+    m_ActionName: Player/Rotate X[/Keyboard/downArrow,/Keyboard/upArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9ae0c52b-73b8-4b26-be95-23085a4ded55
+    m_ActionName: Player/Rotate Y[/Keyboard/leftArrow,/Keyboard/rightArrow]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -464,7 +456,7 @@ MonoBehaviour:
   moveSpeed: 6
   rotateSpeed: 45
   gravity: 5
-  rotationScale: {x: 45, y: 15}
+  rotationScale: {x: 15, y: 45}
   teleportRange: 7
   controlPointHeightMultiplier: 0.35
   teleportDirectionTransform: {fileID: 534649129456712550}

@@ -17,8 +17,11 @@ public class PlayerMoveRotate : MonoBehaviour
     private float yVelocity = 0;
 
     // Rotation
-    [SerializeField] 
-    private Vector2 rotationScale = new Vector2(45.0f, 15.0f);
+    [SerializeField, Tooltip("한 번 회전하는 양 (X, Y)")] 
+    private Vector2 rotationScale = new Vector2(15.0f, 45.0f);
+    private int previousAxisX = 0;
+    private int previousAxisY = 0;
+
     private Vector2Int previousRotDir = Vector2Int.zero;
 
     [Header("Teleport")] 
@@ -93,6 +96,18 @@ public class PlayerMoveRotate : MonoBehaviour
         {
             cc.Move(new Vector3(0, yVelocity, 0));
         }
+    }
+
+    /// <summary>
+    /// Player의 위치를 강제로 변경한다
+    /// - Player의 위치를 transform으로 변경하면 Character Controller로 인해 이동되지 않음
+    /// - 이 함수는 위치 이동 시 cc등을 조작하여 강제로 해당 위치에 있도록 만듦
+    /// </summary>
+    public void SetPos(Vector3 targetPos)
+    {
+        cc.enabled = false;
+        transform.position = targetPos;
+        cc.enabled = true;
     }
 
     public void StartTeleport()
@@ -197,23 +212,41 @@ public class PlayerMoveRotate : MonoBehaviour
         }
     }
 
-    public void Look(Vector2 rotate)
+    /// <summary>
+    /// 플레이어를 X축으로 회전 (PC 디버그용)
+    /// </summary>
+    public void RotateX(int axisRaw)
     {
-        var currentRotDir = new Vector2Int(Mathf.RoundToInt(rotate.x), Mathf.RoundToInt(rotate.y));
-        if (previousRotDir == currentRotDir)
+        var currentAxisRaw = Mathf.RoundToInt(axisRaw);
+        if (currentAxisRaw == previousAxisY)
         {
             return;
         }
 
-        Vector2 rotation = Vector2.zero;
-        rotation.y = previousRotDir.x * rotationScale.x;
-        rotation.x = -previousRotDir.y * rotationScale.y;
+        // 회전 적용
+        var localAngles = transform.localEulerAngles;
+        localAngles += new Vector3(-currentAxisRaw * rotationScale.x, 0, 0);
+        transform.localEulerAngles = localAngles;
+
+        previousAxisY = currentAxisRaw;
+    }
+
+    /// <summary>
+    /// 플레이어를 Y축으로 회전
+    /// </summary>
+    public void RotateY(int axisRaw)
+    {
+        var currentAxisRaw = Mathf.RoundToInt(axisRaw);
+        if (currentAxisRaw == previousAxisX)
+        {
+            return;
+        }
 
         // 회전 적용
         var localAngles = transform.localEulerAngles;
-        localAngles += new Vector3(rotation.x, rotation.y, 0);
+        localAngles += new Vector3(0, currentAxisRaw * rotationScale.y, 0);
         transform.localEulerAngles = localAngles;
 
-        previousRotDir = currentRotDir;
+        previousAxisX = currentAxisRaw;
     }
 }

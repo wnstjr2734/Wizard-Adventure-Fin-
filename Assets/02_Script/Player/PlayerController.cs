@@ -90,6 +90,8 @@ public class PlayerController : Singleton<PlayerController>
         {
             MousePosToHandPos();
             ShootMagic();
+
+            RotateX();
         }
 
         // 플레이어 마법
@@ -100,7 +102,7 @@ public class PlayerController : Singleton<PlayerController>
         // 투사체 방어
         Shield();
 
-        Look(m_Look);
+        RotateY();
         Move(m_Move);
         Teleport();
     }
@@ -247,9 +249,17 @@ public class PlayerController : Singleton<PlayerController>
         playerMoveRotate.Move(direction);
     }
 
-    private void Look(Vector2 rotate)
+    // 디버그용 함수
+    private void RotateX()
     {
-        playerMoveRotate.Look(rotate);
+        int inputAxisY = Mathf.RoundToInt(playerInput.actions["Rotate X"].ReadValue<float>());
+        playerMoveRotate.RotateX(inputAxisY);
+    }
+
+    private void RotateY()
+    {
+        int inputAxisX = Mathf.RoundToInt(playerInput.actions["Rotate Y"].ReadValue<float>());
+        playerMoveRotate.RotateY(inputAxisX);
     }
     #endregion
 

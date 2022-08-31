@@ -5,18 +5,31 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class GameManager : Singleton<GameManager>
 {
-    public Vector3 lastCheckPointPos;
     public static GameObject player;
 
-    public Portal latestPoral = null;
+    // 마지막 시작 위치
+    private Vector3 lastCheckPoint;
+    private Portal latestRoomPortal = null;
+
+    //private PlayerController
+    private PlayerMoveRotate playerMoveRotate;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+
+        playerMoveRotate = player.GetComponent<PlayerMoveRotate>();
+    }
+
+    public void SetCheckPoint(Vector3 checkPoint, Portal roomPortal)
+    {
+        lastCheckPoint = checkPoint;
+        latestRoomPortal = roomPortal;
     }
 
     public void RestartGame()
     {
-
+        playerMoveRotate.SetPos(lastCheckPoint);
+        latestRoomPortal.ResetRoom();
     }
 }

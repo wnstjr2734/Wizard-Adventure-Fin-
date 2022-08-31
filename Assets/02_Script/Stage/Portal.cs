@@ -27,14 +27,18 @@ public class Portal : MonoBehaviour
     [SerializeField, Tooltip("방에 있는 몬스터들")]
     private CharacterStatus[] targets;
     private Vector3[] initPos;
-    [SerializeField]
-    public int remainCount;    //남은 적 수
+    private int remainCount;    //남은 적 수
     private bool istrigger;     //트리거 스위치
 
     [Header("포탈 / 플레이어 스폰 위치")]
     public GameObject portal;
     public Collider portalCol;
     public Transform portalPoint;   //포탈 탄 후 플레이어 스폰 위치
+
+    [SerializeField, Tooltip("활성화할 다음 방")] 
+    private GameObject nextRoom;
+    [SerializeField, Tooltip("비활성화할 이전 방")]
+    private GameObject currentRoom;
 
     private void Awake()
     {
@@ -111,18 +115,21 @@ public class Portal : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        StartCoroutine(CcOnOff());
+        StartCoroutine(IEUsePortal());
     }
 
-    private IEnumerator CcOnOff()
+    private IEnumerator IEUsePortal()
     {
-        cc.enabled = false;
+        // 포탈 이동 연출
+        nextRoom.SetActive(true);
         yield return new WaitForSeconds(0.5f);
-        if(!cc.enabled)
-        {
-            player.transform.position = portalPoint.position;
-        }
+
+        // 방 이동
+        player.GetComponent<PlayerMoveRotate>().SetPos(portalPoint.position);
+        // 이전 방은 SetActive(false) 처리
+
+        // 포탈 타고 난 이후 Fade Out 되면서 다음 방 넘어가는 연출
         yield return new WaitForSeconds(0.5f);
-        cc.enabled = true;
+        currentRoom.SetActive(false);
     }
 }

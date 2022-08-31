@@ -8,6 +8,7 @@ Shader "KriptoFX/ME/Particle"
 	[Space]
 	[PerRendererData] [HDR]_TintColor("Tint Color", Color) = (1,1,1,1)
 		_MainTex("Main Texture", 2D) = "white" {}
+		_EmissionColor("Emission", Color) = (0, 0, 0, 0)
 
 	[Header(Fading)]
 	[Space]
@@ -110,6 +111,7 @@ Shader "KriptoFX/ME/Particle"
 	float4x4 unity_Projector;
 	float4x4 unity_ProjectorClip;
 
+	half4 _EmissionColor;
 	half4 _CutoutColor;
 	half4 _FresnelColor;
 	half4 _DistortionSpeedScale;
