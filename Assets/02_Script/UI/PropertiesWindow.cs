@@ -37,16 +37,15 @@ public class PropertiesWindow : MonoBehaviour
     private void Update()
     {
         //좌우 입력값을 -1,0,1 로 받음      
-        //horizontal = (int)Input.GetAxisRaw("Horizontal");
-        OnChangeElement();
+        OnChangeElement();      
         StartCoroutine(nameof(IEBaseRotate));
-        InProperties(pp_Angle);
+        //InProperties(pp_Angle);
+
     }
     
     public void OnChangeElement()
     {
-        horizontal = Mathf.RoundToInt(pi.actions["Change Element"].ReadValue<float>());
-        print("현재 입력 값 : " + horizontal);
+        horizontal = Mathf.RoundToInt(pi.actions["Change Element"].ReadValue<float>());        
     }
 
 
@@ -122,6 +121,11 @@ public class PropertiesWindow : MonoBehaviour
         }
         //print("현재 속성 : " + et[pp_num]);
         return et[pp_num];        
+    }
+
+    private void OnEnable()
+    {                
+        InProperties(pp_Angle);
     }
 
 }

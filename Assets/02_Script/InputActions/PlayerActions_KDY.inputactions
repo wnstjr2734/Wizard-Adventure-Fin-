@@ -11,8 +11,8 @@
                     "id": "70ad10c7-5da1-4702-8633-d543e8d54566",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Move",
@@ -83,7 +83,7 @@
                     "id": "13d0d472-d56c-45e6-ba17-30104fdfff49",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 }
             ],
@@ -355,7 +355,7 @@
                 {
                     "name": "",
                     "id": "639527de-692f-4833-982c-97362d8fccd0",
-                    "path": "<XRController>{RightHand}/thumbstickClicked",
+                    "path": "<OculusTouchController>{RightHand}/thumbstickClicked",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -366,7 +366,7 @@
                 {
                     "name": "",
                     "id": "ac254c5e-3dae-49ff-af58-03d9e44aa2a0",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/p",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
