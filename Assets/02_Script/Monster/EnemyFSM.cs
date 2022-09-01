@@ -35,7 +35,7 @@ public class EnemyFSM : MonoBehaviour
     protected Animator animator;
     public CharacterStatus charStatus;
     public ElementDamage elementDamage;
-    private bool moveLock = false;
+    private bool moveLock;
     private bool checkDead = false;
 
     #region(AudioClip)
@@ -83,7 +83,7 @@ public class EnemyFSM : MonoBehaviour
     private void Update()
     {
         dist = Vector3.Distance(this.transform.position, attackTarget.transform.position);
-        Debug.Log(dist);
+        //Debug.Log(dist);
         if(state == EnemyState.Attack)
         {
             var targetPos = attackTarget.position;
@@ -120,6 +120,7 @@ public class EnemyFSM : MonoBehaviour
         // Enemy와 Player의 거리를 측정하고, 추격 거리 이내면 Move State로 전환한다.
         if (dist <= chaseDistance)
         {
+            ChaseGrowl();
             state = EnemyState.Move;
         }
     }
