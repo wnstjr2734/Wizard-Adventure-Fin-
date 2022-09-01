@@ -21,20 +21,32 @@ public class PlayerHitManager : MonoBehaviour
                              "각각 이펙트 그리는 시간 / 최대")]
     private Vector3 bloodEffectTimes = new Vector3(0.2f, 0.1f, 0.5f);
 
+    [Header("Crisis")]
     [SerializeField, Range(0, 1)] 
     [Tooltip("피가 얼마 이하로 남았을 때 위급 판정을 할지")]
     private float crisisHpPercent = 0.3f;
 
+    private float crisisEffectTime = 0.5f;
+
     [SerializeField]
     private GameOver gameOver;
+
+    private PlayerController playerController;
 
     private Coroutine onHitCoroutine;
     private Coroutine onCrisisCoroutine;
 
     private static readonly int blendAmountID = Shader.PropertyToID("_BlendAmount");
 
+    private void Awake()
+    {
+        playerController = player.GetComponent<PlayerController>();
+    }
+
     private void Start()
     {
+        bloodEffectMat.SetFloat(blendAmountID, bloodBlendAmounts.x);
+
         player.onHpChange += OnHit;
         player.onDead += OnDead;
     }
@@ -57,7 +69,7 @@ public class PlayerHitManager : MonoBehaviour
         }
         onCrisisCoroutine = null;
 
-        float targetBlendAmount = Mathf.Lerp(bloodBlendAmounts.x, bloodBlendAmounts.y, 1 - percent);
+        float targetBlendAmount = Mathf.Lerp(bloodBlendAmounts.x, bloodBlendAmounts.y, 1 - (percent * percent));
 
         // Fade In
         yield return IEBloodEffectAnim(bloodBlendAmounts.x, targetBlendAmount, bloodEffectTimes.x);
@@ -78,8 +90,8 @@ public class PlayerHitManager : MonoBehaviour
     {
         while (true)
         {
-            yield return IEBloodEffectAnim(bloodBlendAmounts.x, targetBlendAmount, bloodEffectTimes.x);
-            yield return IEBloodEffectAnim(targetBlendAmount, bloodBlendAmounts.x, bloodEffectTimes.x);
+            yield return IEBloodEffectAnim(bloodBlendAmounts.x, targetBlendAmount, crisisEffectTime);
+            yield return IEBloodEffectAnim(targetBlendAmount, bloodBlendAmounts.x, crisisEffectTime);
         }
     }
 
@@ -108,6 +120,12 @@ public class PlayerHitManager : MonoBehaviour
         }
         onCrisisCoroutine = null;
 
-        gameOver.OnActive();
+        playerController.ActiveController(false);
+
+        gameOver.OnActive(() =>
+        {
+            GameManager.Instance.RestartGame();
+            playerController.ActiveController(true);
+        });
     }
 }

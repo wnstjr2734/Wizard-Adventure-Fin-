@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 //플레이어 스폰 트리거 되면
 //적 공장에서 적 생성
@@ -18,9 +19,9 @@ public class EnemySpawn : MonoBehaviour
     [SerializeField]
     private TutorialWindow window;
     [SerializeField, Tooltip("방 이동했을 때 띄울 튜토리얼 창 정보")]
-    private TutorialExplainData tutorialData;
+    private TutorialExplainData[] tutorialDatas;
     [SerializeField, Tooltip("배울 기능")]
-    private PlayerController.MagicAbility[] learnAbility;
+    private PlayerController.MagicAbility[] learnAbilities;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -31,10 +32,16 @@ public class EnemySpawn : MonoBehaviour
 
             GameManager.Instance.SetCheckPoint(transform.position, portal);
             // 튜토리얼 활성화
-            if (tutorialData != null)
+            if (tutorialDatas != null && tutorialDatas.Length != 0)
             {
                 WindowSystem.Instance.OpenWindow(window.gameObject, true);
-                window.Open(tutorialData);
+                window.Open(tutorialDatas);
+
+                var playerController = GameManager.player.GetComponent<PlayerController>();
+                for (int i = 0; i < learnAbilities.Length; i++)
+                {
+                    playerController.LearnAbility(learnAbilities[i]);
+                }
             }
         }
     }

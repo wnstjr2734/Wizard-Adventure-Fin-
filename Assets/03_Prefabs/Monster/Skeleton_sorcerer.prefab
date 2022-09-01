@@ -1872,7 +1872,7 @@ MonoBehaviour:
     damage: 10
     elementType: 3
     stack: 1
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 5447446232372996438}
   footStep_1: {fileID: 8300000, guid: 1542c897bbda33d41bd102fb7c37e25f, type: 3}
   footStep_2: {fileID: 8300000, guid: 33c7c43838e3b7b4881db33bcd6a366b, type: 3}
   chaseGrowl: {fileID: 8300000, guid: 4735434fd85a97c42a238b2ebb57420b, type: 3}

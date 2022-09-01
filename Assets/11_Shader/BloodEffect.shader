@@ -77,6 +77,8 @@ Shader "Custom/BloodEffect"
 
 		//return lerp(mainColor, blendColor, blendColor.a);
 		mainColor = lerp(mainColor, blendColor, blendColor.a);
+		mainColor.a = blendColor.a;
+		
 		#ifdef LINEAR_COLORSPACE
 		mainColor *= mainColor;
 		#endif
@@ -113,6 +115,8 @@ Shader "Custom/BloodEffect"
 	{
 		Pass
 		{
+			Blend SrcAlpha OneMinusSrcAlpha
+
 			//ZTest Always Cull Off ZWrite Off
 			Fog
 			{
