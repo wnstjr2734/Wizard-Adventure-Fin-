@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using DG.Tweening;
 
 /// <summary>
@@ -15,9 +16,10 @@ public class PropertiesWindow : MonoBehaviour
     private float speed = 1.0f;
     private float currentAngle = 0.0f;
     private int pp_Angle = 0;
-    private float moveAngle = -120f, reversAngle = 120f;
-    private float horizontal;
+    private float moveAngle = -120f, reversAngle = 120f;    
+    private int horizontal;    
     private bool isRotate = false;
+    private PlayerInput pi;
     ElementType[] et = { ElementType.Fire, ElementType.Ice, ElementType.Lightning };  //속성 마법
     Vector3 angle;
     Ease ease;
@@ -28,16 +30,24 @@ public class PropertiesWindow : MonoBehaviour
     {
         //회전 속도의 변화
         ease = Ease.InOutCubic;
+        pi = PlayerController.Instance.GetComponent<PlayerInput>();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        //좌우 입력값을 -1,0,1 로 받음
-        horizontal = Input.GetAxisRaw("Horizontal");
-        StartCoroutine(nameof(IEBaseRotate));                
-        InProperties(pp_Angle);
+        //좌우 입력값을 -1,0,1 로 받음      
+        OnChangeElement();      
+        StartCoroutine(nameof(IEBaseRotate));
+        //InProperties(pp_Angle);
+
     }
+    
+    public void OnChangeElement()
+    {
+        horizontal = Mathf.RoundToInt(pi.actions["Change Element"].ReadValue<float>());        
+    }
+
 
     //Axis 키 값을 받으면 Circle이 회전
     IEnumerator IEBaseRotate()
@@ -47,14 +57,14 @@ public class PropertiesWindow : MonoBehaviour
         if (horizontal == -1 && !isRotate) //왼쪽 회전
         {
             LeftMove();
-            pp_Angle += (int)horizontal;
+            pp_Angle += horizontal;
             yield return new WaitForSeconds(delay); //회전하면 delay 시간 동안 입력 막음
             isRotate = false;
         }
         else if (horizontal == 1 && !isRotate) //오른쪽 회전
         {
             RightMove();
-            pp_Angle += (int)horizontal; 
+            pp_Angle += horizontal; 
             yield return new WaitForSeconds(delay);
             isRotate = false;
         }
@@ -112,5 +122,5 @@ public class PropertiesWindow : MonoBehaviour
         //print("현재 속성 : " + et[pp_num]);
         return et[pp_num];        
     }
-
+   
 }

@@ -23,24 +23,27 @@ public class PlayerController : Singleton<PlayerController>
     private MagicShield magicShield;
 
     [Header("For Debug")] 
-    private bool isVR;
+    private bool isVR;    
     [SerializeField] private float handPosZ = 0.3f;
     [SerializeField] private float pressedHandPosZ = 0.5f;
     [SerializeField] private float releasedHandPosZ = 0.3f;
     [SerializeField] private Transform leftHandTransform;
     [SerializeField] private Transform rightHandTransform;
+    
 
     private Camera _main;
     private RaycastHit hit;
     
     private Vector2 m_Look;
     private Vector2 m_Move;
+    
 
     private int previousChangeElementInput = 0;
 
     private PlayerInput playerInput;
     private PlayerMoveRotate playerMoveRotate;
     private PlayerMagic playerMagic;
+    private GameObject properties;
 
     // 배운 능력(비트마스크 방식)
     public int learnedAbility = 0;
@@ -52,6 +55,7 @@ public class PlayerController : Singleton<PlayerController>
         playerInput = GetComponent<PlayerInput>();
         playerMoveRotate = GetComponent<PlayerMoveRotate>();
         playerMagic = GetComponent<PlayerMagic>();
+        properties = transform.FindChildRecursive("Properties").gameObject;
         Debug.Assert(magicShield, "Error : magic shield not set");
     }
 
@@ -105,6 +109,9 @@ public class PlayerController : Singleton<PlayerController>
         RotateY();
         Move(m_Move);
         Teleport();
+
+        //속성 선택 창 On/Off
+        //PropertieseAcitve();
     }
 
     public static bool IsPresent()
@@ -201,13 +208,15 @@ public class PlayerController : Singleton<PlayerController>
         {
             return;
         }
-
+        
         int input = Mathf.RoundToInt(playerInput.actions["Change Element"].ReadValue<float>());
         if (input != previousChangeElementInput)
         {
+            properties.SetActive(true);
             playerMagic.ChangeElement(input);
         }
         previousChangeElementInput = input;
+       
     }
 
     private void Shield()
@@ -272,4 +281,25 @@ public class PlayerController : Singleton<PlayerController>
     {
         learnedAbility |= (int)ability;
     }
+
+    public void PropertieseAcitve()
+    {
+        #region 입력시 창 표시
+        //int input = Mathf.RoundToInt(playerInput.actions["PropertiesSelect"].ReadValue<float>());
+        //print("현재 썸스틱 클릭 : " + input);
+
+        //if (0 != input)
+        //{
+        //    if (isActive == false)
+        //    {
+        //        properties.SetActive(true);
+        //        isActive = true;
+        //    }           
+        //}
+        //print(isActive);
+        #endregion
+        properties.SetActive(false);
+        
+    }
+
 }
