@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/01_Scenes/SampleMap_CYC.unity
     guid: 4be3a321f08e0ab4ea596e6d5458f813
   m_configObjects:
