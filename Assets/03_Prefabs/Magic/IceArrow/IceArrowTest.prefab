@@ -9656,8 +9656,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSelfTarget: 0
   poolSize: 15
-  moveSpeed: 4.5
-  range: 5
+  moveSpeed: 10
+  range: 20
   elementDamage:
     damage: 10
     elementType: 1
