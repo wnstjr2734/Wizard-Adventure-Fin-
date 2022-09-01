@@ -11,7 +11,7 @@ using DG.Tweening;
 public class GameOver : MonoBehaviour
 {
     [SerializeField] Image back_img, frame_img, text_img;
-    [SerializeField]  bool isPlayerdead = false;
+    public bool isPlayerdead = false;
     float playTime, delayTime;
     Color[] clr;
 
