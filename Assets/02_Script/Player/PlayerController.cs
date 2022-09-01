@@ -31,9 +31,7 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private Transform rightHandTransform;
 
     private Camera _main;
-    private RaycastHit hit;
     
-    private Vector2 m_Look;
     private Vector2 m_Move;
 
     private int previousChangeElementInput = 0;
@@ -67,11 +65,6 @@ public class PlayerController : Singleton<PlayerController>
     public void OnMove(InputAction.CallbackContext context)
     {
         m_Move = context.ReadValue<Vector2>();
-    }
-
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        m_Look = context.ReadValue<Vector2>();
     }
 
     public void Update()
@@ -119,6 +112,18 @@ public class PlayerController : Singleton<PlayerController>
             }
         }
         return false;
+    }
+
+    public void ActiveController(bool isActive)
+    {
+        if (isActive)
+        {
+            playerInput.actions.Enable();
+        }
+        else
+        {
+            playerInput.actions.Disable();
+        }
     }
 
     // 마우스 위치를 손 위치로 적용

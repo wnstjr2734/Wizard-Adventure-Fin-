@@ -72,6 +72,7 @@ public class Portal : MonoBehaviour
 
             // 몬스터 상태 리셋
             targets[i].ResetStatus();
+            targets[i].GetComponent<EnemyFSM>().ResetFSM();
             
             // 몬스터 위치 리셋
             targets[i].transform.position = initPos[i];

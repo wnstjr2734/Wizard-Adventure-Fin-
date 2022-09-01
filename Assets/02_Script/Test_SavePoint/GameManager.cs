@@ -12,12 +12,14 @@ public class GameManager : Singleton<GameManager>
     private Portal latestRoomPortal = null;
 
     //private PlayerController
+    private CharacterStatus playerStatus;
     private PlayerMoveRotate playerMoveRotate;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
+        playerStatus = player.GetComponent<CharacterStatus>();
         playerMoveRotate = player.GetComponent<PlayerMoveRotate>();
     }
 
@@ -29,6 +31,7 @@ public class GameManager : Singleton<GameManager>
 
     public void RestartGame()
     {
+        playerStatus.ResetStatus();
         playerMoveRotate.SetPos(lastCheckPoint);
         latestRoomPortal.ResetRoom();
     }

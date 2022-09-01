@@ -1,19 +1,17 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// 쫄몹들 State 설정 및 애니메이션, 그리고 효과음
-/// 작성자 - 성종현
+/// 보스 1페이즈 FSM
+/// 보스는 직접 공격하지 않고 패턴들을 확률적으로 사용해서 공격한다
+/// (각 패턴들 사이엔 쿨타임이 있음)
+/// 작성자 - 차영철
 /// </summary>
-
-public class EnemyFSM : MonoBehaviour
+public class BossFSM : MonoBehaviour
 {
-    // 몬스터는 Player Layer만 공격한다
-    protected static int playerLayer;
-    protected enum EnemyState
+    protected enum BossState
     {
         Idle,
         Move,
@@ -22,18 +20,32 @@ public class EnemyFSM : MonoBehaviour
         Die
     }
 
-    protected EnemyState state;
+    public enum BossSounds
+    {
 
-    
+    }
+
+    // 보스 처음 시작 - Idle
+    // 보스가 각 패턴을 랜덤 및 조건부로 쓴다
+    // 쿨타임 큐 방식
+    // - 패턴
+    // 각 패턴 후에는 행동 딜레이가 있음 (딜 타임)
+    // 
+
+    protected BossState state;
+
+    // 공격대상: Player
     public Transform attackTarget;
     private CharacterStatus targetStatus;
-    // 공격대상: Player
+    
+
+
     private float dist;
     public float chaseDistance;
     public float attackDistance;
     protected NavMeshAgent agent;
     protected Animator animator;
-    public CharacterStatus charStatus;
+    private CharacterStatus charStatus;
     public ElementDamage elementDamage;
     private bool moveLock;
     private bool checkDead = false;
@@ -77,43 +89,12 @@ public class EnemyFSM : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(UpdateState());
-        state = EnemyState.Idle;
-        agent.isStopped = false;
+        
     }
 
     private void Update()
     {
-        dist = Vector3.Distance(this.transform.position, attackTarget.transform.position);
-        if(state == EnemyState.Attack)
-        {
-            var targetPos = attackTarget.position;
-            targetPos.y = transform.position.y;
-            transform.forward = (targetPos - transform.position).normalized;
-        }
-    }
-
-    IEnumerator UpdateState()
-    {
-        yield return new WaitForSeconds(0.1f);
-        while (true)
-        {
-            switch (state)
-            {
-                case EnemyState.Idle:
-                    Idle();
-                    break;
-                case EnemyState.Move:
-                    Move();
-                    break;
-                case EnemyState.Attack:
-                    Attack();
-                    break;
-                default:
-                    break;
-            }
-            yield return new WaitForSeconds(0.1f);
-        }
+        
     }
 
     public void ResetFSM()
@@ -123,49 +104,24 @@ public class EnemyFSM : MonoBehaviour
 
     void Idle()
     {
-        // Enemy와 Player의 거리를 측정하고, 추격 거리 이내면 Move State로 전환한다.
-        if (dist <= chaseDistance)
-        {
-            state = EnemyState.Move;
-        }
+        
     }
 
     void Move()
     {
-        if(dist > attackDistance && moveLock == false)
-        {
-            agent.isStopped = false;
-            animator.SetBool("isMove", true);
-            agent.SetDestination(attackTarget.transform.position);
-        }
-        else
-        {
-            animator.SetBool("isMove", false);
-            state = EnemyState.Attack;
-        }
+        
     }
 
     #region Attack
     void Attack()
     {
-        agent.isStopped = true;
-        animator.SetBool("isAttack", true);
-        if (dist>attackDistance)
-        {
-            animator.SetBool("isAttack", false);
-            state = EnemyState.Move;
-        }
-        if (targetStatus.CurrentHp <= 0)
-        {
-            animator.SetBool("isPlayerDead", true);
-            animator.SetBool("isAttack", false);
-        }
+        
     }
 
-    public virtual void OnAttackHit()               
-        // 근접몬스터의(footman, warlord) 공격 애니메이션 키프레임에 도달했을 때 플레이어에게 데미지를 입히도록 하고 싶다.
+    public virtual void OnAttackHit()
+    // 근접몬스터의(footman, warlord) 공격 애니메이션 키프레임에 도달했을 때 플레이어에게 데미지를 입히도록 하고 싶다.
     {
-       if(agent.stoppingDistance >= dist)
+        if (agent.stoppingDistance >= dist)
         {
             // 플레이어에게 damage를 입힌다.
             targetStatus.TakeDamage(elementDamage);
@@ -178,36 +134,23 @@ public class EnemyFSM : MonoBehaviour
     #region Hit Reaction
 
     // 몬스터가 냉기 피해를 입었을 때 모든 애니메이션 재생 속도를 느려지게 만들고 싶다.
-    public void OnFreeze(float freezeSpeed)               
+    public void OnFreeze(float freezeSpeed)
     {
         animator.speed = freezeSpeed;
-        
+
     }
 
     public void OnShocked()
     {
         print("Shock Animation");
-        moveLock = true;
-        if(checkDead == true)
-        {
-            state = EnemyState.Die;
-        }
-        else
-        {
-            animator.SetTrigger("isShocked");
-            StartCoroutine(ShockMoveLock());
-        }
+        // 패턴을 취소한다
     }
     #endregion
 
     protected virtual void OnDead()
     {
         // 죽음상태
-        checkDead = true;
-        state = EnemyState.Die;
-        animator.SetTrigger("isDie");
-        // 충돌체를 off하고싶다.
-        GetComponent<Collider>().enabled = false;
+        // 2페이즈로 전환
     }
 
     public virtual void OnDeathFinished()
@@ -269,6 +212,5 @@ public class EnemyFSM : MonoBehaviour
     }
 
     #endregion
-
 
 }
