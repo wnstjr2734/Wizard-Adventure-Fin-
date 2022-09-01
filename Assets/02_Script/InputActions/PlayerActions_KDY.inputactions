@@ -3,31 +3,40 @@
     "maps": [
         {
             "name": "Player",
-            "id": "ea7ee70a-554a-438f-9343-bdb711e55781",
+            "id": "7251f0c8-8917-4d10-b06d-df7d1509849d",
             "actions": [
                 {
                     "name": "Teleport",
                     "type": "Button",
-                    "id": "70ad10c7-5da1-4702-8633-d543e8d54566",
+                    "id": "7f0fb003-f1d2-405e-bb82-979dec4eeee1",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Move",
                     "type": "Value",
-                    "id": "7f1bb8ed-2737-4c11-975a-dece33df7035",
+                    "id": "de5a2717-86bd-44c1-82b6-4c0114af88c8",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Look",
+                    "name": "Rotate X",
                     "type": "Value",
-                    "id": "033d48b3-be72-4f62-afad-16ff4fa4db7c",
-                    "expectedControlType": "Vector2",
+                    "id": "797d2357-920b-419b-8004-9bc9445f8b81",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Rotate Y",
+                    "type": "Value",
+                    "id": "94bf1ff8-f731-482f-964b-e9102cdca3b2",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -35,7 +44,7 @@
                 {
                     "name": "Shoot Magic",
                     "type": "Button",
-                    "id": "cd99f5d7-b5cb-4824-b87c-abb67c7ca772",
+                    "id": "85b28d22-0c19-41ab-bef6-078134bfefc0",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -44,7 +53,7 @@
                 {
                     "name": "Shield",
                     "type": "Button",
-                    "id": "b1ab9fbb-f96b-4575-9166-5058f501b667",
+                    "id": "af9a3630-4e4f-4e38-8eb5-f4c97b932dd5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -53,7 +62,7 @@
                 {
                     "name": "Grip",
                     "type": "Button",
-                    "id": "76e691ca-1db0-4b43-a1c1-e7a869322636",
+                    "id": "28900b9c-8e96-493a-9099-c964dad92ed5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -62,7 +71,7 @@
                 {
                     "name": "Charge",
                     "type": "Button",
-                    "id": "5b7d8279-e980-47a4-b534-5ce9cb0d26ce",
+                    "id": "5ec44d14-6860-4991-910a-4ecdd18d7724",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -71,16 +80,16 @@
                 {
                     "name": "Change Element",
                     "type": "Value",
-                    "id": "ee995524-6188-434a-a288-4c96f0780987",
+                    "id": "6c48f026-51f0-4c14-bc61-2d17e5ce8c3b",
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
-                    "name": "PropertiesSelect",
+                    "name": "Properties Select",
                     "type": "Button",
-                    "id": "13d0d472-d56c-45e6-ba17-30104fdfff49",
+                    "id": "1cd02ce4-eb43-4ace-ac0b-329189bcf814",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press",
@@ -90,7 +99,7 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "34dbda81-0b98-4cb7-9109-35375ac134b1",
+                    "id": "b3a8a8a7-9568-423b-aff5-3c7cb9ac95b8",
                     "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
@@ -101,7 +110,7 @@
                 },
                 {
                     "name": "",
-                    "id": "9013fb61-a91b-4e89-822f-8f8764d13870",
+                    "id": "a118f6a3-d20c-47f8-b92a-1374f845c9fe",
                     "path": "<OculusTouchController>{LeftHand}/triggerPressed",
                     "interactions": "",
                     "processors": "",
@@ -112,7 +121,7 @@
                 },
                 {
                     "name": "2D Vector",
-                    "id": "be6f0353-8aaa-4d04-804f-adfee209154f",
+                    "id": "a365349f-09c5-4884-affb-724470dc0959",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
@@ -123,7 +132,7 @@
                 },
                 {
                     "name": "Up",
-                    "id": "67050d04-eb57-4c5d-8241-639ec38e63a3",
+                    "id": "259b36ac-7f17-4407-bcc8-21a196b94317",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -134,7 +143,7 @@
                 },
                 {
                     "name": "Down",
-                    "id": "ea9d143b-1070-4f5f-b5d7-5fd8aec2eb1f",
+                    "id": "cf65d9ec-1701-4892-8489-b051ad15a929",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -145,7 +154,7 @@
                 },
                 {
                     "name": "Left",
-                    "id": "e2cbc38a-83aa-467e-b9ee-f22918374074",
+                    "id": "fda5bf7a-6186-4625-ab9f-bf357d33af34",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -156,7 +165,7 @@
                 },
                 {
                     "name": "Right",
-                    "id": "27c359b6-0704-4759-9654-1a0b40e5a226",
+                    "id": "b104882f-3381-470d-bab1-0642887f45c3",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -166,74 +175,8 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "2D Vector",
-                    "id": "f2822e27-79b4-4ee4-8a6c-f5d6453e37b9",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "Up",
-                    "id": "e2d33ce8-30bd-40fe-9d67-9f67a8f06b08",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Down",
-                    "id": "88546721-1407-40b8-8dec-4eae3bb1b19f",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Left",
-                    "id": "36f77231-0553-41c0-aea7-a5461cfb0646",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Right",
-                    "id": "6de70091-9165-4119-8c92-51415241f845",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
-                    "id": "3f212f8a-af27-4540-b503-d6749a977a3a",
-                    "path": "<OculusTouchController>{LeftHand}/thumbstick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "85dfd7fc-2efe-4e98-b2ad-aff095245925",
+                    "id": "6bc5566a-6180-445a-8868-f9fbdbc9c9f5",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
@@ -244,7 +187,7 @@
                 },
                 {
                     "name": "",
-                    "id": "e4a48ec3-7d81-4ddc-a095-55481bcab0a6",
+                    "id": "a91948d8-169c-4aaa-8c3d-790fa744c9e9",
                     "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
@@ -255,7 +198,7 @@
                 },
                 {
                     "name": "",
-                    "id": "df274934-a449-428d-b66d-c4c4efdc82f3",
+                    "id": "b097f82c-3cba-4195-9cb0-41343549c71c",
                     "path": "<OculusTouchController>{LeftHand}/gripPressed",
                     "interactions": "",
                     "processors": "",
@@ -266,7 +209,7 @@
                 },
                 {
                     "name": "",
-                    "id": "2ac7f249-c313-42d1-bf65-d91097f6db6c",
+                    "id": "042c6aae-59dc-495b-a722-e617a79e03cc",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
@@ -277,7 +220,7 @@
                 },
                 {
                     "name": "",
-                    "id": "32ae1de8-d2be-4392-9772-c3ea88c6eb19",
+                    "id": "c2dd7a9f-4868-4030-86c8-870d83c72d5b",
                     "path": "<OculusTouchController>{RightHand}/gripPressed",
                     "interactions": "",
                     "processors": "",
@@ -288,7 +231,7 @@
                 },
                 {
                     "name": "",
-                    "id": "4d07d705-c272-4760-8835-37846b2640c3",
+                    "id": "770de354-0c5f-4a85-8655-f7226cbb879e",
                     "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
@@ -299,7 +242,7 @@
                 },
                 {
                     "name": "",
-                    "id": "77f55f2d-e0b3-419e-9a9b-de88464d960b",
+                    "id": "d4285712-4943-4f7c-bd76-246f3448ab3b",
                     "path": "<OculusTouchController>{RightHand}/triggerPressed",
                     "interactions": "",
                     "processors": "",
@@ -310,7 +253,7 @@
                 },
                 {
                     "name": "",
-                    "id": "81caac54-c6c5-466d-8ff4-37bede22fa83",
+                    "id": "524a3146-ef47-4416-bea4-1cf54880af43",
                     "path": "<OculusTouchController>{RightHand}/thumbstick/x",
                     "interactions": "",
                     "processors": "",
@@ -321,7 +264,7 @@
                 },
                 {
                     "name": "1D Axis",
-                    "id": "13464ee9-161d-4abf-aca1-0e7c536108a6",
+                    "id": "1603fdd5-50e4-4802-ab2e-cdfe3f839319",
                     "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
@@ -332,7 +275,7 @@
                 },
                 {
                     "name": "Negative",
-                    "id": "940b53f3-7506-45ac-963c-acb74179e5a8",
+                    "id": "a903a0d9-c731-4ea1-be26-af2b7fa575a5",
                     "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
@@ -343,7 +286,7 @@
                 },
                 {
                     "name": "Positive",
-                    "id": "0cae0395-ef91-42ab-8113-6fbb0c5b1ba7",
+                    "id": "3b8ea92c-ec3e-4bff-b53b-6e602975c496",
                     "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
@@ -353,24 +296,101 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "1D Axis",
+                    "id": "3edd2984-d005-4755-a71a-2f05b62e6d39",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate X",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Negative",
+                    "id": "36bd4c48-9437-4309-806f-aac194cc80f0",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate X",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Positive",
+                    "id": "ca178898-3f67-46f5-9e5d-d75a13e2fdf8",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate X",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
-                    "id": "639527de-692f-4833-982c-97362d8fccd0",
+                    "id": "49fe9470-0988-49ec-a4c5-b8e3e9fe651a",
+                    "path": "<OpenVROculusTouchController>{LeftHand}/thumbstick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate Y",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "61889fcf-15d5-4217-8974-afa57efb97c7",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate Y",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Negative",
+                    "id": "4c603da9-8aa3-46bc-811b-b20545d217be",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate Y",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Positive",
+                    "id": "2b3f089e-8ef9-4599-9c98-2e6b0d3ea8e1",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate Y",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "61a790de-c018-415e-a3de-b14ee10af0c1",
                     "path": "<OculusTouchController>{RightHand}/thumbstickClicked",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "PropertiesSelect",
+                    "action": "Properties Select",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "ac254c5e-3dae-49ff-af58-03d9e44aa2a0",
+                    "id": "467e1442-ed22-413a-98a4-fa99b2f2b5b4",
                     "path": "<Keyboard>/p",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "PropertiesSelect",
+                    "action": "Properties Select",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -39,11 +39,12 @@ public class PlayerController : Singleton<PlayerController>
     
 
     private int previousChangeElementInput = 0;
+    public int pp_Alpha = 0;
 
     private PlayerInput playerInput;
     private PlayerMoveRotate playerMoveRotate;
     private PlayerMagic playerMagic;
-    private GameObject properties;
+    private PropertiesWindow playerProprerties;    
 
     // 배운 능력(비트마스크 방식)
     public int learnedAbility = 0;
@@ -55,7 +56,8 @@ public class PlayerController : Singleton<PlayerController>
         playerInput = GetComponent<PlayerInput>();
         playerMoveRotate = GetComponent<PlayerMoveRotate>();
         playerMagic = GetComponent<PlayerMagic>();
-        properties = transform.FindChildRecursive("Properties").gameObject;
+        playerProprerties =
+            transform.FindChildRecursive("Properties").gameObject.GetComponent<PropertiesWindow>();
         Debug.Assert(magicShield, "Error : magic shield not set");
     }
 
@@ -111,7 +113,7 @@ public class PlayerController : Singleton<PlayerController>
         Teleport();
 
         //속성 선택 창 On/Off
-        //PropertieseAcitve();
+        //PropertieseAcitve();        
     }
 
     public static bool IsPresent()
@@ -212,8 +214,11 @@ public class PlayerController : Singleton<PlayerController>
         int input = Mathf.RoundToInt(playerInput.actions["Change Element"].ReadValue<float>());
         if (input != previousChangeElementInput)
         {
-            properties.SetActive(true);
-            playerMagic.ChangeElement(input);
+            //print(input);           
+            playerMagic.ChangeElement(input);            
+            playerProprerties.OnChangeElement(input);
+            playerProprerties.OnPropertise(1);
+            
         }
         previousChangeElementInput = input;
        
@@ -282,10 +287,10 @@ public class PlayerController : Singleton<PlayerController>
         learnedAbility |= (int)ability;
     }
 
-    public void PropertieseAcitve()
+    public void PropertieseDeacitve()
     {
         #region 입력시 창 표시
-        //int input = Mathf.RoundToInt(playerInput.actions["PropertiesSelect"].ReadValue<float>());
+        //int input = Mathf.RoundToInt(playerInput.actions["Properties Select"].ReadValue<float>());
         //print("현재 썸스틱 클릭 : " + input);
 
         //if (0 != input)
@@ -297,8 +302,9 @@ public class PlayerController : Singleton<PlayerController>
         //    }           
         //}
         //print(isActive);
-        #endregion
-        properties.SetActive(false);
+        #endregion               
+        pp_Alpha = 0;
+       
         
     }
 
