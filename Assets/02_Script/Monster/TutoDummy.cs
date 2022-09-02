@@ -105,7 +105,7 @@ public class TutoDummy : MonoBehaviour
 
     void Idle()
     {
-        // Enemy와 Player의 거리를 측정하고, 공격 사거리(stoppingDistance)이내면 마법을 발사한다.
+        // Enemy와 Player의 거리를 측정하고, 공격 사거리(attackDistance)이내면 마법을 발사한다.
         if (dist <= attackDistance)
         {
             ChaseGrowl();
