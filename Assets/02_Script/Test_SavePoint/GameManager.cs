@@ -15,7 +15,7 @@ public class GameManager : Singleton<GameManager>
     private CharacterStatus playerStatus;
     private PlayerMoveRotate playerMoveRotate;
 
-    private void Start()
+    private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
 

@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Projectile
   - Right Hand
+  - Portal
+  - Boss
   layers:
   - Default
   - TransparentFX
