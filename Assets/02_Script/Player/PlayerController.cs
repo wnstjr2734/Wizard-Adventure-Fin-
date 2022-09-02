@@ -218,12 +218,10 @@ public class PlayerController : Singleton<PlayerController>
         
         int input = Mathf.RoundToInt(playerInput.actions["Change Element"].ReadValue<float>());
         if (input != previousChangeElementInput)
-        {
-            //print(input);           
+        {                 
             playerMagic.ChangeElement(input);            
-            playerProprerties.OnChangeElement(input);
-            playerProprerties.OnPropertise(1);
-            
+            playerProprerties.OnChangeElement(input);                             //속성 선택 입력 값을 받음     
+            playerProprerties.OnPropertise(1);                                              //프로퍼티 창이 뜸            
         }
         previousChangeElementInput = input;
        
@@ -290,27 +288,6 @@ public class PlayerController : Singleton<PlayerController>
     public void LearnAbility(MagicAbility ability)
     {
         learnedAbility |= (int)ability;
-    }
-
-    public void PropertieseDeacitve()
-    {
-        #region 입력시 창 표시
-        //int input = Mathf.RoundToInt(playerInput.actions["Properties Select"].ReadValue<float>());
-        //print("현재 썸스틱 클릭 : " + input);
-
-        //if (0 != input)
-        //{
-        //    if (isActive == false)
-        //    {
-        //        properties.SetActive(true);
-        //        isActive = true;
-        //    }           
-        //}
-        //print(isActive);
-        #endregion               
-        pp_Alpha = 0;
-       
-        
     }
 
 }

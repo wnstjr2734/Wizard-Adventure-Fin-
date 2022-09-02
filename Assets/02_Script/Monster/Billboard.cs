@@ -9,7 +9,8 @@ using UnityEngine;
 public class Billboard : MonoBehaviour
 {
     Transform camTransform;
-    public Transform attackTarget;
+    [Tooltip("HPbar가 쳐다보는 대상")]
+    public Transform lookAt;
     // Start is called before the first frame update
 
     private void Awake()
@@ -25,6 +26,6 @@ public class Billboard : MonoBehaviour
     void Update()
     {
         //transform.rotation = camTransform.rotation;
-        this.transform.LookAt(attackTarget);
+        this.transform.LookAt(lookAt);
     }
 }

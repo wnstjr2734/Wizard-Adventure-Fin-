@@ -52,7 +52,7 @@ public class Portal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player"); 
         portalCol = GetComponent<BoxCollider>();
         portalCol.enabled = false;
         cc = player.GetComponent<CharacterController>();

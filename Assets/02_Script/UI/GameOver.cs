@@ -12,7 +12,8 @@ public class GameOver : MonoBehaviour
 {
     [SerializeField] Image back_img, frame_img, text_img;
     public bool isPlayerdead = false;
-    float playTime, delayTime;
+    [SerializeField, Tooltip ("UI 표시 재생시간, 딜레이시간")]
+    private float playTime, delayTime;
     Color[] clr;
 
     // Start is called before the first frame update
@@ -23,6 +24,7 @@ public class GameOver : MonoBehaviour
         Alpha0(isPlayerdead);
     }
 
+    #region 디버그
     //// Update is called once per frame
     //void Update()
     //{
@@ -41,8 +43,9 @@ public class GameOver : MonoBehaviour
     //    {
     //        //Alpha0();
     //    }
-        
+
     //}
+    #endregion
 
     //애니메이션 함수
     //시퀸스를 사용하여 스케일과 알파값을 동시에 조절
@@ -52,12 +55,12 @@ public class GameOver : MonoBehaviour
     {
         print("재생");
         float fgoal = 0.45f;
-        Vector3 textScale = new Vector3(fgoal, fgoal, fgoal);
-        Sequence suq = DOTween.Sequence();
-        suq.Prepend(back_img.DOFade(0.95f, playTime));
-        suq.Insert(delayTime-1.5f, frame_img.DOFade(1, 3.0f));
-        suq.Insert(delayTime, text_img.DOFade(1, playTime+2.0f));
-        suq.Join(text_img.transform.DOScale(textScale, playTime));
+        Vector3 textScale = new Vector3(fgoal, fgoal, fgoal);                         //초기 문구 스케일
+        Sequence suq = DOTween.Sequence();                                                   
+        suq.Prepend(back_img.DOFade(0.95f, playTime));                              //암막이 먼저 나타남        
+        suq.Insert(delayTime-1.5f, frame_img.DOFade(1, 3.0f));                    //암막 나타다고 1.5초 뒤에 프레임이 나타남      
+        suq.Insert(delayTime, text_img.DOFade(1, playTime+2.0f));              //페이드인하면서 문구 표시됨 
+        suq.Join(text_img.transform.DOScale(textScale, playTime));             //그와 동시에 문구 스케일이 커짐
         suq.AppendInterval(2.0f);
         suq.onComplete = () => {
             Alpha0(false);
@@ -83,7 +86,6 @@ public class GameOver : MonoBehaviour
             text_img.color = clr[2];
             text_img.transform.localScale = new Vector3(dgoal, dgoal, dgoal);
         }
-       
     }
 
 }
