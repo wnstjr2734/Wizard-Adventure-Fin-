@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using DG.Tweening;
 
 /// <summary>
@@ -12,18 +11,20 @@ public class PropertiesWindow : MonoBehaviour
 {
     #region 변수
     public GameObject pp_base;                           // 속성 선택을 위한 회전용 UI
+    private CanvasGroup cg;
+    private PlayerMagic magic;
+
+    Vector3 angle;
+
     private int[] pp_index = { 0, 1, -1 };                // 속성 인덱스
+    private int pp_Angle = 0;    
+    private int horizontal;    
     private float speed = 0.5f;
     private float currentAngle = 0.0f;
-    private int pp_Angle = 0;    
     private float moveAngle = -120f, reversAngle = 120f;    
-    private int horizontal;    
     private bool isRotate = false;   
-    private CanvasGroup cg;
     ElementType[] et = { ElementType.Fire, ElementType.Ice, ElementType.Lightning };  //속성 마법    
-    PlayerMagic magic;
     ElementType pp;
-    Vector3 angle;
     Ease ease;
     #endregion
 
@@ -36,32 +37,25 @@ public class PropertiesWindow : MonoBehaviour
         //magic.onChangeElement += ChangeElementAnimation;       
     }
 
-    // Update is called once per frame
-    private void Update()
-    {
-        //좌우 입력값을 -1,0,1 로 받음                 
-        StartCoroutine(nameof(IEBaseRotate));        
-        
-    }
-
     private void ChangeElementAnimation(ElementType element)
     {
         Debug.Log("속성 변경");
     }
     
+    //플레이어 컨트롤러에서 마법 변경 값을 받아옴
     public void OnChangeElement(int input)
-    {
-        print(input);
+    {       
         horizontal = input;
+        StartCoroutine(IEBaseRotate(input));
     }
 
 
     //Axis 키 값을 받으면 Circle이 회전
-    IEnumerator IEBaseRotate()
+    IEnumerator IEBaseRotate(int vector)
     {       
         float delay = 1.0f;
 
-        if (horizontal == -1 && !isRotate) //왼쪽 회전
+        if (vector == -1 && !isRotate) //왼쪽 회전
         {
             LeftMove();
             pp_Angle += horizontal;
@@ -69,7 +63,7 @@ public class PropertiesWindow : MonoBehaviour
             isRotate = false;            
             OnPropertise(0);
         }
-        else if (horizontal == 1 && !isRotate) //오른쪽 회전
+        else if (vector == 1 && !isRotate) //오른쪽 회전
         {
             RightMove();
             pp_Angle += horizontal; 

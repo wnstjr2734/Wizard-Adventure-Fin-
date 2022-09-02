@@ -49,6 +49,7 @@ public class WindowSystem : Singleton<WindowSystem>
 
     private void Update()
     {
+        #region 디버그
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
             // 창 닫을거 없으면 메뉴 켜기
@@ -68,6 +69,7 @@ public class WindowSystem : Singleton<WindowSystem>
             LoadingWindow.Instance.LoadScene("SampleMap_LJS Test 1");
             DOTween.KillAll();
         }
+        #endregion
 
     }
 
@@ -125,11 +127,6 @@ public class WindowSystem : Singleton<WindowSystem>
         int num;
         if (cg != null)
         {
-            //if (!Load)
-            //{  cg.DOFade(1, 3.0f);  }
-            //if (Load)
-            //{  cg.DOFade(0, 3.0f);  }
-
             num = Load ? 0 : 1;
             cg.DOFade(num, 3.0f);
 

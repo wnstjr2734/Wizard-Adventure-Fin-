@@ -65,7 +65,6 @@ public class ChargeEffect : MonoBehaviour
 
         SetColor(ElementType.Fire);
         StartCoroutine(nameof(IEChargeGauge));
-
         chargeGauge.SetActive(true);
     }
 

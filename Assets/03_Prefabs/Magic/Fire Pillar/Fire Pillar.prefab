@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 456768}
   - component: {fileID: 19822198}
   - component: {fileID: 19982352}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4668,7 +4668,7 @@ GameObject:
   - component: {fileID: 492956}
   - component: {fileID: 19891132}
   - component: {fileID: 19928362}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: base pulse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9334,7 +9334,7 @@ GameObject:
   - component: {fileID: 412648}
   - component: {fileID: 19895508}
   - component: {fileID: 19994108}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: base glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14009,7 +14009,7 @@ GameObject:
   - component: {fileID: 439932}
   - component: {fileID: 19846996}
   - component: {fileID: 19974782}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: sphere base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18677,7 +18677,7 @@ GameObject:
   - component: {fileID: 198665292533106868}
   - component: {fileID: 2572981122696668737}
   - component: {fileID: 2031769257719962946}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire Pillar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23541,7 +23541,7 @@ GameObject:
   - component: {fileID: 470040}
   - component: {fileID: 19811122}
   - component: {fileID: 19949908}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28207,7 +28207,7 @@ GameObject:
   - component: {fileID: 421278}
   - component: {fileID: 19885568}
   - component: {fileID: 19987742}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32839,7 +32839,7 @@ GameObject:
   - component: {fileID: 1191528253962581794}
   - component: {fileID: 1089169742411669943}
   - component: {fileID: 4140139439931099342}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
