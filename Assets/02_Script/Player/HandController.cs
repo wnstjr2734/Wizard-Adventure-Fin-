@@ -33,42 +33,38 @@ public class HandController : MonoBehaviour
 
     [Header("플레이어 UI 조작")]
     [SerializeField] private LineRenderer line;  
-    [SerializeField] private Transform basePos;    
-    [SerializeField] private float maxDis = 30f;
-    Ray ray = new Ray();
+    [SerializeField] private Transform basePos;
+    [SerializeField] private GameObject ShootDetector;
+    [SerializeField] private GameObject MagicWand;
+    [SerializeField] private GameObject Firebullet;
     
+    private GameObject bulletFactory;
 
-    private RaycastHit hit;
+
+
 
     private void Start()
-    {
-        ray.origin = basePos.localPosition;
-        ray.direction = basePos.forward;        
+    {       
+        ShootDetector = transform.FindChildRecursive("ShootDetector").gameObject;
+        MagicWand = transform.FindChildRecursive("Magic_wand_06").gameObject;
+        Firebullet.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
     }
 
     private void Update()
     {
-        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
-        {
-            Debug.Log(hit.collider.gameObject.name);
-            Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.red);
-            print("레이 시작 위치 : " +ray.origin);
-            print("기준점 위치 : " + basePos.position);
-            line.SetPosition(0, ray.origin);
-            line.SetPosition(1, hit.point);
-            
-        }
+        ShootDetectorSwitch(PlayerController.Instance.CanControlPlayer);            
         if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch))
         {
-            line.gameObject.SetActive(true);
-            print("버튼 클릭");
-            
+            Debug.Log("파이어");
+            bulletFactory = Instantiate(Firebullet);
+            bulletFactory.transform.position = basePos.position;
+            bulletFactory.transform.rotation = Quaternion.LookRotation(basePos.forward);
+            bulletFactory.transform.position += bulletFactory.transform.forward * 3.0f * Time.deltaTime;
+            Destroy(bulletFactory, 3.0f);
+
         }
-        else if (OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.LTouch))
-        {
-            print("버튼 실행");
-            line.gameObject.SetActive(false);
-        }
+       
+
 
     }
 
@@ -86,4 +82,15 @@ public class HandController : MonoBehaviour
     {
         rightHandAnimator.SetInteger(animNumHash, (int)action);
     }
+
+    void ShootDetectorSwitch(bool ActionMap)
+    {
+        bool defultMap = ActionMap ? true : false;
+       RightAction ra = ActionMap ? RightAction.WandGrip : RightAction.UiSelect;
+
+        ShootDetector.SetActive(defultMap);
+        MagicWand.SetActive(defultMap);
+        SetRightHandAction(ra);
+    }
+
 }
