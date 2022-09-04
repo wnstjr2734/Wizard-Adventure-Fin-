@@ -37,6 +37,7 @@ public class EnemyFSM : MonoBehaviour
     public ElementDamage elementDamage;
     private bool moveLock;
     private bool checkDead = false;
+    private bool initChaseTrigger = true; // 추격범위 밖에서 플레이어에게 피해를 입었을 때 자동으로 플레이어를 추격하도록 하기위함.
 
     #region(AudioClip)
     public AudioSource audioSource;
@@ -54,7 +55,7 @@ public class EnemyFSM : MonoBehaviour
     public AudioClip shocked;
     [Tooltip("몬스터가 죽으면서 내는 소리")]
     public AudioClip deadGrowl;
-    [Tooltip("몬스터가 죽으면서 나는 뼈부숴지는 소리")]
+    [Tooltip("몬스터가 죽으면서 나는 환경음")]
     public AudioClip dead;
     #endregion
 
@@ -120,14 +121,22 @@ public class EnemyFSM : MonoBehaviour
     public void ResetFSM()
     {
         animator.SetBool(isPlayerDeadID, false);
+        initChaseTrigger = true;
     }
 
     void Idle()
     {
         // Enemy와 Player의 거리를 측정하고, 추격 거리 이내면 Move State로 전환한다.
-        if (dist <= chaseDistance)
+        if (dist <= chaseDistance || this.charStatus.CurrentHp != this.charStatus.maxHp && initChaseTrigger == true)
         {
             ChaseGrowl();
+            initChaseTrigger = false; // 데미지를 입을 때 마다 호출되지 않도록 false로 전환
+            state = EnemyState.Move;
+        }
+        if (this.charStatus.CurrentHp != this.charStatus.maxHp && initChaseTrigger == true)
+        {
+            ChaseGrowl();
+            initChaseTrigger = false;
             state = EnemyState.Move;
         }
     }

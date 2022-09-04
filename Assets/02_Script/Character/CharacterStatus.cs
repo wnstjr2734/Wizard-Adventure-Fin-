@@ -26,8 +26,8 @@ public class CharacterStatus : MonoBehaviour
     public event Action onShocked;              // 경직
 
     [Header("능력치")]
-    [SerializeField, Tooltip("최대 체력")] 
-    private int maxHp = 100;
+    //[SerializeField, Tooltip("최대 체력")] 
+    public int maxHp = 100;
     private int currentHp;
     // 죽은 이후에도 화상 등으로 데미지를 입어 다시 죽는 일을 방지
     private bool isDead = false;

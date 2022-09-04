@@ -4808,7 +4808,7 @@ MonoBehaviour:
   moveSpeed: 10
   range: 50
   elementDamage:
-    damage: 10
+    damage: 1
     elementType: 3
     stack: 1
   hitEffectPrefab: {fileID: 19870008, guid: 6cd62825c50c07346a1b8b8bd17252a7, type: 3}
@@ -4848,7 +4848,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 40
+  MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
