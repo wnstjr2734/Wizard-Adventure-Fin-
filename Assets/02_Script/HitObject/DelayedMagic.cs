@@ -44,6 +44,7 @@ public class DelayedMagic : Magic
         var invokedMagic = PoolSystem.Instance.GetInstance<Magic>(invokedMagicPrefab);
         invokedMagic.transform.position = transform.position;
         invokedMagic.transform.rotation = transform.rotation;
+        invokedMagic.StartMagic();
 
         gameObject.SetActive(false);
     }

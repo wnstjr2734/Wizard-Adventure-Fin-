@@ -29,16 +29,13 @@ public partial class BossFSM : MonoBehaviour
     {
         [SerializeField, Tooltip("스킬 최소 쿨타임 / 최대 쿨타임")]
         private Vector2 cooldown = new Vector2(15, 30);
-        [SerializeField, Tooltip("초기 스킬 쿨다운")]
-        private float initCooldown = 0;
-        [Tooltip("현재 쿨다운")]
+        [SerializeField, Tooltip("현재 쿨다운(여기에 기입하면 초기 쿨다운)")]
         private float currentCooldown = 0;
 
         [SerializeField, Tooltip("다음 행동까지 기다리는 시간")]
         private float nextActionDelay = 1.5f;
         
         public Vector2 Cooldown => cooldown;
-        public float InitCooldown => initCooldown;
         
         public float CurrentCooldown
         {
@@ -66,11 +63,6 @@ public partial class BossFSM : MonoBehaviour
     private Transform attackTarget;
     
 
-
-    private float dist;
-    public float chaseDistance;
-    public float attackDistance;
-    protected NavMeshAgent agent;
     protected Animator animator;
     private CharacterStatus charStatus;
     public ElementDamage elementDamage;
@@ -91,7 +83,6 @@ public partial class BossFSM : MonoBehaviour
 
     protected void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
         charStatus = GetComponent<CharacterStatus>();
 
@@ -139,7 +130,6 @@ public partial class BossFSM : MonoBehaviour
     public virtual void OnDeathFinished()
     {
         //print("Death Finished");
-        agent.isStopped = true;
         gameObject.SetActive(false);
     }
     
