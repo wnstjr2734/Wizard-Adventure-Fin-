@@ -45,6 +45,7 @@ public class PlayerHitManager : MonoBehaviour
 
     private void Start()
     {
+        //bloodEffectMat = new Material(bloodEffectMat);
         bloodEffectMat.SetFloat(blendAmountID, bloodBlendAmounts.x);
 
         player.onHpChange += OnHit;

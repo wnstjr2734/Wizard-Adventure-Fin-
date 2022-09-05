@@ -8,6 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/01_Scenes/KDY/MainTitle_KDY.unity
+    guid: 726d0c76650bac245a1e031340a7a30e
+  - enabled: 1
+    path: Assets/01_Scenes/KDY/Loading_KDY.unity
+    guid: 5e3e4900a9bcc6f4894f463b39e53bf8
+  - enabled: 1
+    path: Assets/01_Scenes/Main Stage_Proto 1.unity
+    guid: 7240d6f2093e0664c9be14dec025d459
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: c569650df17630944a2b0642772723ad, type: 2}
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 3e4fab020d2c8b148ac05e1aca358b37, type: 2}
