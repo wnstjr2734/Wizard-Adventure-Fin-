@@ -46,12 +46,16 @@ public class LoadingWindow : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
+        videoPlayer = transform.FindChildRecursive("MoviePlayer").gameObject.GetComponent<MoviePlayer>();
+
     }
 
     [SerializeField]
     private GameObject loading;
     [SerializeField]
     private Slider progressBar;
+    [SerializeField]
+    private MoviePlayer videoPlayer;
     private CanvasGroup cg;
     public TextMeshProUGUI loading_text;
     public GameObject circle;
@@ -74,6 +78,7 @@ public class LoadingWindow : MonoBehaviour
             CircleRotate();
             StartCoroutine(nameof(IETextCycle));
         }
+        videoPlayer.PlayVideo();
 
     }
 
@@ -115,7 +120,7 @@ public class LoadingWindow : MonoBehaviour
     {
         gameObject.SetActive(true);
         SceneManager.sceneLoaded += LoadSceneEnd;
-        loadSceneName = sceneName;
+        loadSceneName = sceneName;        
         StartCoroutine(Load(sceneName));
     }
 
@@ -159,9 +164,9 @@ public class LoadingWindow : MonoBehaviour
         if (scene.name == loadSceneName)
         {
             WindowSystem.Instance.BackFade(true);            
+            //videoPlayer.PlayVideo();
             SceneManager.sceneLoaded -= LoadSceneEnd;
             DOTween.KillAll();
-
         }
     }
 
