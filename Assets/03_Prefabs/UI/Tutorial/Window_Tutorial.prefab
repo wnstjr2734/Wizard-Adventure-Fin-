@@ -464,6 +464,7 @@ MonoBehaviour:
   animTime: 0.5
   movePosX: 1024
   canvasGroup: {fileID: 8674344258364494592}
+  exitButton: {fileID: 8674344256699083521}
 --- !u!225 &8674344258364494592
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -11,9 +11,11 @@ using UnityEngine.UI;
 public class TutorialWindow : HelpWindow
 {
     [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private Button exitButton;
 
     public void Open(TutorialExplainData[] datas)
     {
+        exitButton.interactable = false;
         contents = datas;
 
         SetCurrentIndex(0);
@@ -27,12 +29,24 @@ public class TutorialWindow : HelpWindow
         
         Sequence s = DOTween.Sequence();
         s.Append(canvasGroup.DOFade(1.0f, 0.5f)).SetUpdate(true);
-        s.onComplete = () => currentViewer.Play();
+        s.onComplete = () =>
+        {
+            currentViewer.Play();
+            exitButton.interactable = true;
+        };
     }
 
     public void Close()
     {
+        print("Tutorial Closed");
         currentViewer.Stop();
-        WindowSystem.Instance.CloseWindow(true);
+
+        canvasGroup.alpha = 1.0f;
+
+        Sequence s = DOTween.Sequence();
+        s.Append(canvasGroup.DOFade(0.0f, 0.5f)).SetUpdate(true);
+        s.onComplete = () => {
+            WindowSystem.Instance.CloseWindow(true);
+        };
     }
 }
