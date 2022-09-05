@@ -122,12 +122,13 @@ public class EnemyFSM : MonoBehaviour
     {
         animator.SetBool(isPlayerDeadID, false);
         initChaseTrigger = true;
+        state = EnemyState.Idle;
     }
 
     void Idle()
     {
         // Enemy와 Player의 거리를 측정하고, 추격 거리 이내면 Move State로 전환한다.
-        if (dist <= chaseDistance || this.charStatus.CurrentHp != this.charStatus.maxHp && initChaseTrigger == true)
+        if (dist <= chaseDistance)
         {
             ChaseGrowl();
             initChaseTrigger = false; // 데미지를 입을 때 마다 호출되지 않도록 false로 전환

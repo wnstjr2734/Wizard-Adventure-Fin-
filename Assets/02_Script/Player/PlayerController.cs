@@ -45,7 +45,7 @@ public class PlayerController : Singleton<PlayerController>
     private PropertiesWindow playerProprerties;    
 
     // 배운 능력(비트마스크 방식)
-    public int learnedAbility = 0;
+    private int learnedAbility = 0;
 
     public bool CanControlPlayer => playerInput.currentActionMap.name.Equals("Player");
 

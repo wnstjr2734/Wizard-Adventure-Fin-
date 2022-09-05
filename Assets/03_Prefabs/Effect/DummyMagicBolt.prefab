@@ -4808,7 +4808,7 @@ MonoBehaviour:
   moveSpeed: 10
   range: 50
   elementDamage:
-    damage: 1
+    damage: 50
     elementType: 3
     stack: 1
   hitEffectPrefab: {fileID: 19870008, guid: 6cd62825c50c07346a1b8b8bd17252a7, type: 3}
