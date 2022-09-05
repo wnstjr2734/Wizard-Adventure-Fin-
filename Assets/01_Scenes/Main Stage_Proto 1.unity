@@ -228,7 +228,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1320331752866593515, guid: 61120a4011ec5954db39b477a530e314, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1320331752866593515, guid: 61120a4011ec5954db39b477a530e314, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1144,7 +1144,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1294948143183590747, guid: 8779a75025cd3984db9a239e86c3bf9b, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1294948143183590747, guid: 8779a75025cd3984db9a239e86c3bf9b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1696,7 +1696,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1017247353}
   m_Layer: 0
-  m_Name: Map
+  m_Name: Stage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2545,6 +2545,10 @@ PrefabInstance:
     - target: {fileID: 1750154580618444111, guid: e34acf833c819ab4c838339997d34bd0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5174859946198720453, guid: e34acf833c819ab4c838339997d34bd0, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e34acf833c819ab4c838339997d34bd0, type: 3}
@@ -14264,7 +14268,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4535990645521309557, guid: 09f3d98bc0480684a81367327a02a952, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4701660588739108290, guid: 09f3d98bc0480684a81367327a02a952, type: 3}
       propertyPath: m_Layer
