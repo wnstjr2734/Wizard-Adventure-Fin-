@@ -2532,6 +2532,7 @@ GameObject:
   - component: {fileID: 4012481538021002}
   - component: {fileID: 114404122426460036}
   - component: {fileID: 114043904221691898}
+  - component: {fileID: 114404122426460037}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -2699,7 +2700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f1a9a1d119a5944aacfb87d1ec283a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rayTransform: {fileID: 0}
+  rayTransform: {fileID: 5941063259058763460}
   m_Cursor: {fileID: 114392411560444706}
   joyPadClickButton: -1
   gazeClickKey: 32
@@ -2747,6 +2748,34 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 0
   m_DragThreshold: 5
+--- !u!114 &114404122426460037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132932037357794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 5941063259058763460}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: 29eafabf5de36d24eb1abf9cad75af86, type: 3}
+  m_PointAction: {fileID: 2387081520646786879, guid: 29eafabf5de36d24eb1abf9cad75af86, type: 3}
+  m_MoveAction: {fileID: 5309305436017915668, guid: 29eafabf5de36d24eb1abf9cad75af86, type: 3}
+  m_SubmitAction: {fileID: 989495608941454257, guid: 29eafabf5de36d24eb1abf9cad75af86, type: 3}
+  m_CancelAction: {fileID: -9175361927698915944, guid: 29eafabf5de36d24eb1abf9cad75af86, type: 3}
+  m_LeftClickAction: {fileID: 1760186601920135557, guid: 29eafabf5de36d24eb1abf9cad75af86, type: 3}
+  m_MiddleClickAction: {fileID: 8813890731358587937, guid: 29eafabf5de36d24eb1abf9cad75af86, type: 3}
+  m_RightClickAction: {fileID: 5277448183902698335, guid: 29eafabf5de36d24eb1abf9cad75af86, type: 3}
+  m_ScrollWheelAction: {fileID: -3198534275140698767, guid: 29eafabf5de36d24eb1abf9cad75af86, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 6993152011678279996, guid: 29eafabf5de36d24eb1abf9cad75af86, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 4091623623341442526, guid: 29eafabf5de36d24eb1abf9cad75af86, type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
 --- !u!114 &114500180796460028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83991,7 +84020,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 29eafabf5de36d24eb1abf9cad75af86, type: 3}
   m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
+  m_UIInputModule: {fileID: 114404122426460037}
   m_DeviceLostEvent:
     m_PersistentCalls:
       m_Calls: []

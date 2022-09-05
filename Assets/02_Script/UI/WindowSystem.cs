@@ -41,8 +41,7 @@ public class WindowSystem : Singleton<WindowSystem>
     {
         Debug.Log("Window System Activate");
         DOTween.defaultTimeScaleIndependent = true;
-        DOTween.timeScale = 1.0f;       
-        
+        DOTween.timeScale = 1.0f;               
        SceneCheck();
 
     }
@@ -140,26 +139,33 @@ public class WindowSystem : Singleton<WindowSystem>
 
     //현재 씬을 체크하여 페이드 효과와 씬 이동 실행
     void SceneCheck()
-    {
-        if (SceneManager.GetActiveScene().buildIndex == 0)
+    {       
+
+        if (SceneManager.sceneCountInBuildSettings > 1)
         {
-            if (mainTitle != null)
+            if (SceneManager.GetActiveScene().buildIndex == 0)
             {
-                cg = mainTitle.GetComponentInChildren<CanvasGroup>();
-                cg.alpha = 0.0f;
+                if (mainTitle != null)
+                {
+                    cg = mainTitle.GetComponentInChildren<CanvasGroup>();
+                    cg.alpha = 0.0f;
+                }
+            }
+
+            else if (SceneManager.GetActiveScene().buildIndex == 1)
+            {
+                if (Loading != null)
+                {
+                    cg = Loading.GetComponent<CanvasGroup>();
+                    cg.alpha = 1.0f;
+                }
+                LoadingWindow.Instance.LoadScene("Main Stage_Proto 1");
+                DOTween.KillAll();
             }
         }
-
-        if (SceneManager.GetActiveScene().buildIndex == 1)
+        else
         {
-            if (Loading != null)
-            {
-                cg = Loading.GetComponent<CanvasGroup>();
-                cg.alpha = 1.0f;
-            }
-            LoadingWindow.Instance.LoadScene("SampleMap_LJS Test 1");
-            DOTween.KillAll();
-
+            return;
         }
     }
 

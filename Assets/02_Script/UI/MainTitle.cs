@@ -38,7 +38,7 @@ public class MainTitle : MonoBehaviour
     public void OnStart()
     {
         print("게임 시작");
-        //StartCoroutine(nameof(IESceneChange));
+        StartCoroutine(nameof(IESceneChange));
         
     }
     //계속하기를 하면 세이브 포인트로 이동

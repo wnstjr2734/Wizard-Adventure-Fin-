@@ -40,9 +40,6 @@ public class HandController : MonoBehaviour
     
     private GameObject bulletFactory;
 
-
-
-
     private void Start()
     {       
         ShootDetector = transform.FindChildRecursive("ShootDetector").gameObject;
@@ -55,20 +52,18 @@ public class HandController : MonoBehaviour
         ShootDetectorSwitch(PlayerController.Instance.CanControlPlayer);            
         if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch))
         {
-            Debug.Log("파이어");
-            bulletFactory = Instantiate(Firebullet);
-            bulletFactory.transform.position = basePos.position;
-            bulletFactory.transform.rotation = Quaternion.LookRotation(basePos.forward);
-            bulletFactory.transform.position += bulletFactory.transform.forward * 3.0f * Time.deltaTime;
-            Destroy(bulletFactory, 3.0f);
-
+            if (basePos != null)
+            {
+                bulletFactory = Instantiate(Firebullet);
+                bulletFactory.transform.position = basePos.position;
+                bulletFactory.transform.rotation = Quaternion.LookRotation(basePos.forward);
+                bulletFactory.transform.position += bulletFactory.transform.forward * 3.0f * Time.deltaTime;
+                Destroy(bulletFactory, 3.0f);
+            }
+           
         }
-       
-
 
     }
-
-
 
     // 애니메이션 스트링 해쉬 코드
     private readonly int animNumHash = Animator.StringToHash("AnimNum");
@@ -85,6 +80,7 @@ public class HandController : MonoBehaviour
 
     void ShootDetectorSwitch(bool ActionMap)
     {
+        //Player Action Map 이 Player 면 True, UI 면 False
         bool defultMap = ActionMap ? true : false;
        RightAction ra = ActionMap ? RightAction.WandGrip : RightAction.UiSelect;
 
