@@ -248,4 +248,28 @@ public class PlayerMoveRotate : MonoBehaviour
 
         previousAxisX = currentAxisRaw;
     }
+
+    public void Knockback(Vector3 knockbackVelocity)
+    {
+        yVelocity = knockbackVelocity.y;
+        StartCoroutine(IEKnockback(new Vector3(knockbackVelocity.x, 0, knockbackVelocity.z)));
+    }
+
+    private IEnumerator IEKnockback(Vector3 knockbackVecXZ)
+    {
+        float speed = knockbackVecXZ.magnitude;
+        Vector3 direction = knockbackVecXZ.normalized;
+        float decreaseSpeed = 5f;
+
+        // 넉백 중엔 텔레포트 막아야함
+        isTeleporting = true;
+        while (speed > 0.01f)
+        {
+            cc.Move(direction * (speed * Time.deltaTime));
+            speed -= Time.deltaTime * decreaseSpeed;
+            yield return null;
+        }
+
+        isTeleporting = false;
+    }
 }
