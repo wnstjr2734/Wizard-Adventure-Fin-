@@ -122,6 +122,7 @@ public class EnemyFSM : MonoBehaviour
     {
         animator.SetBool(isPlayerDeadID, false);
         initChaseTrigger = true;
+        state = EnemyState.Idle;
     }
 
     void Idle()
