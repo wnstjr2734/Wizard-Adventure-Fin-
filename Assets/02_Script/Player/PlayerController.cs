@@ -290,4 +290,10 @@ public class PlayerController : Singleton<PlayerController>
         learnedAbility |= (int)ability;
     }
 
+    public bool OnClick()
+    { 
+        bool click = playerInput.actions["Click"].ReadValue<bool>();
+        return click;
+    }
+
 }

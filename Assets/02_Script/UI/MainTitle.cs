@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class MainTitle : MonoBehaviour
 {
     //게임이 실행되면 가장 먼저 뜨는 화면임        
+    
+
 
     // Start is called before the first frame update
     void Start()
@@ -17,26 +19,26 @@ public class MainTitle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            OnStart();
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            OnContinue();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            OnQuit();
-        }
-
-
+        #region 디버그
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    OnStart();
+        //}
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    OnContinue();
+        //}
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    OnQuit();
+        //}
+        #endregion
     }
     //스타트 버튼 클릭시 로딩화면 씬으로 이동
     public void OnStart()
     {
         print("게임 시작");
-        StartCoroutine(nameof(IESceneChange));
+        //StartCoroutine(nameof(IESceneChange));
         
     }
     //계속하기를 하면 세이브 포인트로 이동
@@ -53,7 +55,11 @@ public class MainTitle : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       
+        if (other.CompareTag("Player"))
+        {
+
+        }
+
     }
 
     //3초 후에 씬 이동
