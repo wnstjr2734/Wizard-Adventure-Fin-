@@ -34,9 +34,9 @@ public class HandController : MonoBehaviour
     [Header("플레이어 UI 조작")]
     [SerializeField] private LineRenderer line;  
     [SerializeField] private Transform basePos;
-    [SerializeField] private GameObject ShootDetector;
-    [SerializeField] private GameObject MagicWand;
-    [SerializeField] private GameObject Firebullet;
+    [SerializeField] private GameObject ShootDetector = null;
+    [SerializeField] private GameObject MagicWand = null;
+    [SerializeField] private GameObject Firebullet = null;
     
     private GameObject bulletFactory;
 

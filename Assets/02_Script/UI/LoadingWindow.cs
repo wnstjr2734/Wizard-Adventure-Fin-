@@ -78,7 +78,7 @@ public class LoadingWindow : MonoBehaviour
             CircleRotate();
             StartCoroutine(nameof(IETextCycle));
         }
-        videoPlayer.PlayVideo();
+       videoPlayer.PlayVideo();
 
     }
 
