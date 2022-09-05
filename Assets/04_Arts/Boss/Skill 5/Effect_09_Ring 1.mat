@@ -2,16 +2,13 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 8
+  serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Skill 5_Ring
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Effect_09_Ring 1
   m_Shader: {fileID: 4800000, guid: c08b0de36275f4039875d1aab188d0ca, type: 3}
-  m_ValidKeywords:
-  - IS_TEXTUREBLEND
-  m_InvalidKeywords: []
+  m_ShaderKeywords: IS_TEXTUREBLEND
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -50,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTex:
-        m_Texture: {fileID: 2800000, guid: 8f45d89a0dd877246820f08ee31a857f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6eca43d1f1495eb42b1f7035560130ca, type: 3}
         m_Scale: {x: 8, y: 8}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -61,9 +58,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Ints: []
     m_Floats:
-    - _AllColorFactor: 1.15
+    - _AllColorFactor: 1.25
     - _BlendDst: 1
     - _BlendSrc: 5
     - _BumpScale: 1
@@ -72,7 +68,7 @@ Material:
     - _ColorRedFactor: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DistortFactor: 0
+    - _DistortFactor: 0.004
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -91,5 +87,4 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TintColor: {r: 1.0392056, g: 0.45549738, b: 3, a: 1}
-  m_BuildTextureStacks: []
+    - _TintColor: {r: 0.44117653, g: 1.517647, b: 3, a: 1}

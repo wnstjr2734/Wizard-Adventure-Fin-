@@ -109,7 +109,16 @@ public partial class BossFSM : MonoBehaviour
         [SerializeField, Tooltip("기 모으는 시간")] 
         public ParticleSystem chargingEffect;
 
-        [SerializeField, Tooltip("")] 
+        [SerializeField, Tooltip("기 모으기 이펙트 구체")]
+        public GameObject chargingSphere;
+
+        [SerializeField, Tooltip("차지 시간")] 
+        public float chargingTime = 5.0f;
+
+        [SerializeField, Tooltip("차지 이펙트 스케일(최소, 최대)")]
+        public Vector2 chargingScale = new Vector2(0.002f, 0.005f);
+
+        [SerializeField, Tooltip("퍼지기 공격")] 
         public Knockback spreadPrefab;
     }
 
@@ -126,7 +135,7 @@ public partial class BossFSM : MonoBehaviour
     [SerializeField]
     private Phase1_Skill4Data phase1Skill4;
     [SerializeField]
-    //private Phase
+    private Phase1_Skill5Data phase1Skill5;
 
     private Coroutine actionDelayCoroutine = null;
 
@@ -134,15 +143,12 @@ public partial class BossFSM : MonoBehaviour
 
 
     #region Common Action
-    private IEnumerator IEPhase1_DecreaseCooldown()
+    // 참고 : StopAllCoroutine()을 하면 쿨타임 감소 코루틴도 멈출 수 있기 때문에 Update문에서 돌림
+    private void DecreaseCooldown()
     {
-        while (true)
+        for (int i = 0; i < phase1SkillDatas.Length; i++)
         {
-            for (int i = 0; i < phase1SkillDatas.Length; i++)
-            {
-                phase1SkillDatas[i].CurrentCooldown -= actionTime;
-            }
-            yield return actionWS;
+            phase1SkillDatas[i].CurrentCooldown -= Time.deltaTime;
         }
     }
 
@@ -156,8 +162,13 @@ public partial class BossFSM : MonoBehaviour
 
         int minCooldownNum = -1;
         float minCooldown = Single.MaxValue;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < phase1SkillDatas.Length; i++)
         {
+            if (i == 3)
+            {
+                continue;
+            }
+
             if (phase1SkillDatas[i].CurrentCooldown < minCooldown)
             {
                 minCooldown = phase1SkillDatas[i].CurrentCooldown;
@@ -227,6 +238,22 @@ public partial class BossFSM : MonoBehaviour
         if (endChargeAction != null)
         {
            StartCoroutine(endChargeAction);
+        }
+    }
+
+    private IEnumerator IESkillCharging(float chargingTime, Action inChargeAction, Action endChargeAction)
+    {
+        animator.SetBool(inChargeID, true);
+        if (inChargeAction != null)
+        {
+            inChargeAction();
+        }
+        yield return new WaitForSeconds(chargingTime);
+        animator.SetBool(inChargeID, false);
+
+        if (endChargeAction != null)
+        {
+            endChargeAction();
         }
     }
     #endregion
@@ -415,7 +442,32 @@ public partial class BossFSM : MonoBehaviour
 
     private void Skill5_Charging()
     {
-        //StartCoroutine(IESkillCharging())
+        charStatus.ShockResistPercent = 0;
+        StartCoroutine(IESkillCharging(phase1Skill5.chargingTime, Skill5_EffectScaleUp, Skill5_EndCharge));
+    }
+
+    private void Skill5_EffectScaleUp()
+    {
+        var data = phase1Skill5;
+
+        data.chargingEffect.gameObject.SetActive(true);
+        data.chargingSphere.SetActive(true);
+        data.chargingEffect.transform.localScale = Vector3.one * data.chargingScale.x;
+        data.chargingEffect.transform.DOScale(data.chargingScale.y, data.chargingTime);
+        data.chargingSphere.transform.localScale = Vector3.one * data.chargingScale.x * 5;
+        data.chargingSphere.transform.DOScale(data.chargingScale.y * 5, data.chargingTime);
+    }
+
+    private void Skill5_EndCharge()
+    {
+        phase1Skill5.chargingEffect.gameObject.SetActive(false);
+    }
+    
+
+    private void Skill5_Spread()
+    {
+        phase1Skill5.chargingSphere.gameObject.SetActive(false);
+        var skill = Instantiate(phase1Skill5.spreadPrefab, transform.position, Quaternion.identity);
     }
 
     #endregion
