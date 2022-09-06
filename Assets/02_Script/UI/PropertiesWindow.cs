@@ -6,6 +6,7 @@ using DG.Tweening;
 /// <summary>
 /// 속성 페이지 동작 클래스
 /// 속성 선택 창을 회전시켜서 원하는 속성을 선택하게끔 구현
+/// 작성자 - 김도영
 /// </summary>
 public class PropertiesWindow : MonoBehaviour
 {

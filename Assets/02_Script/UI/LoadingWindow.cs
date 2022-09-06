@@ -8,6 +8,7 @@ using DG.Tweening;
 
 /// <summary>
 /// 로딩 화면 동작 클래스
+/// 작성자 - 김도영
 /// </summary>
 public class LoadingWindow : MonoBehaviour
 {

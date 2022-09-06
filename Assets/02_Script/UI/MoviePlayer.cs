@@ -4,7 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-
+/// <summary>
+/// 영상 화면 동작 클래스
+/// 작성자 - 김도영
+/// </summary>
 public class MoviePlayer : MonoBehaviour
 {
     [SerializeField]
