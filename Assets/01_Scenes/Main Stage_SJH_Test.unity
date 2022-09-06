@@ -228,7 +228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2148271185292811020, guid: b5a054f90a626e14fa81e3f56f268a34, type: 3}
       propertyPath: tutorialDatas.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2148271185292811020, guid: b5a054f90a626e14fa81e3f56f268a34, type: 3}
       propertyPath: learnAbilities.Array.size
@@ -1961,7 +1961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98ebf5f895020c8439bc1bdecef1b42c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1346799175}
+  bloodScreenRenderer: {fileID: 0}
   bloodEffectMat: {fileID: 2100000, guid: 49075b21a17035a44b23687bef26d420, type: 2}
   bloodBlendAmounts: {x: 0.25, y: 0.5}
   bloodEffectTimes: {x: 0.2, y: 0.1, z: 0.5}
@@ -6733,7 +6733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5941063259039198404, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 100.744
+      value: 102
       objectReference: {fileID: 0}
     - target: {fileID: 5941063259039198404, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6741,7 +6741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5941063259039198404, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 97.56
+      value: 97.582
       objectReference: {fileID: 0}
     - target: {fileID: 5941063259039198404, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6857,17 +6857,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
---- !u!114 &1346799175 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6416885805801650328, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
-  m_PrefabInstance: {fileID: 1346799174}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca5c68f5694e72947a5aacadc42508a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1346799176 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5941063259039198404, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
@@ -7059,14 +7048,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1568890992}
-  m_LocalRotation: {x: 0, y: -0.65262747, z: 0, w: 0.7576789}
-  m_LocalPosition: {x: 99.82, y: -14.18, z: 97.56}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 100, y: -14.18, z: 97.582}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: -81.48, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1572034622 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 388447119274891434, guid: 42f4d870b91631b4d9c224a3b55fca24, type: 3}
@@ -7451,7 +7440,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1809740909}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 100.744, y: -14.18, z: 97.56}
+  m_LocalPosition: {x: 102, y: -14.18, z: 97.582}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7555,11 +7544,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 388447119274891432, guid: 42f4d870b91631b4d9c224a3b55fca24, type: 3}
       propertyPath: tutorialDatas.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 388447119274891432, guid: 42f4d870b91631b4d9c224a3b55fca24, type: 3}
       propertyPath: learnAbilities.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 388447119274891432, guid: 42f4d870b91631b4d9c224a3b55fca24, type: 3}
       propertyPath: tutorialDatas.Array.data[0]

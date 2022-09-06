@@ -25,7 +25,7 @@ public class Intro : MonoBehaviour
 
     private void FadeIn()
     {
-        GetComponent<CanvasGroup>().DOFade(0, 2f);
+        GetComponent<CanvasGroup>().DOFade(0, 4f);
     }
 
     private void CheckOver(UnityEngine.Video.VideoPlayer vp)
@@ -43,9 +43,7 @@ public class Intro : MonoBehaviour
 
     IEnumerator IEPlayerChangePos()
     {
-        Debug.Log("StartCoroutine");
-        yield return new WaitForSeconds(2.0f);
-        Debug.Log("StartCoroutineAfter2.0Sec");
+        yield return new WaitForSeconds(0.5f);
         PlayerChangePos();
     }
 }
