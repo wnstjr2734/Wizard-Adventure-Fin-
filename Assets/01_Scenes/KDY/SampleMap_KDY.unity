@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _persistent: 0
-  mainTitle: {fileID: 1767858046}
+  _tutorialWindow: {fileID: 0}
   menu: {fileID: 1268185476}
   gameOver: {fileID: 801277266}
   Loading: {fileID: 1568812371}
@@ -953,6 +953,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _persistent: 0
+  map: {fileID: 0}
 --- !u!1 &544689945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,6 +1014,7 @@ MonoBehaviour:
   animTime: 0.5
   movePosX: 1024
   canvasGroup: {fileID: 544689948}
+  exitButton: {fileID: 0}
 --- !u!225 &544689948
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1231,7 +1233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &898248870
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1375,7 +1377,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2200,7 +2202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98ebf5f895020c8439bc1bdecef1b42c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 6416885805015207670}
+  bloodScreenRenderer: {fileID: 0}
   bloodEffectMat: {fileID: 2100000, guid: 49075b21a17035a44b23687bef26d420, type: 2}
   bloodBlendAmounts: {x: 0.25, y: 0.6}
   bloodEffectTimes: {x: 0.2, y: 0.1, z: 0.5}
@@ -2210,11 +2212,6 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2364935915831632903, guid: 1a6b1ca6e44cec5498d6c55b42d305dc, type: 3}
   m_PrefabInstance: {fileID: 750077402}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1767858046 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7480424395176645544, guid: f9fe66a0171bb3e4195bb90a74b91a75, type: 3}
-  m_PrefabInstance: {fileID: 7480424395567320278}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &1767858047 stripped
 RectTransform:
@@ -2429,7 +2426,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2123751951
 RectTransform:
   m_ObjectHideFlags: 0
@@ -44139,11 +44136,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftHandAnimator: {fileID: 1570961193448850591}
   rightHandAnimator: {fileID: 2150119791629085938}
-  line: {fileID: 1238040115}
-  basePos: {fileID: 5941063259058763460}
-  ShootDetector: {fileID: 0}
-  MagicWand: {fileID: 0}
-  Firebullet: {fileID: 1580133494715678, guid: cfc911e7da8eb62499dff1c810e59571, type: 3}
 --- !u!54 &4337135868901650826
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -84148,7 +84140,6 @@ MonoBehaviour:
   leftHandTransform: {fileID: 5941063259058750144}
   rightHandTransform: {fileID: 5941063259058763460}
   pp_Alpha: 0
-  learnedAbility: 31
 --- !u!4 &5941063259724962474
 Transform:
   m_ObjectHideFlags: 0
@@ -113497,7 +113488,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7480424395176645544, guid: f9fe66a0171bb3e4195bb90a74b91a75, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7480424395176645545, guid: f9fe66a0171bb3e4195bb90a74b91a75, type: 3}
       propertyPath: m_Pivot.x
