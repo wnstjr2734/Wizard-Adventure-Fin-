@@ -40,7 +40,7 @@ public class WindowSystem : Singleton<WindowSystem>
     public GameObject Loading;
     private CanvasGroup cg;
 
-    [SerializeField] private PlayerInput playerInput;
+    private PlayerInput playerInput;
 
     protected override void OnAwake()
     {
@@ -53,34 +53,25 @@ public class WindowSystem : Singleton<WindowSystem>
         Debug.Log("Window System Activate");
         DOTween.defaultTimeScaleIndependent = true;
         DOTween.timeScale = 1.0f;               
-       SceneCheck();
-
+        SceneCheck(); 
+        playerInput = GameManager.playerInput;
     }
 
     private void Update()
     {
-        #region 디버그
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            // 창 닫을거 없으면 메뉴 켜기
-            if (windowStack.Count == 0)
-            {
-                OpenWindow(menu, true);
-            }
-            // 창 닫기
-            else
-            {
-                CloseWindow(true);
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            LoadingWindow.Instance.LoadScene("SampleMap_LJS Test 1");
-            DOTween.KillAll();
-        }
-        #endregion
-
+        //if (playerInput.actions[""].WasPressedThisFrame())
+        //{
+        //    // 창 닫을거 없으면 메뉴 켜기
+        //    if (windowStack.Count == 0)
+        //    {
+        //        OpenWindow(menu, true);
+        //    }
+        //    // 창 닫기
+        //    else
+        //    {
+        //        CloseWindow(true);
+        //    }
+        //}
     }
 
     public void OpenWindow(GameObject windowObject, bool isUserExitable)

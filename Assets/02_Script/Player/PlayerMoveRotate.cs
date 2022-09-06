@@ -106,7 +106,8 @@ public class PlayerMoveRotate : MonoBehaviour
     public void SetPos(Vector3 targetPos)
     {
         cc.enabled = false;
-        transform.position = targetPos;
+        // 발 위치 보정
+        transform.position = targetPos - footPos.localPosition;
         cc.enabled = true;
     }
 

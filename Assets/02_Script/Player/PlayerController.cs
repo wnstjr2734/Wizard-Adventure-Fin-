@@ -75,16 +75,6 @@ public class PlayerController : Singleton<PlayerController>
 
     public void Update()
     {
-        // 디버그 테스트
-        //if (Input.GetKeyDown(KeyCode.N))
-        //{
-        //    playerInput.SwitchCurrentActionMap("Test");
-        //}
-        //if (Input.GetKeyDown(KeyCode.M))
-        //{
-        //    playerInput.SwitchCurrentActionMap("Player");
-        //}
-
         if (!isVR)
         {
             MousePosToHandPos();
