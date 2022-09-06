@@ -61122,13 +61122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1543e2ad28cfe544daa7a53c0521ee94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cc: {fileID: 0}
-  player: {fileID: 0}
-  targets:
-  - {fileID: 0}
-  - {fileID: 0}
+  targets: []
   portal: {fileID: 388447119425057912}
-  portalCol: {fileID: 0}
   portalPoint: {fileID: 0}
   nextRoom: {fileID: 0}
   currentRoom: {fileID: 0}
@@ -103949,7 +103944,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portal: {fileID: 388447119329850698}
-  window: {fileID: 0}
   tutorialDatas: []
   learnAbilities: 
 --- !u!65 &388447119274891433
