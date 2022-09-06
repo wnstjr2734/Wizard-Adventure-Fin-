@@ -885,6 +885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _persistent: 0
+  map: {fileID: 0}
 --- !u!1001 &484663460
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -992,7 +993,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5520199413423897387, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Lightmapping
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5520199413456186144, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Name
@@ -1052,7 +1053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5520199413473621354, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Lightmapping
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5520199413473621354, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_BoundingSphereOverride.w
@@ -1072,7 +1073,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5520199413539415840, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Lightmapping
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5520199413539415871, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_AdditionalLightsShadowResolutionTier
@@ -1132,7 +1133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5520199413662947810, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Lightmapping
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5520199413678480666, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Lightmapping
@@ -1160,7 +1161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5520199413852408642, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Lightmapping
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5520199413852408642, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_BoundingSphereOverride.w
@@ -1204,7 +1205,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5520199414045675703, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Lightmapping
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5520199414088912339, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_AdditionalLightsShadowResolutionTier
@@ -1256,7 +1257,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5520199414196229023, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Lightmapping
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5520199414196229023, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_BoundingSphereOverride.w
@@ -1428,7 +1429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5520199414603279790, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Lightmapping
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5520199414657456923, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_AdditionalLightsShadowResolutionTier
@@ -1488,7 +1489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5520199414714028102, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Lightmapping
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5520199414731160422, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_AdditionalLightsShadowResolutionTier
@@ -1532,7 +1533,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5520199414763360555, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Lightmapping
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5520199414795679158, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Lightmapping
@@ -1564,7 +1565,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5520199414878433656, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_Lightmapping
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5520199414878433656, guid: 7b565a580bc4aeb4c85aeccd56008a85, type: 3}
       propertyPath: m_BoundingSphereOverride.w
