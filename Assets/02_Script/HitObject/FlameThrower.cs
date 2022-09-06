@@ -29,6 +29,10 @@ public class FlameThrower : GripMagic
 
     private void FixedUpdate()
     {
+        if (waitTime < 0.0f)
+        {
+            waitTime = damageInterval;
+        }
         waitTime -= Time.fixedDeltaTime;
     }
 
@@ -39,10 +43,8 @@ public class FlameThrower : GripMagic
         {
             return;
         }
-
+        
         GiveDamage(other.GetComponent<CharacterStatus>());
-
-        waitTime = damageInterval;
     }
 
     public override void TurnOn()

@@ -80,6 +80,8 @@ public partial class BossFSM : MonoBehaviour
     private static readonly int phaseID = Animator.StringToHash("Phase");
     private static readonly int skillStateID = Animator.StringToHash("SkillState");
     private static readonly int isActionDelayID = Animator.StringToHash("IsActionDelay");
+    private static readonly int isShockedID = Animator.StringToHash("isShocked");
+    private static readonly int isDieID = Animator.StringToHash("isDie");
 
     protected void Awake()
     {
@@ -96,8 +98,11 @@ public partial class BossFSM : MonoBehaviour
     private void Start()
     {
         attackTarget = GameManager.player.transform;
+    }
 
-        StartCoroutine(IEPhase1_DecreaseCooldown());
+    private void Update()
+    {
+        DecreaseCooldown();
     }
 
     public void ResetFSM()
@@ -118,13 +123,20 @@ public partial class BossFSM : MonoBehaviour
     {
         print("Shock Animation");
         // 패턴을 취소한다
+        animator.SetTrigger(isShockedID);
+        StopAllCoroutines();
+
+        phase1Skill5.chargingEffect.gameObject.SetActive(false);
+        phase1Skill5.chargingSphere.gameObject.SetActive(false);
+        charStatus.ShockResistPercent = 999;
     }
     #endregion
 
     protected virtual void OnDead()
     {
         // 죽음상태
-        // 2페이즈로 전환
+        print("Boss Dead");
+        animator.SetTrigger(isDieID);
     }
 
     public virtual void OnDeathFinished()
@@ -132,6 +144,4 @@ public partial class BossFSM : MonoBehaviour
         //print("Death Finished");
         gameObject.SetActive(false);
     }
-    
-
 }

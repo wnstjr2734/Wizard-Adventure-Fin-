@@ -9,8 +9,8 @@ using UnityEngine;
 /// </summary>
 public class PlayerHitManager : MonoBehaviour
 {
-    [SerializeField, Tooltip("대상 캐릭터")]
-    private CharacterStatus player;
+    [SerializeField, Tooltip("플레이어 피 상태 보여주는 UI(쿼드)")]
+    private MeshRenderer bloodScreenRenderer;
     [SerializeField, Tooltip("플레이어 피 상태 보여주는 UI")]
     private Material bloodEffectMat;
 
@@ -31,6 +31,7 @@ public class PlayerHitManager : MonoBehaviour
     [SerializeField]
     private GameOver gameOver;
 
+    private CharacterStatus playerStatus;
     private PlayerController playerController;
 
     private Coroutine onHitCoroutine;
@@ -38,18 +39,18 @@ public class PlayerHitManager : MonoBehaviour
 
     private static readonly int blendAmountID = Shader.PropertyToID("_BlendAmount");
 
-    private void Awake()
-    {
-        playerController = player.GetComponent<PlayerController>();
-    }
-
     private void Start()
     {
-        //bloodEffectMat = new Material(bloodEffectMat);
-        bloodEffectMat.SetFloat(blendAmountID, bloodBlendAmounts.x);
+        var player = GameManager.player;
+        playerStatus = player.GetComponent<CharacterStatus>();
+        playerController = playerStatus.GetComponent<PlayerController>();
 
-        player.onHpChange += OnHit;
-        player.onDead += OnDead;
+        bloodEffectMat = new Material(bloodEffectMat);
+        bloodEffectMat.SetFloat(blendAmountID, bloodBlendAmounts.x);
+        bloodScreenRenderer.material = bloodEffectMat;
+
+        playerStatus.onHpChange += OnHit;
+        playerStatus.onDead += OnDead;
     }
 
     private void OnHit(float percent)

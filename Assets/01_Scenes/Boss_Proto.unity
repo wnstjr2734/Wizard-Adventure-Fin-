@@ -2080,8 +2080,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3c08c9f9346814d889add6a3981da2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseDistance: 0
-  attackDistance: 0
   elementDamage:
     damage: 10
     elementType: 3
@@ -2118,6 +2116,12 @@ MonoBehaviour:
   phase1Skill4:
     chargingEffect: {fileID: 0}
     knockbackMagicPrefab: {fileID: 0}
+  phase1Skill5:
+    chargingEffect: {fileID: 0}
+    chargingSphere: {fileID: 0}
+    chargingTime: 5
+    chargingScale: {x: 0.002, y: 0.005}
+    spreadPrefab: {fileID: 0}
 --- !u!1 &1426802477
 GameObject:
   m_ObjectHideFlags: 0
@@ -3686,26 +3690,6 @@ PrefabInstance:
       propertyPath: phase1Skill1.targetTr
       value: 
       objectReference: {fileID: 1778813338}
-    - target: {fileID: 2207144914002986027, guid: 7a8a04316b16fbb4092baef8195e9650, type: 3}
-      propertyPath: phase1SkillDatas.Array.data[2].cooldown.x
-      value: 999
-      objectReference: {fileID: 0}
-    - target: {fileID: 2207144914002986027, guid: 7a8a04316b16fbb4092baef8195e9650, type: 3}
-      propertyPath: phase1SkillDatas.Array.data[2].cooldown.y
-      value: 999
-      objectReference: {fileID: 0}
-    - target: {fileID: 2207144914002986027, guid: 7a8a04316b16fbb4092baef8195e9650, type: 3}
-      propertyPath: phase1SkillDatas.Array.data[3].cooldown.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2207144914002986027, guid: 7a8a04316b16fbb4092baef8195e9650, type: 3}
-      propertyPath: phase1SkillDatas.Array.data[3].cooldown.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2207144914002986027, guid: 7a8a04316b16fbb4092baef8195e9650, type: 3}
-      propertyPath: phase1SkillDatas.Array.data[3].currentCooldown
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3116191958605586272, guid: 7a8a04316b16fbb4092baef8195e9650, type: 3}
       propertyPath: m_Name
       value: Boss

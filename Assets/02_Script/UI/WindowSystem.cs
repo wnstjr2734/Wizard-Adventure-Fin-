@@ -29,6 +29,11 @@ public class WindowSystem : Singleton<WindowSystem>
     // 최상단 Window를 구분
     private Stack<WindowClass> windowStack = new Stack<WindowClass>();
 
+    [SerializeField]
+    private TutorialWindow _tutorialWindow;
+
+    public static TutorialWindow tutorialWindow { get; private set; }
+
     [SerializeField] private GameObject mainTitle;
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject gameOver;
@@ -36,6 +41,12 @@ public class WindowSystem : Singleton<WindowSystem>
     private CanvasGroup cg;
 
     [SerializeField] private PlayerInput playerInput;
+
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+        tutorialWindow = _tutorialWindow;
+    }
 
     void Start()
     {
