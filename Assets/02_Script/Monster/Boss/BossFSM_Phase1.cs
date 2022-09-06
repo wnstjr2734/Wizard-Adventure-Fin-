@@ -173,7 +173,6 @@ public partial class BossFSM : MonoBehaviour
             {
                 minCooldown = phase1SkillDatas[i].CurrentCooldown;
                 minCooldownNum = i;
-                print($"Current Min : {minCooldownNum}, Cooldown : {minCooldown}");
             }
         }
 
