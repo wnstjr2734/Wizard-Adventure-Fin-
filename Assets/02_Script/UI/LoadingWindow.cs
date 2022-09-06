@@ -128,7 +128,7 @@ public class LoadingWindow : MonoBehaviour
     {
         progressBar.value = 0f;
         yield return null;
-        WindowSystem.Instance.BackFade(false);
+        BackFade(false);
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
 
@@ -163,11 +163,30 @@ public class LoadingWindow : MonoBehaviour
     {
         if (scene.name == loadSceneName)
         {
-            WindowSystem.Instance.BackFade(true);            
+            BackFade(true);            
             //videoPlayer.PlayVideo();
             SceneManager.sceneLoaded -= LoadSceneEnd;
             DOTween.KillAll();
         }
     }
+
+
+    //씬 이동시 페이드 효과
+    private void BackFade(bool Load)
+    {
+        int num;
+        if (cg != null)
+        {
+            num = Load ? 0 : 1;
+            cg.DOFade(num, 3.0f);
+
+        }
+        else
+        {
+            cg.DOKill(); //씬 이동 시 Dotween 실행 종료
+        }
+
+    }
+
 
 }
