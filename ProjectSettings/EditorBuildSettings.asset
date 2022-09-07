@@ -12,8 +12,13 @@ EditorBuildSettings:
     path: Assets/01_Scenes/Final/MainTitle.unity
     guid: 277387846516cd442a2029187397673d
   - enabled: 1
+<<<<<<< HEAD
     path: Assets/01_Scenes/Final/Loading.unity
     guid: 2d355061efc87d2488063d526a63d8a1
+=======
+    path: Assets/01_Scenes/KDY/Loading_KDY.unity
+    guid: 5e3e4900a9bcc6f4894f463b39e53bf8
+>>>>>>> 792ceb0bcc95eac18032842c5b154d2c9a9cde09
   - enabled: 1
     path: Assets/01_Scenes/Final/MainStage.unity
     guid: 677bbe84ac3636e4f81cf127516b69df
