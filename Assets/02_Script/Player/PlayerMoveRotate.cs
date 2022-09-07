@@ -111,6 +111,11 @@ public class PlayerMoveRotate : MonoBehaviour
         cc.enabled = true;
     }
 
+    public void ToMove(Vector3 targetPos, float time)
+    {
+        StartCoroutine(IEDash(targetPos, time));
+    }
+
     public void StartTeleport()
     {
         leftHandController.SetLeftHandAction(HandController.LeftAction.Teleport);
@@ -154,22 +159,22 @@ public class PlayerMoveRotate : MonoBehaviour
 
         if (!isTeleporting)
         {
-            StartCoroutine(nameof(IEDash));
+            StartCoroutine(IEDash(teleportTarget.position, dashTime));
         }
     }
 
-    private IEnumerator IEDash()
+    private IEnumerator IEDash(Vector3 endPosition, float time)
     {
         // 텔레포트 동안은 다시 텔레포트할 수 없다
         isTeleporting = true;
         cc.enabled = false;
         Vector3 origin = transform.position;
-        Vector3 targetPos = teleportTarget.position - footPos.localPosition; // 발 위치 보정
+        Vector3 targetPos = endPosition - footPos.localPosition; // 발 위치 보정
 
         // 대쉬 하는 동안 Vignette 효과 적용
 
-        float multiplier = 1 / dashTime;
-        for (float t = 0.0f; t < dashTime; t += Time.deltaTime)
+        float multiplier = 1 / time;
+        for (float t = 0.0f; t < time; t += Time.deltaTime)
         {
             transform.position = Vector3.Lerp(origin, targetPos, t * multiplier);
             yield return null;
