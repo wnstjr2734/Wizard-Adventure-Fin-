@@ -13,15 +13,13 @@ public class TitleEffect : MonoBehaviour
     [SerializeField] private Image text;
     private CanvasGroup cg;
     private Sequence sequence;
-    Quaternion rotEnd = Quaternion.Euler(new Vector3(0.0f, 0.0f, -360.0f));
-    Vector3 rotEndv = new Vector3(0.0f, 0.0f, -359.0f);
+    private Color color;
+    private float speed;
+    Vector3 rotEndv = new Vector3(0.0f, 0.0f, -180.0f);
 
     private void Awake()
     {
-        cg = button.GetComponent<CanvasGroup>();
-        sequence = DOTween.Sequence();
-        circle = transform.FindChildRecursive("Title_Circle").GetComponent<Image>();
-        text = transform.FindChildRecursive("Title_Text").GetComponent<Image>();
+        StartEffect();
     }
 
 
@@ -29,24 +27,21 @@ public class TitleEffect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cg.alpha = 0;
-        // TitleProduce();
-        circle.transform.DOLocalRotate(rotEndv, 3.0f).SetLoops(-1, LoopType.Incremental);
         
+        TitleProduce();
     }
 
     // Update is called once per frame
     void Update()
     {
-        print("È¸Àü °ª : " + circle.transform.localRotation);
+        circleRotation();
     }
 
     void TitleProduce()
     {                
-        sequence.Prepend(circle.transform.DOLocalRotate(rotEndv, 3.0f).SetLoops(-1, LoopType.Incremental));
-        sequence.Insert(2.0f, text.DOFade(1, 2.0f));
+        //circle.transform.DOLocalRotate(rotEndv, 3.0f).SetLoops(-1, LoopType.Incremental);
+        sequence.Prepend(text.DOFade(1, 2.0f)).SetDelay(2.0f);
         sequence.Append(cg.DOFade(1, 2.0f));
-
     }
 
     void buttonFade()
@@ -56,7 +51,21 @@ public class TitleEffect : MonoBehaviour
 
     void circleRotation()
     {
-
+        circle.transform.Rotate(rotEndv);     
+        
     }
+
+    void StartEffect()
+    {
+        cg = button.GetComponent<CanvasGroup>();
+        sequence = DOTween.Sequence();
+        circle = transform.FindChildRecursive("Title_Circle").GetComponent<Image>();
+        text = transform.FindChildRecursive("Title_Text").GetComponent<Image>();
+        cg.alpha = 0;
+        color = text.color;
+        color.a = 0;
+        text.color = color;
+    }
+
 
 }
