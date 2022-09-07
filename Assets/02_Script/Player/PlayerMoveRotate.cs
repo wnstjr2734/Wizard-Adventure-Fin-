@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -46,6 +47,11 @@ public class PlayerMoveRotate : MonoBehaviour
     private Transform m_CameraRig;
     private Transform m_CentreEyeAnchor;
     public OVRCameraRig m_OVRCameraRig;
+
+    [Header("Sounds")] 
+    [SerializeField] [NotNull]
+    private AudioSource walkSoundSource;
+    private AudioClip[] dashSound;
 
     private RaycastHit hit;
 
@@ -111,9 +117,42 @@ public class PlayerMoveRotate : MonoBehaviour
         cc.enabled = true;
     }
 
-    public void ToMove(Vector3 targetPos, float time)
+    /// <summary>
+    /// 텔레포트(대쉬) 기반 이동. 
+    /// </summary>
+    public void ToDash(Vector3 targetPos, float time)
     {
+        StopAllCoroutines();
         StartCoroutine(IEDash(targetPos, time));
+    }
+
+    /// <summary>
+    /// cc 기반 이동. 걷기 연출 시 사용
+    /// </summary>
+    public void ToMove(Vector3 targetPos)
+    {
+        StopAllCoroutines();
+        StartCoroutine(IEToMove(targetPos));
+    }
+
+    private IEnumerator IEToMove(Vector3 targetPos)
+    {
+        walkSoundSource.Play();
+
+        cc.enabled = true;
+        isTeleporting = true;
+        while (Vector3.Distance(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z)) > 0.1f)
+        {
+            var direction = targetPos - transform.position;
+            var scaledMoveSpeed = moveSpeed * Time.deltaTime;
+            var move = new Vector3(direction.x, 0, direction.y).normalized;
+            cc.Move(move * scaledMoveSpeed);
+
+            yield return null;
+        }
+        isTeleporting = false;
+
+        walkSoundSource.Stop();
     }
 
     public void StartTeleport()

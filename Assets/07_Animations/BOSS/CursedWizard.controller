@@ -35,7 +35,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: Phase
-    m_EventTreshold: 0
+    m_EventTreshold: 1
   m_DstStateMachine: {fileID: -8063841446266237078}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -82,7 +82,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: SkillState
-    m_EventTreshold: 1
+    m_EventTreshold: -1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8839654332607437211}
   m_Solo: 0
@@ -410,7 +410,7 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 4
+  - m_ConditionMode: 6
     m_ConditionEvent: Phase
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -1011793110291786441}
@@ -642,13 +642,13 @@ AnimatorStateMachine:
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: -8063841446266237078}
-    m_Position: {x: 700, y: 130, z: 0}
+    m_Position: {x: 730, y: 230, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: -3271664698476757783}
-    m_Position: {x: 700, y: 300, z: 0}
+    m_Position: {x: 730, y: 330, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: -1011793110291786441}
-    m_Position: {x: 680, y: 490, z: 0}
+    m_Position: {x: 740, y: 130, z: 0}
   m_AnyStateTransitions:
   - {fileID: 6972269644758865340}
   - {fileID: 4114252878366679643}
@@ -926,7 +926,7 @@ AnimatorController:
   - m_Name: Phase
     m_Type: 3
     m_DefaultFloat: 0
-    m_DefaultInt: -1
+    m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: SkillState
@@ -1047,7 +1047,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CursedWizardB_StartIdle
+  m_Name: StartIdle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1225,7 +1225,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: Phase
-    m_EventTreshold: 1
+    m_EventTreshold: 2
   m_DstStateMachine: {fileID: -3271664698476757783}
   m_DstState: {fileID: 0}
   m_Solo: 0

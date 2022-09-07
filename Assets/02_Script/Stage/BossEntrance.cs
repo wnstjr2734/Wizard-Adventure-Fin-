@@ -11,7 +11,6 @@ using UnityEngine;
 public class BossEntrance : MonoBehaviour
 {
     [SerializeField] private GameObject boss;
-    [SerializeField] private GameObject bossSpawnObj;
     [SerializeField] private Transform bossSpawn;
     //private Transform bossSpawn;
 
@@ -19,22 +18,25 @@ public class BossEntrance : MonoBehaviour
     [SerializeField] private Transform playerMovePos;
 
     [SerializeField] private ParticleSystem teleportEffect;
-    
+
+    [SerializeField] private float startPatternTime = 4.0f;
     [SerializeField] private GameObject bossHp;
+
+    private bool isTriggered = false;
 
     // Start is called before the first frame update
     void Start()
     {
         boss = GameObject.FindGameObjectWithTag("Boss");
-        bossSpawnObj = GameObject.Find("Boss Spawn");
-        bossSpawn = bossSpawnObj.GetComponent<Transform>();
+        bossSpawn = GameObject.Find("Boss Spawn").transform;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.name.Contains("Player") == true)
+        if (!isTriggered && other.name.Contains("Player") == true)
         {
             print("Trigger Boss Entrance");
+            isTriggered = true;
             StartCoroutine(IEBossIntro());
         }
     }
@@ -52,24 +54,27 @@ public class BossEntrance : MonoBehaviour
         var playerController = player.GetComponent<PlayerController>();
         var playerMoveRotate = player.GetComponent<PlayerMoveRotate>();
 
-        print(Time.timeScale);
+        var bossFSM = boss.GetComponent<BossFSM>();
+        //bossAnimator.SetInteger("SkillState", 0);
 
         playerController.ActiveController(false);
-        playerMoveRotate.ToMove(playerMovePos.position, playerMoveTime);
+        playerMoveRotate.ToMove(playerMovePos.position);
 
         yield return new WaitForSeconds(playerMoveTime);
+        print("Boss Coming");
 
         // 보스 등장
+        bossFSM.Appearance();
         teleportEffect.Play(true);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(1);
         boss.transform.position = bossSpawn.position;
 
         // 패턴 실행
-        var bossAnimator = boss.GetComponent<Animator>();
-        bossAnimator.SetInteger("SkillState", 1);
-        bossAnimator.SetInteger("Phase", 0);
+        bossFSM.StartKnockback();
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(startPatternTime);
+
+        bossFSM.StartFSM();
         // 체력 바 보여주기
         bossHp.SetActive(true);
 
