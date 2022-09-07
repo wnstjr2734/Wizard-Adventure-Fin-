@@ -11,24 +11,74 @@ using UnityEngine;
 public class BossEntrance : MonoBehaviour
 {
     [SerializeField] private GameObject boss;
-    [SerializeField] private GameObject bossSpawnObj;
     [SerializeField] private Transform bossSpawn;
     //private Transform bossSpawn;
 
+    [SerializeField] private float playerMoveTime = 3.0f;
+    [SerializeField] private Transform playerMovePos;
+
+    [SerializeField] private ParticleSystem teleportEffect;
+
+    [SerializeField] private float startPatternTime = 4.0f;
+    [SerializeField] private GameObject bossHp;
+
+    private bool isTriggered = false;
 
     // Start is called before the first frame update
     void Start()
     {
         boss = GameObject.FindGameObjectWithTag("Boss");
-        bossSpawnObj = GameObject.Find("Boss Spawn");
-        bossSpawn = bossSpawnObj.GetComponent<Transform>();
+        bossSpawn = GameObject.Find("Boss Spawn").transform;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.name.Contains("Player") == true)
+        if (!isTriggered && other.name.Contains("Player") == true)
         {
-            boss.transform.position = bossSpawn.position;
+            print("Trigger Boss Entrance");
+            isTriggered = true;
+            StartCoroutine(IEBossIntro());
         }
+    }
+
+    private IEnumerator IEBossIntro()
+    {
+        //플레이어 보스 방 진입
+        //    -플레이어가 피 채우는 곳까지 이동
+        //    (텔레포트 존으로 강제 이동은 보류)
+        //-플레이어 조작 막아놓기
+        //    -> 플레이어 강제 이동 - 제단 ? 까지
+        //플레이어가 제단 도착하면 넉백 시키기
+        //    -가능하면 힐팩 있던 곳까지 넉백. 데미지는 안 입힘
+        var player = GameManager.player;
+        var playerController = player.GetComponent<PlayerController>();
+        var playerMoveRotate = player.GetComponent<PlayerMoveRotate>();
+
+        var bossFSM = boss.GetComponent<BossFSM>();
+        Debug.Assert(bossFSM, "Error : BossFSM is null");
+        //bossAnimator.SetInteger("SkillState", 0);
+
+        playerController.ActiveController(false);
+        playerMoveRotate.ToMove(playerMovePos.position, 4);
+
+        yield return new WaitForSeconds(playerMoveTime);
+        print("Boss Coming");
+
+        // 보스 등장
+        bossFSM.Appearance();
+        teleportEffect.Play(true);
+        yield return new WaitForSeconds(1);
+        boss.transform.position = bossSpawn.position;
+
+        // 패턴 실행
+        bossFSM.StartKnockback();
+
+        yield return new WaitForSeconds(startPatternTime);
+
+        bossFSM.StartFSM();
+        // 체력 바 보여주기
+        bossHp.SetActive(true);
+
+        playerController.ActiveController(true);
     }
 }

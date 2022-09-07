@@ -32,6 +32,8 @@ public partial class BossFSM : MonoBehaviour
         private float interval = 0.3f;
         [SerializeField, Tooltip("투사체 마법")] 
         private DelayedMagic delayedMagicPrefab;
+        [SerializeField, Tooltip("스킬 1 음성")] 
+        public AudioClip skillVoice;
 
         public Transform TargetTr => targetTr;
         public float MagicMissileCount => magicMissileCount;
@@ -58,6 +60,9 @@ public partial class BossFSM : MonoBehaviour
 
         [SerializeField, Tooltip("발사 이펙트")] 
         public Laser laserEffect;
+
+        public AudioClip castingVoice;
+        public AudioClip attackVoice;
 
 
         public float ChargingTime => chargingTime;
@@ -91,6 +96,8 @@ public partial class BossFSM : MonoBehaviour
 
         [SerializeField, Tooltip("생성되는 마법")] 
         public DelayedMagic explosionMagicPrefab;
+
+        public AudioClip skillVoice;
     }
 
     [System.Serializable]
@@ -101,6 +108,8 @@ public partial class BossFSM : MonoBehaviour
 
         [SerializeField, Tooltip("밀치기 효과")]
         public Knockback knockbackMagicPrefab;
+
+        public AudioClip skillVoice;
     }
 
     [System.Serializable]
@@ -120,6 +129,9 @@ public partial class BossFSM : MonoBehaviour
 
         [SerializeField, Tooltip("퍼지기 공격")] 
         public Knockback spreadPrefab;
+
+        public AudioClip castingVoice;
+        public AudioClip attackVoice;
     }
 
     [Header("Phase 1")]
@@ -173,7 +185,6 @@ public partial class BossFSM : MonoBehaviour
             {
                 minCooldown = phase1SkillDatas[i].CurrentCooldown;
                 minCooldownNum = i;
-                print($"Current Min : {minCooldownNum}, Cooldown : {minCooldown}");
             }
         }
 
@@ -207,6 +218,7 @@ public partial class BossFSM : MonoBehaviour
     private void Phase1_NextActionDelay()
     {
         var skillState = animator.GetInteger(skillStateID);
+        audioSource.PlayOneShot(damagedSound);
         if (actionDelayCoroutine == null)
         {
             actionDelayCoroutine = StartCoroutine(IEWaitActionDelay(phase1SkillDatas[skillState].NextActionDelay));
@@ -261,6 +273,11 @@ public partial class BossFSM : MonoBehaviour
 
     #region Skill 1
 
+    private void Skill1_Voice()
+    {
+        audioSource.PlayOneShot(phase1Skill1.skillVoice);
+    }
+
     private IEnumerator IESkill1_Shoot()
     {
 
@@ -294,6 +311,7 @@ public partial class BossFSM : MonoBehaviour
 
         print("In Pattern 2 Aim");
         animator.SetBool(inChargeID, true);
+        audioSource.PlayOneShot(info.castingVoice);
 
         info.aimLaser.gameObject.SetActive(true);
         float currentTime = 0;
@@ -352,6 +370,7 @@ public partial class BossFSM : MonoBehaviour
 
     private void Phase1_Skill2_ShootLaser()
     {
+        audioSource.PlayOneShot(phase1Skill2.attackVoice);
         var laser = phase1Skill2.laserEffect;
         laser.gameObject.SetActive(true);
 
@@ -365,6 +384,12 @@ public partial class BossFSM : MonoBehaviour
     #endregion
 
     #region Skill 3
+
+    private void Skill3_Start()
+    {
+        audioSource.PlayOneShot(phase1Skill3.skillVoice);
+    }
+
 
     private IEnumerator IESkill3_Casting()
     {
@@ -430,6 +455,12 @@ public partial class BossFSM : MonoBehaviour
 
     #region Skill 4
 
+    private void Skill4_Start()
+    {
+        audioSource.PlayOneShot(phase1Skill4.skillVoice);
+        // 차지 이펙트
+    }
+
     private void Skill4_Knockback()
     {
         var data = phase1Skill4;
@@ -442,6 +473,7 @@ public partial class BossFSM : MonoBehaviour
 
     private void Skill5_Charging()
     {
+        audioSource.PlayOneShot(phase1Skill5.castingVoice);
         charStatus.ShockResistPercent = 0;
         StartCoroutine(IESkillCharging(phase1Skill5.chargingTime, Skill5_EffectScaleUp, Skill5_EndCharge));
     }
@@ -466,6 +498,7 @@ public partial class BossFSM : MonoBehaviour
 
     private void Skill5_Spread()
     {
+        audioSource.PlayOneShot(phase1Skill5.attackVoice);
         phase1Skill5.chargingSphere.gameObject.SetActive(false);
         var skill = Instantiate(phase1Skill5.spreadPrefab, transform.position, Quaternion.identity);
     }

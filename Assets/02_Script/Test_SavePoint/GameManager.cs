@@ -9,6 +9,7 @@ public class GameManager : Singleton<GameManager>
 {
     public static GameObject player;
     public static PlayerInput playerInput;
+    public static Transform eye;
     public static PlayerController Controller { get; private set; }
 
     private CharacterStatus playerStatus;
@@ -17,7 +18,7 @@ public class GameManager : Singleton<GameManager>
     #region Map
 
     // 마지막 시작 위치
-    private Vector3 lastCheckPoint;
+    private Transform checkPointTr;
     private Portal latestRoomPortal = null;
 
     #endregion
@@ -30,6 +31,7 @@ public class GameManager : Singleton<GameManager>
         }
         playerInput = player.GetComponent<PlayerInput>();
         Debug.Assert(playerInput, "Error : Player Input not set");
+        eye = player.transform.GetChild(0);
 
         Controller = player.GetComponent<PlayerController>();
 
@@ -45,16 +47,16 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void SetCheckPoint(Vector3 checkPoint, Portal roomPortal)
+    public void SetCheckPoint(Transform checkPoint, Portal roomPortal)
     {
-        lastCheckPoint = checkPoint;
+        checkPointTr = checkPoint;
         latestRoomPortal = roomPortal;
     }
 
     public void RestartGame()
     {
         playerStatus.ResetStatus();
-        playerMoveRotate.SetPos(lastCheckPoint);
+        playerMoveRotate.SetPos(checkPointTr.position, checkPointTr.forward);
         latestRoomPortal.ResetRoom();
     }
 

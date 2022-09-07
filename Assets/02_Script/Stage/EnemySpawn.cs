@@ -28,7 +28,7 @@ public class EnemySpawn : MonoBehaviour
             portal.StartRoom();
             isTriggered = true;
 
-            GameManager.Instance.SetCheckPoint(transform.position, portal);
+            GameManager.Instance.SetCheckPoint(transform, portal);
             // 튜토리얼 활성화
             if (tutorialDatas != null && tutorialDatas.Length != 0)
             {

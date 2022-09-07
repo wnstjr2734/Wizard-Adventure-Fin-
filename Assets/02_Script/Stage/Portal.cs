@@ -150,7 +150,7 @@ public class Portal : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // 방 이동
-        player.GetComponent<PlayerMoveRotate>().SetPos(portalPoint.transform.position);
+        player.GetComponent<PlayerMoveRotate>().SetPos(portalPoint.transform.position, portalPoint.transform.forward);
         // 이전 방은 SetActive(false) 처리
 
         // 포탈 타고 난 이후 Fade Out 되면서 다음 방 넘어가는 연출

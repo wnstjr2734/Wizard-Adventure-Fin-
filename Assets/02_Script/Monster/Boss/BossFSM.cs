@@ -45,11 +45,6 @@ public partial class BossFSM : MonoBehaviour
         public float NextActionDelay => nextActionDelay;
     }
 
-    public enum BossSounds
-    {
-
-    }
-
     // 보스 처음 시작 - Idle
     // 보스가 각 패턴을 랜덤 및 조건부로 쓴다
     // 쿨타임 큐 방식
@@ -65,13 +60,27 @@ public partial class BossFSM : MonoBehaviour
 
     protected Animator animator;
     private CharacterStatus charStatus;
-    public ElementDamage elementDamage;
-    private bool moveLock;
-    private bool checkDead = false;
+    private AudioSource audioSource;
 
-    #region(AudioClip)
-    public AudioSource audioSource;
-    #endregion
+    private int phase = 0;
+    public int Phase
+    {
+        get => phase;
+        private set
+        {
+            phase = value;
+            animator.SetInteger(phaseID, phase);
+        }
+    }
+
+    [Header("Common Sound")] 
+    [SerializeField] private AudioClip damagedSound;
+    [SerializeField] private AudioClip deathSound;
+
+    [Header("Entrance Sound")]
+    [SerializeField] private AudioClip appearanceSound;
+    [SerializeField] private AudioClip enteredSound;
+    [SerializeField] private AudioClip patternStartSound;
 
     private static readonly float actionTime = 0.1f;
     private static readonly WaitForSeconds actionWS = new WaitForSeconds(actionTime);
@@ -100,9 +109,32 @@ public partial class BossFSM : MonoBehaviour
         attackTarget = GameManager.player.transform;
     }
 
+    public void Appearance()
+    {
+        audioSource.PlayOneShot(appearanceSound);
+    }
+
+    public void StartKnockback()
+    {
+        animator.SetInteger(skillStateID, -1);
+        audioSource.PlayOneShot(enteredSound);
+    }
+
+    public void StartFSM()
+    {
+        Phase = 1;
+        animator.SetInteger(skillStateID, 0);
+        audioSource.PlayOneShot(patternStartSound);
+    }
+
+
+
     private void Update()
     {
-        DecreaseCooldown();
+        if (phase == 1)
+        {
+            DecreaseCooldown();
+        }
     }
 
     public void ResetFSM()
@@ -124,6 +156,8 @@ public partial class BossFSM : MonoBehaviour
         print("Shock Animation");
         // 패턴을 취소한다
         animator.SetTrigger(isShockedID);
+        audioSource.Stop();
+        audioSource.PlayOneShot(damagedSound);
         StopAllCoroutines();
 
         phase1Skill5.chargingEffect.gameObject.SetActive(false);
@@ -137,6 +171,7 @@ public partial class BossFSM : MonoBehaviour
         // 죽음상태
         print("Boss Dead");
         animator.SetTrigger(isDieID);
+        audioSource.PlayOneShot(deathSound);
     }
 
     public virtual void OnDeathFinished()
