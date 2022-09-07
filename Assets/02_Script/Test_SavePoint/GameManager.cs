@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,17 +15,6 @@ public class GameManager : Singleton<GameManager>
     private PlayerMoveRotate playerMoveRotate;
 
     #region Map
-
-    public class Room
-    {
-        public Portal portal;
-        public EnemySpawn startPoint;
-    }
-
-    [SerializeField, Tooltip("맵(방 전부 담고 있는) 트랜스폼")]
-    private Transform map;
-
-    private Room[] rooms;
 
     // 마지막 시작 위치
     private Vector3 lastCheckPoint;
@@ -47,18 +37,11 @@ public class GameManager : Singleton<GameManager>
         playerMoveRotate = player.GetComponent<PlayerMoveRotate>();
     }
 
-    private void SetStageInfo()
+    private void Update()
     {
-        Debug.Assert(map, "Error : Map is not set");
-
-        Transform[] childs = new Transform[map.childCount];
-        rooms = new Room[childs.Length];
-        for (int i = 0; i < rooms.Length; i++)
+        if (Input.GetKeyDown(KeyCode.L))
         {
-            var room = map.GetChild(i);
-
-            rooms[i].portal = room.GetComponentInChildren<Portal>();
-            rooms[i].startPoint = room.GetComponentInChildren<EnemySpawn>();
+            GoNextRoom();
         }
     }
 
@@ -73,5 +56,11 @@ public class GameManager : Singleton<GameManager>
         playerStatus.ResetStatus();
         playerMoveRotate.SetPos(lastCheckPoint);
         latestRoomPortal.ResetRoom();
+    }
+
+    // 디버그 - 다음 방으로 강제 이동
+    public void GoNextRoom()
+    {
+        latestRoomPortal.UsePortal();
     }
 }

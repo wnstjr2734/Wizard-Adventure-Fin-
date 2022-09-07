@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class BossRoomPortal : Portal
 {
+    [Header("Outro")]
     [SerializeField, Tooltip("아웃트로 영상")] 
     private GameObject outro;
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -46,6 +47,11 @@ public class PlayerMoveRotate : MonoBehaviour
     private Transform m_CameraRig;
     private Transform m_CentreEyeAnchor;
     public OVRCameraRig m_OVRCameraRig;
+
+    [Header("Sounds")] 
+    [SerializeField] [NotNull]
+    private AudioSource walkSoundSource;
+    private AudioClip[] dashSound;
 
     private RaycastHit hit;
 
@@ -106,8 +112,47 @@ public class PlayerMoveRotate : MonoBehaviour
     public void SetPos(Vector3 targetPos)
     {
         cc.enabled = false;
-        transform.position = targetPos;
+        // 발 위치 보정
+        transform.position = targetPos - footPos.localPosition;
         cc.enabled = true;
+    }
+
+    /// <summary>
+    /// 텔레포트(대쉬) 기반 이동. 
+    /// </summary>
+    public void ToDash(Vector3 targetPos, float time)
+    {
+        StopAllCoroutines();
+        StartCoroutine(IEDash(targetPos, time));
+    }
+
+    /// <summary>
+    /// cc 기반 이동. 걷기 연출 시 사용
+    /// </summary>
+    public void ToMove(Vector3 targetPos)
+    {
+        StopAllCoroutines();
+        StartCoroutine(IEToMove(targetPos));
+    }
+
+    private IEnumerator IEToMove(Vector3 targetPos)
+    {
+        walkSoundSource.Play();
+
+        cc.enabled = true;
+        isTeleporting = true;
+        while (Vector3.Distance(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z)) > 0.1f)
+        {
+            var direction = targetPos - transform.position;
+            var scaledMoveSpeed = moveSpeed * Time.deltaTime;
+            var move = new Vector3(direction.x, 0, direction.y).normalized;
+            cc.Move(move * scaledMoveSpeed);
+
+            yield return null;
+        }
+        isTeleporting = false;
+
+        walkSoundSource.Stop();
     }
 
     public void StartTeleport()
@@ -153,22 +198,22 @@ public class PlayerMoveRotate : MonoBehaviour
 
         if (!isTeleporting)
         {
-            StartCoroutine(nameof(IEDash));
+            StartCoroutine(IEDash(teleportTarget.position, dashTime));
         }
     }
 
-    private IEnumerator IEDash()
+    private IEnumerator IEDash(Vector3 endPosition, float time)
     {
         // 텔레포트 동안은 다시 텔레포트할 수 없다
         isTeleporting = true;
         cc.enabled = false;
         Vector3 origin = transform.position;
-        Vector3 targetPos = teleportTarget.position - footPos.localPosition; // 발 위치 보정
+        Vector3 targetPos = endPosition - footPos.localPosition; // 발 위치 보정
 
         // 대쉬 하는 동안 Vignette 효과 적용
 
-        float multiplier = 1 / dashTime;
-        for (float t = 0.0f; t < dashTime; t += Time.deltaTime)
+        float multiplier = 1 / time;
+        for (float t = 0.0f; t < time; t += Time.deltaTime)
         {
             transform.position = Vector3.Lerp(origin, targetPos, t * multiplier);
             yield return null;

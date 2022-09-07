@@ -30,7 +30,7 @@ public class Portal : MonoBehaviour
     [Header("포탈 / 플레이어 스폰 위치")]
     public GameObject portal;
     protected Collider portalCol;
-    public Transform portalPoint;   //포탈 탄 후 플레이어 스폰 위치
+    public EnemySpawn portalPoint;   //포탈 탄 후 플레이어 스폰 위치
 
     [SerializeField, Tooltip("활성화할 다음 방")] 
     private GameObject nextRoom;
@@ -44,16 +44,27 @@ public class Portal : MonoBehaviour
         {
             initPoses[i] = targets[i].transform.position;
         }
-    }
 
-    protected void Start()
-    {
-        player = GameManager.player;
         portalCol = GetComponent<BoxCollider>();
         portalCol.enabled = false;
         canUse = false;
         portal = transform.GetChild(0).gameObject;
         portal.SetActive(false);
+
+        var room = transform.parent;
+        currentRoom = room.gameObject;
+
+        var stage = room.parent;
+        int sibilingIndex = room.GetSiblingIndex();
+        if (sibilingIndex < stage.childCount - 1)
+        {
+            nextRoom = stage.GetChild(sibilingIndex + 1).gameObject;
+        }
+    }
+
+    protected void Start()
+    {
+        player = GameManager.player;
     }
 
     /// <summary>
@@ -103,7 +114,6 @@ public class Portal : MonoBehaviour
         {
             canUse = true;
             portalCol.enabled = true;
-            Debug.Log(canUse);
             // 포탈 활성화
             portal.SetActive(true);
         }
@@ -140,7 +150,7 @@ public class Portal : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // 방 이동
-        player.GetComponent<PlayerMoveRotate>().SetPos(portalPoint.position);
+        player.GetComponent<PlayerMoveRotate>().SetPos(portalPoint.transform.position);
         // 이전 방은 SetActive(false) 처리
 
         // 포탈 타고 난 이후 Fade Out 되면서 다음 방 넘어가는 연출

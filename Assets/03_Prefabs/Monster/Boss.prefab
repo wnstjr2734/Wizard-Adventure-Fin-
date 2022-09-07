@@ -1132,11 +1132,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3c08c9f9346814d889add6a3981da2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elementDamage:
-    damage: 10
-    elementType: 3
-    stack: 1
-  audioSource: {fileID: 0}
+  damagedSound: {fileID: 8300000, guid: 47231615086722647964b76eedeb14e9, type: 3}
+  deathSound: {fileID: 8300000, guid: 93e8f5b49ae3121499e1d78bee3b2464, type: 3}
+  appearanceSound: {fileID: 8300000, guid: f653f6aacd5b017488e86714bc6a3232, type: 3}
+  enteredSound: {fileID: 8300000, guid: 33b9811c5019e044db6e02952d68a7e1, type: 3}
+  patternStartSound: {fileID: 8300000, guid: fa5d6aab23af29e4cabd4257cfc8c5dc, type: 3}
   phase1SkillDatas:
   - cooldown: {x: 15, y: 30}
     currentCooldown: 0
@@ -1160,6 +1160,7 @@ MonoBehaviour:
     magicMissileCount: 3
     interval: 0.3
     delayedMagicPrefab: {fileID: 3594658282254439574, guid: f9ee234c0cae8024a96a852cae69848b, type: 3}
+    skillVoice: {fileID: 8300000, guid: c7a7c5f7e04c2844ba920e31bff19072, type: 3}
   phase1Skill2:
     aimTime: 3
     aimRotationSpeed: 30
@@ -1168,6 +1169,8 @@ MonoBehaviour:
     chargingIndicator: {fileID: 1471669647}
     chargingEffect: {fileID: 6267248233612299432}
     laserEffect: {fileID: 656904532}
+    castingVoice: {fileID: 8300000, guid: ef5f9042d5db13d438d32f0f56dbcf9d, type: 3}
+    attackVoice: {fileID: 8300000, guid: d536a853f90004443a68fc8abb2df675, type: 3}
   phase1Skill3:
     shootToUserPercent: 0.3
     userRadius: 4
@@ -1177,15 +1180,19 @@ MonoBehaviour:
     explosionInterval: 1
     explosionCount: 3
     explosionMagicPrefab: {fileID: 3594658282254439574, guid: d9e0e85fb03e2c24a88c239064cf1e47, type: 3}
+    skillVoice: {fileID: 8300000, guid: cb1cb8c04e0311b4289be3ef15ef1361, type: 3}
   phase1Skill4:
     chargingEffect: {fileID: 0}
     knockbackMagicPrefab: {fileID: 5999169025177466288, guid: 3cd52f82b039bf5409dd02da986b9194, type: 3}
+    skillVoice: {fileID: 8300000, guid: 827985dd771a3e14db31c2c73208ae14, type: 3}
   phase1Skill5:
     chargingEffect: {fileID: 7997628702119870087}
     chargingSphere: {fileID: 6268948659180127359}
     chargingTime: 5
     chargingScale: {x: 0.00008, y: 0.0005}
     spreadPrefab: {fileID: 6812758724004030510, guid: ecc65e4d318e43c4fafc687affc1e627, type: 3}
+    castingVoice: {fileID: 8300000, guid: b56e89398af822e4eadf5946dbd48bfa, type: 3}
+    attackVoice: {fileID: 8300000, guid: 6f2890d577972054ab9424e06f9ea2f2, type: 3}
 --- !u!114 &6462117236672284280
 MonoBehaviour:
   m_ObjectHideFlags: 0

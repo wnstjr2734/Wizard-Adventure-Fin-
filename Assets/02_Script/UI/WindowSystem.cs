@@ -34,13 +34,13 @@ public class WindowSystem : Singleton<WindowSystem>
 
     public static TutorialWindow tutorialWindow { get; private set; }
 
-    [SerializeField] private GameObject mainTitle;
+   
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject gameOver;
     public GameObject Loading;
     private CanvasGroup cg;
 
-    [SerializeField] private PlayerInput playerInput;
+    private PlayerInput playerInput;
 
     protected override void OnAwake()
     {
@@ -52,35 +52,25 @@ public class WindowSystem : Singleton<WindowSystem>
     {
         Debug.Log("Window System Activate");
         DOTween.defaultTimeScaleIndependent = true;
-        DOTween.timeScale = 1.0f;               
-       SceneCheck();
-
+        DOTween.timeScale = 1.0f;              
+        playerInput = GameManager.playerInput;
     }
 
     private void Update()
     {
-        #region 디버그
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            // 창 닫을거 없으면 메뉴 켜기
-            if (windowStack.Count == 0)
-            {
-                OpenWindow(menu, true);
-            }
-            // 창 닫기
-            else
-            {
-                CloseWindow(true);
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            LoadingWindow.Instance.LoadScene("SampleMap_LJS Test 1");
-            DOTween.KillAll();
-        }
-        #endregion
-
+        //if (playerInput.actions[""].WasPressedThisFrame())
+        //{
+        //    // 창 닫을거 없으면 메뉴 켜기
+        //    if (windowStack.Count == 0)
+        //    {
+        //        OpenWindow(menu, true);
+        //    }
+        //    // 창 닫기
+        //    else
+        //    {
+        //        CloseWindow(true);
+        //    }
+        //}
     }
 
     public void OpenWindow(GameObject windowObject, bool isUserExitable)
@@ -130,54 +120,5 @@ public class WindowSystem : Singleton<WindowSystem>
         var actionMap = display ? "UI" : "Player";
         playerInput.SwitchCurrentActionMap(actionMap);
     }
-
-    //씬 이동시 페이드 효과
-    public void BackFade(bool Load)
-    {
-        int num;
-        if (cg != null)
-        {
-            num = Load ? 0 : 1;
-            cg.DOFade(num, 3.0f);
-
-        }
-        else
-        {
-            cg.DOKill(); //씬 이동 시 Dotween 실행 종료
-        }
-        
-    }
-
-    //현재 씬을 체크하여 페이드 효과와 씬 이동 실행
-    void SceneCheck()
-    {       
-
-        if (SceneManager.sceneCountInBuildSettings > 1)
-        {
-            if (SceneManager.GetActiveScene().buildIndex == 0)
-            {
-                if (mainTitle != null)
-                {
-                    cg = mainTitle.GetComponentInChildren<CanvasGroup>();
-                    cg.alpha = 0.0f;
-                }
-            }
-
-            else if (SceneManager.GetActiveScene().buildIndex == 1)
-            {
-                if (Loading != null)
-                {
-                    cg = Loading.GetComponent<CanvasGroup>();
-                    cg.alpha = 1.0f;
-                }
-                LoadingWindow.Instance.LoadScene("Main Stage_Proto 1");
-                DOTween.KillAll();
-            }
-        }
-        else
-        {
-            return;
-        }
-    }
-
+   
 }

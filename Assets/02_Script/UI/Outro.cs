@@ -15,18 +15,25 @@ public class Outro : MonoBehaviour
 
     [SerializeField, Tooltip("엔딩 영상 출력 비디오")]
     private VideoPlayer endingPlayer;
-    public GameObject rawImage;
+    [SerializeField, Tooltip("영상 출력 받는 이미지")]
+    private GameObject rawImage;
+    [SerializeField] 
+    private GameObject fadeInPanel;
 
     private CanvasGroup canvasGroup;
 
     private void Awake()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
+        canvasGroup = fadeInPanel.GetComponent<CanvasGroup>();
     }
 
     void Start()
     {
+        WindowSystem.Instance.OpenWindow(fadeInPanel, true);
+
+        canvasGroup.alpha = 0f;
         Sequence s = DOTween.Sequence();
+        s.SetUpdate(true);
         s.Append(canvasGroup.DOFade(1, 2.0f));
         s.onComplete = () => {
             endingPlayer.Play();

@@ -7,45 +7,43 @@ using UnityEngine.Video;
 
 public class Intro : MonoBehaviour
 {
+    [SerializeField, Tooltip("화면 가릴 패널")]
+    private GameObject panel;
     public VideoPlayer vid;
     public GameObject rawImage;
-    private CharacterController cc;
-    private GameObject player;
     [Tooltip("인트로가 끝난 후 플레이어가 이동할 위치")]
     public Transform changePos;
 
-
-    // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
         vid.loopPointReached += CheckOver;
-        player = GameObject.FindGameObjectWithTag("Player");
-        cc = player.GetComponent<CharacterController>();
+        // 타 클래스 초기화를 위한 대기
+        yield return null;
+        WindowSystem.Instance.OpenWindow(panel, true);
     }
 
     private void FadeIn()
     {
-        GetComponent<CanvasGroup>().DOFade(0, 2f);
+        Sequence s = DOTween.Sequence();
+        s.SetUpdate(true);
+        s.Append(GetComponent<CanvasGroup>().DOFade(0, 2f));
+        s.onComplete = () =>
+        {
+            WindowSystem.Instance.CloseWindow(true);
+            PlayerChangePos();
+        };
     }
 
     private void CheckOver(UnityEngine.Video.VideoPlayer vp)
     {
         //print("Video Is Over");
         rawImage.SetActive(false);
-        StartCoroutine(nameof(IEPlayerChangePos));
         FadeIn();
     }
 
     private void PlayerChangePos()
     {
-        player.transform.position = changePos.transform.position;
-    }
-
-    IEnumerator IEPlayerChangePos()
-    {
-        Debug.Log("StartCoroutine");
-        yield return new WaitForSeconds(2.0f);
-        Debug.Log("StartCoroutineAfter2.0Sec");
-        PlayerChangePos();
+        var playerMove = GameManager.player.GetComponent<PlayerMoveRotate>();
+        playerMove.SetPos(changePos.transform.position);
     }
 }
