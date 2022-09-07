@@ -7,6 +7,7 @@ using DG.Tweening;
 /// <summary>
 /// Main Title 조작용 클래스
 /// UI 클릭 및 파티클 표현
+/// 작성자 - 김도영
 /// </summary>
 public class PointShoot : MonoBehaviour
 {
@@ -22,7 +23,9 @@ public class PointShoot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {        
-        //Firebullet.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        Firebullet.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+        FireExp.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+
     }
 
     // Update is called once per frame

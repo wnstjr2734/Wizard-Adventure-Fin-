@@ -5,34 +5,46 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 메인 타이틀 화면 동작 클래스
+/// 게임이 실행되면 가장 먼저 뜨는 화면
+/// 작성자 - 김도영
+/// </summary>
+
 public class MainTitle : MonoBehaviour
-{
-    //게임이 실행되면 가장 먼저 뜨는 화면임           
+{              
     [SerializeField] private GameObject back;
-    private CanvasGroup cg;
+    [SerializeField] private AudioSource sound;
+    public AudioClip[] audioClips;
+    private CanvasGroup cg;    
 
 
     // Start is called before the first frame update
     void Start()
     {
         cg = back.GetComponent<CanvasGroup>();
+        sound = sound.GetComponent<AudioSource>();
+        sound.clip = audioClips[0]; 
         cg.alpha = 1;
         BackFade(true);
     }
 
     //스타트 버튼 클릭시 로딩화면 씬으로 이동
     public void OnStart()
-    {        
+    {
+        sound.Play();
         StartCoroutine(nameof(IESceneChange));
     }
     //계속하기를 하면 세이브 포인트로 이동
     public void OnContinue()
     {
+        sound.Play();
         print("세이브 포인트로 이동");
     }
     //종료하기를 누르면 게임이 종료됨
     public void OnQuit()
-    {        
+    {
+        sound.Play();
         Application.Quit();
     }
   
