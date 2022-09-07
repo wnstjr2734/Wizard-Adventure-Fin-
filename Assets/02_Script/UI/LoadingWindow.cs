@@ -80,7 +80,7 @@ public class LoadingWindow : MonoBehaviour
             StartCoroutine(nameof(IETextCycle));
         }
        videoPlayer.PlayVideo();
-
+        SceneLoad();
     }
 
     IEnumerator IETextCycle()
@@ -187,6 +187,11 @@ public class LoadingWindow : MonoBehaviour
             cg.DOKill(); //씬 이동 시 Dotween 실행 종료
         }
 
+    }
+    private void SceneLoad()
+    {
+        LoadScene("MainStage");
+        DOTween.KillAll();
     }
 
 
