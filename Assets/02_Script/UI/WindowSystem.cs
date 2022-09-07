@@ -161,7 +161,7 @@ public class WindowSystem : Singleton<WindowSystem>
                     cg = Loading.GetComponent<CanvasGroup>();
                     cg.alpha = 1.0f;
                 }
-                LoadingWindow.Instance.LoadScene("Main Stage_Proto 1");
+                LoadingWindow.Instance.LoadScene("MainStage");
                 DOTween.KillAll();
             }
         }

@@ -21,7 +21,7 @@ Shader "Custom/BloodEffect"
 	{
 		float4 pos : SV_POSITION;
 		half2 uv : TEXCOORD0;
-		UNITY_VERTEX_INPUT_INSTANCE_ID
+
 		UNITY_VERTEX_OUTPUT_STEREO //Insert
 	};
 	
@@ -95,6 +95,11 @@ Shader "Custom/BloodEffect"
 		blendColor.a = blendColor.a + (_BlendAmount * 2 - 1);
 		blendColor.a = saturate(blendColor.a * _EdgeSharpness - (_EdgeSharpness - 1) * 0.5);
 		
+		if (blendColor.a < 0.2f)
+		{
+			discard;
+		}
+
 		//Distortion:
 		half2 bump = UnpackNormal(UNITY_SAMPLE_SCREENSPACE_TEXTURE(_BumpMap, i.uv)).rg;
 		float4 mainColor = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.uv+bump*blendColor.a*_Distortion);
@@ -106,7 +111,10 @@ Shader "Custom/BloodEffect"
 		
 		mainColor.rgb *= 1-blendColor.a;//*0.995; //inner-shadow border
 
-		return lerp(mainColor, blendColor, blendColor.a);
+		lerp(mainColor, blendColor, blendColor.a);
+		mainColor.a = blendColor.a;
+
+		return mainColor;
 	}
 
 	ENDCG 
