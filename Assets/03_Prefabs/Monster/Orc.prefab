@@ -1226,6 +1226,7 @@ MonoBehaviour:
     elementType: 3
     stack: 1
   audioSource: {fileID: 6540939430200100431}
+  idle: {fileID: 8300000, guid: fd1fa80ff7cdcb14da051f01f5e83da4, type: 3}
   footStep_1: {fileID: 8300000, guid: 263bac2639bda05489becf410eb73968, type: 3}
   footStep_2: {fileID: 8300000, guid: e9e54bb31d7c506408a9b5d22270f837, type: 3}
   chaseGrowl: {fileID: 8300000, guid: 747f752149a8d5145ab9d7973a10dd0b, type: 3}
