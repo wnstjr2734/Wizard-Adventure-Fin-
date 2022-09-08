@@ -15,7 +15,6 @@ public class TitleEffect : MonoBehaviour
     [SerializeField] private GameObject title;    
     [SerializeField] private Image circle;
     [SerializeField] private Image text;
-    public Image[] btn;
     public Image[] btn;    
     private Sequence sequence;
     private Color color;

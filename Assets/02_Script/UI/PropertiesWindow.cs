@@ -56,6 +56,11 @@ public class PropertiesWindow : MonoBehaviour
     {       
         float delay = 1.0f;
 
+        if (vector == 0)
+        {
+            yield return null;
+        }
+
         if (vector == -1 && !isRotate) //왼쪽 회전
         {
             LeftMove();
@@ -76,6 +81,7 @@ public class PropertiesWindow : MonoBehaviour
         if (pp_Angle > 2 || pp_Angle < -2)
         {
             pp_Angle = 0;
+
         }
 
     }
@@ -102,35 +108,50 @@ public class PropertiesWindow : MonoBehaviour
 
     //속성 선택 함수
     //회전 값을 받아서 ElementType으로 반환
-    private void InProperties(int index)
+    private void ElementChange(int input)
     {
-        int pp_num = 0;
-
-        for (int i = 0; i < pp_index.Length; i++)
+        angle = new Vector3(0, 0, currentAngle);
+        
+        //속성 파이어
+        if (input == 0)
         {
-            if (index != pp_index[i])
-            {
-                if (index == 2)
-                {
-                    pp_num = 2;              //속성을 라이트닝으로 변경      
-                }
-                else if (index == -2)
-                {
-                    pp_num = 1;              //속성을 아이스로 변경      
-                }
-            }
-            else
-            {
-                pp_num = i;
-            }
+            pp = et[0];                                 
+            currentAngle = 0;
+            pp_base.transform.DOLocalRotate(angle, speed).SetEase(ease);
         }
-        ChangeElementAnimation(et[pp_num]);
-        //print("현재 속성 : " + et[pp_num]);
+
+        //속성 아이스
+        else if (input == 1 || input == -2)
+        {
+            pp = et[1];
+            currentAngle = 120f;
+            pp_base.transform.DOLocalRotate(angle, speed).SetEase(ease);
+        }
+
+        //속성 라이트닝
+        else if (input == -1 || input == 2)
+        {
+            pp = et[2];
+            currentAngle = -120f;
+            pp_base.transform.DOLocalRotate(angle, speed).SetEase(ease);
+        }
+       
     }  
     
     public void OnPropertise(int alpha)
     {
         cg.DOFade(alpha, 1.0f);
     }
+
+    public void ChangeElement(int changeDirection)
+    {
+        if (changeDirection == 0)
+        {
+            return;
+        }
+       
+    }
+
+
 
 }
