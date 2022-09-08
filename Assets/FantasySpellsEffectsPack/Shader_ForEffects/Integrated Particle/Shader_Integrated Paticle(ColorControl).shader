@@ -87,7 +87,7 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (ColorControl
 							return o;
 						}
 						
-						sampler2D _CameraDepthTexture;
+						UNITY_DECLARE_SCREENSPACE_TEXTURE(_CameraDepthTexture);
 						half _InvFade;
 
 						half4 frag(v2f i ) : SV_Target
@@ -95,7 +95,7 @@ Shader "GAPH Custom Shader/Integrated Particle/Integrated Particle (ColorControl
 							UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i); //Insert
 
                            #ifdef SOFTPARTICLES_ON
-								half sceneZ = LinearEyeDepth(UNITY_SAMPLE_DEPTH(tex2Dproj(_CameraDepthTexture,UNITY_PROJ_COORD(i.projPos))));
+								half sceneZ = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.projPos)));
 								half partZ = i.projPos.z;
 								half fade = saturate(_InvFade * (sceneZ - partZ));
                                 i.color.a *= fade;

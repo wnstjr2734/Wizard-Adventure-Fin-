@@ -120,5 +120,4 @@ public class WindowSystem : Singleton<WindowSystem>
         var actionMap = display ? "UI" : "Player";
         playerInput.SwitchCurrentActionMap(actionMap);
     }
-   
 }

@@ -44,6 +44,6 @@ public class Intro : MonoBehaviour
     private void PlayerChangePos()
     {
         var playerMove = GameManager.player.GetComponent<PlayerMoveRotate>();
-        playerMove.SetPos(changePos.transform.position);
+        playerMove.ToMove(changePos.transform.position, 0.5f);
     }
 }

@@ -467,7 +467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackTarget: {fileID: 0}
-  attackDistance: 25
+  attackDistance: 20
   charStatus: {fileID: 0}
   elementDamage:
     damage: 1

@@ -27,7 +27,7 @@ Shader "Custom/ImageBlendEffect"
 	
 	UNITY_DECLARE_SCREENSPACE_TEXTURE(_MainTex);
 	UNITY_DECLARE_SCREENSPACE_TEXTURE(_BlendTex);
-	UNITY_DECLARE_SCREENSPACE_TEXTURE(_BumpMap);
+	sampler2D _BumpMap;
 	
 	float _BlendAmount;
 	float _EdgeSharpness;
@@ -61,7 +61,7 @@ Shader "Custom/ImageBlendEffect"
 		}
 		
 		//Distortion:
-		half2 bump = UnpackNormal(UNITY_SAMPLE_SCREENSPACE_TEXTURE(_BumpMap, i.uv)).rg;
+		half2 bump = UnpackNormal(tex2D(_BumpMap, i.uv)).rg;
 		float4 mainColor = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.uv + bump * blendColor.a * _Distortion);
 		
 		#ifdef LINEAR_COLORSPACE
@@ -94,7 +94,7 @@ Shader "Custom/ImageBlendEffect"
 		blendColor.a = saturate(blendColor.a * _EdgeSharpness - (_EdgeSharpness - 1) * 0.5);
 		
 		//Distortion:
-		half2 bump = UnpackNormal(UNITY_SAMPLE_SCREENSPACE_TEXTURE(_BumpMap, i.uv)).rg;
+		half2 bump = UnpackNormal(tex2D(_BumpMap, i.uv)).rg;
 		float4 mainColor = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.uv+bump*blendColor.a*_Distortion);
 		
 		float4 overlayColor = blendColor;

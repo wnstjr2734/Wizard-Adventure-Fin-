@@ -55,10 +55,11 @@ public class BossEntrance : MonoBehaviour
         var playerMoveRotate = player.GetComponent<PlayerMoveRotate>();
 
         var bossFSM = boss.GetComponent<BossFSM>();
+        Debug.Assert(bossFSM, "Error : BossFSM is null");
         //bossAnimator.SetInteger("SkillState", 0);
 
         playerController.ActiveController(false);
-        playerMoveRotate.ToMove(playerMovePos.position);
+        playerMoveRotate.ToMove(playerMovePos.position, 4);
 
         yield return new WaitForSeconds(playerMoveTime);
         print("Boss Coming");

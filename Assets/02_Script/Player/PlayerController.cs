@@ -66,6 +66,18 @@ public class PlayerController : Singleton<PlayerController>
         Debug.Log(playerInput.currentActionMap.name);
 
         isVR = IsPresent();
+        var inputModule = GameObject.FindObjectOfType<UnityEngine.EventSystems.OVRInputModule>();
+        var inputSystemUI = GameObject.FindObjectOfType<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
+        if (isVR)
+        {
+            inputModule.enabled = true;
+            inputSystemUI.enabled = false;
+        }
+        else
+        {
+            inputModule.enabled = false;
+            inputSystemUI.enabled = true;
+        }
         //OVRManager.display.RecenterPose();
     }
 

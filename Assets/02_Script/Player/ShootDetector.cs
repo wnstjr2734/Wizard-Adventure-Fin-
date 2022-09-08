@@ -37,7 +37,8 @@ public class ShootDetector : MonoBehaviour
             var worldRot = rightHandTr.parent.rotation * Quaternion.Euler(localEuler);
             var revisedForward = worldRot * Vector3.forward;
 
-            playerMagic.ShootMagic(other.transform.position, revisedForward);
+            //playerMagic.ShootMagic(other.transform.position, revisedForward);
+            playerMagic.ShootMagic(other.transform.position, other.transform.forward);
         }
         //playerMagic.ShootMagic(other.transform.position, transform.forward);
     }
