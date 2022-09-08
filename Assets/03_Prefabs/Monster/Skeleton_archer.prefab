@@ -2289,6 +2289,12 @@ MonoBehaviour:
     elementType: 3
     stack: 1
   audioSource: {fileID: 2951016808162394259}
+  idle:
+  - {fileID: 8300000, guid: ae4c405f93798b447acfce31102b3dad, type: 3}
+  - {fileID: 8300000, guid: d7743dd96949e9a45b10e377944f1634, type: 3}
+  - {fileID: 8300000, guid: 758e0499b384dbd47b569e81aea6e32c, type: 3}
+  - {fileID: 8300000, guid: d84e4d56ce556844791cee2e17affda4, type: 3}
+  - {fileID: 8300000, guid: 158c5768f54a87a49ad1290f03a21dbb, type: 3}
   footStep_1: {fileID: 8300000, guid: 874199bbe1279e34cbf97609559bce6f, type: 3}
   footStep_2: {fileID: 8300000, guid: 93072441c0bac2e47ac86a98586403f1, type: 3}
   chaseGrowl: {fileID: 8300000, guid: b958d20a08d31ec4798c79b1f04883a1, type: 3}
@@ -2786,7 +2792,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1294948143183886359}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 37745ee744d34b5419b4ada81865a49d, type: 2}
   m_CullingMode: 0

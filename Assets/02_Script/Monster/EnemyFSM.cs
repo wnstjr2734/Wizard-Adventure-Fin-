@@ -42,7 +42,7 @@ public class EnemyFSM : MonoBehaviour
     #region(AudioClip)
     public AudioSource audioSource;
     [Header("AudioClip")]
-    public AudioClip idle;
+    public AudioClip[] idle;
     public AudioClip footStep_1;
     public AudioClip footStep_2;
     [Tooltip("플레이어를 향해 달려오면서 내는 소리")]
@@ -217,6 +217,7 @@ public class EnemyFSM : MonoBehaviour
     {
         // 죽음상태
         checkDead = true;
+        agent.isStopped = true;
         state = EnemyState.Die;
         animator.SetTrigger("isDie");
         // 충돌체를 off하고싶다.
@@ -226,7 +227,7 @@ public class EnemyFSM : MonoBehaviour
     public virtual void OnDeathFinished()
     {
         //print("Death Finished");
-        agent.isStopped = true;
+        //agent.isStopped = true;
         gameObject.SetActive(false);
     }
 
@@ -241,7 +242,14 @@ public class EnemyFSM : MonoBehaviour
 
     public void IdleSound()
     {
-        audioSource.PlayOneShot(idle);
+        for(int i=0; i<idle.Length; i++)
+        {
+            audioSource.PlayOneShot(idle[i]);
+            if(state != EnemyState.Idle)
+            {
+                audioSource.Stop();
+            }
+        }
     }
 
     public void FootStep_1()

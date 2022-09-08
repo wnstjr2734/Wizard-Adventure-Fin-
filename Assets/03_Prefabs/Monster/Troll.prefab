@@ -4284,6 +4284,11 @@ MonoBehaviour:
     elementType: 3
     stack: 1
   audioSource: {fileID: 6072680156310780034}
+  idle:
+  - {fileID: 8300000, guid: 611b4e4d3b941cf4dbec8d6f6534a27d, type: 3}
+  - {fileID: 8300000, guid: e75e0738b08707c49a1208eb6efe5772, type: 3}
+  - {fileID: 8300000, guid: 44b4ee5d759018847a3492422b1e471f, type: 3}
+  - {fileID: 8300000, guid: 6365c31c4fe315349813eebbc83bc029, type: 3}
   footStep_1: {fileID: 8300000, guid: 04a3e8ec1e46b3441b4915d8d5c03530, type: 3}
   footStep_2: {fileID: 8300000, guid: 304cfc9bd60ae364992a1c524ca132b9, type: 3}
   chaseGrowl: {fileID: 8300000, guid: 4d43302f4b225ea4bb08d7afd98121fe, type: 3}
