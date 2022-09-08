@@ -38,6 +38,7 @@ public class TutoDummy : MonoBehaviour
     #region(AudioClip)
     public AudioSource audioSource;
     [Header("AudioClip")]
+    public AudioClip[] idle;
     public AudioClip attack;
     [Tooltip("Player를 보고 반응하는 소리")]
     public AudioClip chaseGrowl;
@@ -193,6 +194,14 @@ public class TutoDummy : MonoBehaviour
     }
 
     #region SFX
+
+    public void IdleSound()
+    {
+        for(int i=0; i<idle.Length; i++)
+        {
+            audioSource.PlayOneShot(idle[i]);
+        }
+    }
 
     public void ChaseGrowl()
     {
