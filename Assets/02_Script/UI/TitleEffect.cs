@@ -11,11 +11,10 @@ using DG.Tweening;
 
 public class TitleEffect : MonoBehaviour
 {
-    [SerializeField] private GameObject title;
-    [SerializeField] private GameObject button;
+    [SerializeField] private GameObject title;    
     [SerializeField] private Image circle;
     [SerializeField] private Image text;
-    public Button[] btn = new Button[3];
+    public Image[] btn;
     private CanvasGroup cg;
     private Sequence sequence;
     private Color color;
@@ -32,7 +31,7 @@ public class TitleEffect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {        
-        TitleProduce();        
+        TitleProduce();               
     }
 
     // Update is called once per frame
@@ -45,7 +44,15 @@ public class TitleEffect : MonoBehaviour
     void TitleProduce()
     {                        
         sequence.Prepend(text.DOFade(1, 2.0f)).SetDelay(2.0f);
-        sequence.Append(cg.DOFade(1, 2.0f));
+        sequence.Append(btn[0].DOFade(1, 2.0f));
+        for (int i = 1; i < btn.Length; i++)
+        {
+            sequence.Join(btn[i].DOFade(1, 2.0f));
+        }
+       
+        
+        
+
     }
 
     //마법진 회전 함수
@@ -57,16 +64,20 @@ public class TitleEffect : MonoBehaviour
 
     //연출을 위한 요소
     void StartEffect()
-    {
-        cg = button.GetComponent<CanvasGroup>();
+    {        
         sequence = DOTween.Sequence();
         circle = transform.FindChildRecursive("Title_Circle").GetComponent<Image>();
         text = transform.FindChildRecursive("Title_Text").GetComponent<Image>();
-        cg.alpha = 0;
+        //cg.alpha = 0;
         color = text.color;
         color.a = 0;
         text.color = color;
         speed = 0.3f;
+        for (int i = 0; i < btn.Length; i++)
+        {
+            btn[i].color = color;
+        }
+      
     }
 
 

@@ -421,13 +421,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: {fileID: 646208562}
-  button: {fileID: 0}
   circle: {fileID: 0}
   text: {fileID: 0}
   btn:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7480424394453756588}
+  - {fileID: 7480424394966574950}
+  - {fileID: 7480424395031774500}
+  - {fileID: 7480424395633224161}
+  - {fileID: 7480424394453721492}
+  - {fileID: 7480424394313159399}
 --- !u!1 &1048990562
 GameObject:
   m_ObjectHideFlags: 0
