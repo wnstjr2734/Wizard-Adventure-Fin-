@@ -42,6 +42,7 @@ public class EnemyFSM : MonoBehaviour
     #region(AudioClip)
     public AudioSource audioSource;
     [Header("AudioClip")]
+    public AudioClip idle;
     public AudioClip footStep_1;
     public AudioClip footStep_2;
     [Tooltip("플레이어를 향해 달려오면서 내는 소리")]
@@ -237,6 +238,11 @@ public class EnemyFSM : MonoBehaviour
     }
 
     #region SFX
+
+    public void IdleSound()
+    {
+        audioSource.PlayOneShot(idle);
+    }
 
     public void FootStep_1()
     {
