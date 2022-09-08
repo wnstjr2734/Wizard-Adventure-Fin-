@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+/// <summary>
+/// 타이틀 문구 연출을 위한 클래스
+/// 작성자 - 김도영
+/// </summary>
 
 public class TitleEffect : MonoBehaviour
 {
@@ -11,6 +15,7 @@ public class TitleEffect : MonoBehaviour
     [SerializeField] private GameObject button;
     [SerializeField] private Image circle;
     [SerializeField] private Image text;
+    public Button[] btn = new Button[3];
     private CanvasGroup cg;
     private Sequence sequence;
     private Color color;
@@ -26,9 +31,8 @@ public class TitleEffect : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        
-        TitleProduce();
+    {        
+        TitleProduce();        
     }
 
     // Update is called once per frame
@@ -37,24 +41,21 @@ public class TitleEffect : MonoBehaviour
         circleRotation();
     }
 
+    //DoTween을 사용한 연출 
     void TitleProduce()
-    {                
-        //circle.transform.DOLocalRotate(rotEndv, 3.0f).SetLoops(-1, LoopType.Incremental);
+    {                        
         sequence.Prepend(text.DOFade(1, 2.0f)).SetDelay(2.0f);
         sequence.Append(cg.DOFade(1, 2.0f));
     }
 
-    void buttonFade()
-    {
-       
-    }
-
+    //마법진 회전 함수
     void circleRotation()
     {
-        circle.transform.Rotate(rotEndv);     
+        circle.transform.Rotate(rotEndv * speed * Time.deltaTime);     
         
     }
 
+    //연출을 위한 요소
     void StartEffect()
     {
         cg = button.GetComponent<CanvasGroup>();
@@ -65,6 +66,7 @@ public class TitleEffect : MonoBehaviour
         color = text.color;
         color.a = 0;
         text.color = color;
+        speed = 0.3f;
     }
 
 
