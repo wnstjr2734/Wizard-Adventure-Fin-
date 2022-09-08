@@ -37,7 +37,13 @@ public class IceSword : GripMagic
     [SerializeField, Tooltip("눈 휘날리는 이펙트")]
     private ParticleSystem snowEffect;
 
-    //[SerializeField, Tooltip("검 휘두를 때 나오는 소리")]
+    [Header("Sound")] 
+    [SerializeField, Tooltip("검 사용 시 나오는 소리")]
+    private AudioClip turnOnSound;
+    [SerializeField, Tooltip("검 사용 종료 후 나오는 소리")]
+    private AudioClip turnOffSound;
+    [SerializeField, Tooltip("검으로 상대를 맞출 때 나오는 소리")]
+    private AudioClip hitSound;
 
     private Collider hitBox;
     private Rigidbody rigidBody;
@@ -86,6 +92,8 @@ public class IceSword : GripMagic
 
     private IEnumerator IETurnOnSword()
     {
+        swordAudioSource.PlayOneShot(turnOnSound);
+
         float currentHeight = material.GetFloat(cutoffHeightID);
         while (currentHeight < cutoffHeight.y)
         {
@@ -108,6 +116,8 @@ public class IceSword : GripMagic
 
     private IEnumerator IETurnOffSword()
     {
+        swordAudioSource.PlayOneShot(turnOffSound);
+
         hitBox.enabled = false;
         iceFogEffect.gameObject.SetActive(false);
         snowEffect.gameObject.SetActive(false);
