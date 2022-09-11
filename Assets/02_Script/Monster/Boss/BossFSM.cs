@@ -125,9 +125,9 @@ public partial class BossFSM : MonoBehaviour
         Phase = 1;
         animator.SetInteger(skillStateID, 0);
         audioSource.PlayOneShot(patternStartSound);
+
+        Skill1_Init();
     }
-
-
 
     private void Update()
     {

@@ -23,7 +23,7 @@ public partial class BossFSM : MonoBehaviour
         public Transform firePosition;
 
         [SerializeField, Tooltip("투사체 목표 위치")] 
-        private Transform targetTr;
+        public Transform targetTr;
         [SerializeField, Tooltip("투사체 생기는 위치 범위")]
         public float radius = 1.5f;
         [SerializeField, Tooltip("투사체 날릴 개수")]
@@ -35,7 +35,6 @@ public partial class BossFSM : MonoBehaviour
         [SerializeField, Tooltip("스킬 1 음성")] 
         public AudioClip skillVoice;
 
-        public Transform TargetTr => targetTr;
         public float MagicMissileCount => magicMissileCount;
         public float Interval => interval;
         public DelayedMagic DelayedMagicPrefab => delayedMagicPrefab;
@@ -166,11 +165,17 @@ public partial class BossFSM : MonoBehaviour
 
     public void Phase1_JudgeAction()
     {
+        // 플레이어 쪽으로 고개 돌리기
+        
+
+
         if (IsPlayerNearby() && phase1SkillDatas[3].CurrentCooldown <= 0)
         {
             Phase1_UseSkill(3);
             return;
         }
+
+        // 
 
         int minCooldownNum = -1;
         float minCooldown = Single.MaxValue;
@@ -273,6 +278,11 @@ public partial class BossFSM : MonoBehaviour
 
     #region Skill 1
 
+    private void Skill1_Init()
+    {
+        phase1Skill1.targetTr = GameManager.eye;
+    }
+
     private void Skill1_Voice()
     {
         audioSource.PlayOneShot(phase1Skill1.skillVoice);
@@ -289,7 +299,7 @@ public partial class BossFSM : MonoBehaviour
             // 발사 위치를 기준으로 원형 범위로 랜덤하게 발사한다
             var magicPos = info.firePosition.position +
                            transform.right * circle.x + transform.up * circle.y;
-            var magicRot = Quaternion.LookRotation((info.TargetTr.position - magicPos).normalized);
+            var magicRot = Quaternion.LookRotation((info.targetTr.position - magicPos).normalized);
 
             var magic = Instantiate(info.DelayedMagicPrefab, magicPos, magicRot);
             magic.StartMagic();

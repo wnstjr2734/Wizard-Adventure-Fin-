@@ -101,8 +101,6 @@ public class ElementInfo : ScriptableObject
         Debug.Assert(iceData != null, "Error : Ice Data is null");
         Debug.Assert(lightningData != null, "Error : Lightning Data is null");
 
-        Debug.Log($"Fire ElementInfo : maxStack - {fireData.MaxStack}, duration - {fireData.Duration}" ); 
-
         Fire = fireData;
         Ice = iceData;
         Lightning = lightningData;

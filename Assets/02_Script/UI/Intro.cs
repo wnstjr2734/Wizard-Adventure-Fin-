@@ -14,6 +14,9 @@ public class Intro : MonoBehaviour
     [Tooltip("인트로가 끝난 후 플레이어가 이동할 위치")]
     public Transform changePos;
 
+    [SerializeField, Tooltip("해당 지점까지 이동하는데 쓸 시간")]
+    private float toMoveTime = 1.5f;
+
     IEnumerator Start()
     {
         vid.loopPointReached += CheckOver;
@@ -44,6 +47,6 @@ public class Intro : MonoBehaviour
     private void PlayerChangePos()
     {
         var playerMove = GameManager.player.GetComponent<PlayerMoveRotate>();
-        playerMove.ToMove(changePos.transform.position, 0.5f);
+        playerMove.ToMove(changePos.transform.position, toMoveTime);
     }
 }

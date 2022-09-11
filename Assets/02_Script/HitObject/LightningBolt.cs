@@ -46,6 +46,12 @@ public class LightningBolt : GripMagic
     [SerializeField, Tooltip("라이트닝 볼트 히트시킬 대상")]
     private LayerMask lightningLayerMask;
 
+    [Header("Sound")] 
+    [SerializeField, Tooltip("단발 공격일 때 소리")]
+    private AudioClip shootSound;
+    [SerializeField, Tooltip("공격 맞았을 때 소리")]
+    private AudioClip hitSound;
+
     /// <summary>
     /// Assign your own random if you want to have the same lightning appearance
     /// </summary>
@@ -60,12 +66,16 @@ public class LightningBolt : GripMagic
     private Camera mainCamera;
     private bool orthographic;
 
+    private AudioSource continuousAudioSource;
+
 
 
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 0;
+
+        continuousAudioSource = GetComponentInChildren<AudioSource>();
     }
 
     private void Start()
@@ -195,6 +205,9 @@ public class LightningBolt : GripMagic
                 {
                     targetPoses[i] += ((SphereCollider)targets[i]).center;
                 }
+
+                // 
+                SFXPlayer.Instance.PlaySpatialSound(targetPoses[i], hitSound);
             }
 
             GenerateLightningBolt(start, targetPoses, Generations, 0.0f);
@@ -216,6 +229,12 @@ public class LightningBolt : GripMagic
                 GenerateLightningBolt(start, hit.point, Generations, 0.0f);
                 UpdateLineRenderer();
             }
+        }
+
+        // 캐스팅 소리
+        if (!continuousMode)
+        {
+            SFXPlayer.Instance.PlaySpatialSound(transform.position, hitSound);
         }
     }
     
@@ -378,6 +397,7 @@ public class LightningBolt : GripMagic
     public override void TurnOn()
     {
         continuousMode = true;
+        continuousAudioSource.Play();
     }
 
     public override void TurnOff()

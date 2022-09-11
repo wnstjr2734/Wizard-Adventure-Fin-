@@ -142,7 +142,7 @@ public class PlayerMoveRotate : MonoBehaviour
 
         cc.enabled = true;
         isTeleporting = true;
-        print(targetPos);
+
         while (Vector3.Distance(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z)) > 0.1f &&
             time > 0)
         {

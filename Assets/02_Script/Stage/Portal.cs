@@ -30,7 +30,7 @@ public class Portal : MonoBehaviour
     [Header("포탈 / 플레이어 스폰 위치")]
     public GameObject portal;
     protected Collider portalCol;
-    public EnemySpawn portalPoint;   //포탈 탄 후 플레이어 스폰 위치
+    public RoomStartPoint portalPoint;   //포탈 탄 후 플레이어 스폰 위치
 
     [SerializeField, Tooltip("활성화할 다음 방")] 
     private GameObject nextRoom;

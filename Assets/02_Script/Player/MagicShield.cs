@@ -23,10 +23,23 @@ public class MagicShield : MonoBehaviour
     private Material shieldObjMat;
     private readonly int cutoutID = Shader.PropertyToID("_CutOut");
 
+    [Header("SFX")]
+    [SerializeField] private AudioClip turnOnSound;
+    [SerializeField] private AudioClip turnOffSound;
+
+    private AudioSource audioSource;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     private void OnEnable()
     {
         shieldObjMat.SetFloat(cutoutID, cutoutValue.x);
         shieldObjMat.DOFloat(cutoutValue.y, cutoutID, 0.3f);
+
+        audioSource.PlayOneShot(turnOnSound);
     }
 
     private void Start()
@@ -43,6 +56,8 @@ public class MagicShield : MonoBehaviour
         Sequence s = DOTween.Sequence();
         s.Append(shieldObjMat.DOFloat(cutoutValue.x, cutoutID, 0.3f));
         s.onComplete = () => gameObject.SetActive(false);
+
+        audioSource.PlayOneShot(turnOffSound);
     }
 
     private void OnCollisionEnter(Collision collision)
