@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -45,12 +46,10 @@ public partial class BossFSM : MonoBehaviour
         public float NextActionDelay => nextActionDelay;
     }
 
-    // 보스 처음 시작 - Idle
-    // 보스가 각 패턴을 랜덤 및 조건부로 쓴다
-    // 쿨타임 큐 방식
-    // - 패턴
-    // 각 패턴 후에는 행동 딜레이가 있음 (딜 타임)
-    // 
+    [SerializeField, Tooltip("기본적인 회전 속도")]
+    private float baseRotationSpeed = 30.0f;
+    private float currentRotationSpeed;
+    private bool useRotateToward = true;
 
     protected BossState state;
 
@@ -81,16 +80,21 @@ public partial class BossFSM : MonoBehaviour
     [SerializeField] private AudioClip appearanceSound;
     [SerializeField] private AudioClip enteredSound;
     [SerializeField] private AudioClip patternStartSound;
+    [SerializeField] private Knockback enteredKnockbackPrefab;
 
     private static readonly float actionTime = 0.1f;
     private static readonly WaitForSeconds actionWS = new WaitForSeconds(actionTime);
 
+    #region AnimationID
     private static readonly int isPlayerDeadID = Animator.StringToHash("isPlayerDead");
     private static readonly int phaseID = Animator.StringToHash("Phase");
     private static readonly int skillStateID = Animator.StringToHash("SkillState");
     private static readonly int isActionDelayID = Animator.StringToHash("IsActionDelay");
     private static readonly int isShockedID = Animator.StringToHash("isShocked");
     private static readonly int isDieID = Animator.StringToHash("isDie");
+    #endregion
+
+    public event Action onDeathFinished;
 
     protected void Awake()
     {
@@ -109,6 +113,7 @@ public partial class BossFSM : MonoBehaviour
         attackTarget = GameManager.player.transform;
     }
 
+    #region Enter
     public void Appearance()
     {
         audioSource.PlayOneShot(appearanceSound);
@@ -120,14 +125,33 @@ public partial class BossFSM : MonoBehaviour
         audioSource.PlayOneShot(enteredSound);
     }
 
+    private void EnterKnockback()
+    {
+        Instantiate(enteredKnockbackPrefab, transform.position + Vector3.up, Quaternion.identity);
+    }
+
     public void StartFSM()
     {
-        Phase = 1;
-        animator.SetInteger(skillStateID, 0);
-        audioSource.PlayOneShot(patternStartSound);
+        Sequence s = DOTween.Sequence();
 
-        Skill1_Init();
+        s.AppendCallback(() =>
+        {
+            // 대사 말하기
+            audioSource.PlayOneShot(patternStartSound);
+        });
+        s.AppendInterval(3.0f);
+        s.onComplete = () =>
+        {
+            // 패턴 시작
+            Phase = 1;
+            animator.SetInteger(skillStateID, 0);
+
+            Skill1_Init();
+        };
     }
+
+
+    #endregion
 
     private void Update()
     {
@@ -135,6 +159,43 @@ public partial class BossFSM : MonoBehaviour
         {
             DecreaseCooldown();
         }
+
+        if (useRotateToward)
+        {
+            RotateTowards(attackTarget, currentRotationSpeed);
+        }
+    }
+
+    private void NextActionDelay()
+    {
+        var skillState = animator.GetInteger(skillStateID);
+        audioSource.PlayOneShot(damagedSound);
+        if (actionDelayCoroutine == null)
+        {
+            actionDelayCoroutine = StartCoroutine(IEWaitActionDelay(phase1SkillDatas[skillState].NextActionDelay));
+        }
+    }
+
+    private IEnumerator IEWaitActionDelay(float delay)
+    {
+        useRotateToward = false;
+        animator.SetBool(isActionDelayID, true);
+        yield return new WaitForSeconds(delay);
+        animator.SetBool(isActionDelayID, false);
+        actionDelayCoroutine = null;
+        useRotateToward = true;
+    }
+
+    // 회전 속도에 맞춰 회전하는 함수
+    private void RotateTowards(Transform target, float rotSpeed)
+    {
+        var targetPos = target.position;
+        // Y축 회전만 하도록 y값을 같게 설정
+        targetPos.y = transform.position.y;
+        var toForward = (targetPos - transform.position).normalized;
+        var toForwardRot = Quaternion.LookRotation(toForward);
+        var newRot = Quaternion.RotateTowards(transform.rotation, toForwardRot, rotSpeed * Time.deltaTime);
+        transform.rotation = newRot;
     }
 
     public void ResetFSM()
@@ -177,6 +238,7 @@ public partial class BossFSM : MonoBehaviour
     public virtual void OnDeathFinished()
     {
         //print("Death Finished");
+        onDeathFinished?.Invoke();
         gameObject.SetActive(false);
     }
 }

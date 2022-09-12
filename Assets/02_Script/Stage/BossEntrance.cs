@@ -22,6 +22,8 @@ public class BossEntrance : MonoBehaviour
     [SerializeField] private float startPatternTime = 4.0f;
     [SerializeField] private GameObject bossHp;
 
+    [SerializeField] private Transform bossPortal;
+
     private bool isTriggered = false;
 
     // Start is called before the first frame update
@@ -80,5 +82,18 @@ public class BossEntrance : MonoBehaviour
         bossHp.SetActive(true);
 
         playerController.ActiveController(true);
+    }
+
+    /// <summary>
+    /// 포탈까지 자동 이동
+    /// </summary>
+    private void EndStage()
+    {
+        var player = GameManager.player;
+        var playerController = player.GetComponent<PlayerController>();
+        var playerMoveRotate = player.GetComponent<PlayerMoveRotate>();
+
+        playerController.ActiveController(false);
+        playerMoveRotate.ToMove(bossPortal.transform.position, 5f);
     }
 }

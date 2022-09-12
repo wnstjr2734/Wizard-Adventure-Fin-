@@ -10,7 +10,7 @@ using UnityEngine;
 public class Projectile : Magic
 {
     [SerializeField, Tooltip("투사체 이동속도")]
-    private float moveSpeed = 4.5f;
+    protected float moveSpeed = 4.5f;
     [SerializeField, Tooltip("투사체 사정거리")]
     private float range = 5f;
     // 투사체가 얼마나 오래 유지되는지
@@ -30,7 +30,7 @@ public class Projectile : Magic
     [SerializeField, Tooltip("맞았을 때 나는 소리")]
     private AudioClip hitSound;
 
-    private Rigidbody rb;
+    protected Rigidbody rb;
 
     public event Action onDestroy;
 
@@ -73,7 +73,7 @@ public class Projectile : Magic
         rb.angularVelocity = Vector3.zero;
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         // 수명 제어
         lifetime -= Time.fixedDeltaTime;

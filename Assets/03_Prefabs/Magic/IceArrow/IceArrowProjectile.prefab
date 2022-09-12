@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 54026867493614958}
   - component: {fileID: 135840973497244662}
   - component: {fileID: 4667112968901681590}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: IceArrowProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5032,7 +5032,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200054661885881126}
   - component: {fileID: 3858861469035742603}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}

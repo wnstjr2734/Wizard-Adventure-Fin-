@@ -23491,10 +23491,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 1
   damage:
-    damage: 10
+    damage: 0
     elementType: 3
     stack: 1
-  knockbackPower: 12
+  knockbackPower: 10.5
 --- !u!135 &3891802222619169477
 SphereCollider:
   m_ObjectHideFlags: 0

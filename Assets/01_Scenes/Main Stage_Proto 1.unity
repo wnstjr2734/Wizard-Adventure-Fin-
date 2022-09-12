@@ -6591,7 +6591,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 118867102}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.3456, y: -5, z: -8.048898}
+  m_LocalPosition: {x: 8.280518, y: -5, z: -8.703191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6848,6 +6848,7 @@ MonoBehaviour:
   teleportEffect: {fileID: 1830314550}
   startPatternTime: 4
   bossHp: {fileID: 215960672}
+  bossPortal: {fileID: 0}
 --- !u!65 &355500099
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13220,6 +13221,30 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4990439224368946702, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
+      propertyPath: maxMana
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4990439224368946702, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
+      propertyPath: regenMana
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4990439224368946702, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
+      propertyPath: baseMagicCost
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4990439224368946702, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
+      propertyPath: gripMagicCost
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4990439224368946702, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
+      propertyPath: chargeMagicCost
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4990439224368946702, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
+      propertyPath: baseMagicPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 6518217347650057082, guid: dc0ee23eb089a104c9308d42c2fe0bf4, type: 3}
+    - target: {fileID: 4990439224368946702, guid: 89b7320317d9d0d43a0f7a58afe0f0ae, type: 3}
       propertyPath: chargeMagicPrefabs.Array.data[1]
       value: 
       objectReference: {fileID: 745536421517675369, guid: 70afbd881f29ad14fb6138e7cd427b61, type: 3}
@@ -13458,11 +13483,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: d9dfdb21854915443a58b31ea5c2e108, type: 2}
     - target: {fileID: 2148271185292811023, guid: b5a054f90a626e14fa81e3f56f268a34, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 138.08943
+      value: 136.10287
       objectReference: {fileID: 0}
     - target: {fileID: 2148271185292811023, guid: b5a054f90a626e14fa81e3f56f268a34, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.882544
+      value: 5.8227983
       objectReference: {fileID: 0}
     - target: {fileID: 2148271185292811023, guid: b5a054f90a626e14fa81e3f56f268a34, type: 3}
       propertyPath: m_LocalRotation.w
@@ -23929,12 +23954,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 424605802, guid: 53e37f9cddd42574f9f7c3c367161272, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 424605806, guid: 53e37f9cddd42574f9f7c3c367161272, type: 3}
       propertyPath: changePos
       value: 
       objectReference: {fileID: 302932878}
+    - target: {fileID: 424605806, guid: 53e37f9cddd42574f9f7c3c367161272, type: 3}
+      propertyPath: toMoveTime
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 848882373, guid: 53e37f9cddd42574f9f7c3c367161272, type: 3}
       propertyPath: m_Camera
       value: 
