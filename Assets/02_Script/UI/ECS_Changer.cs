@@ -11,29 +11,23 @@ public class ECS_Changer : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip[] elementSound;
-    PropertiesWindow pw;
-    ElementType et;
+    [SerializeField] private AudioClip[] rotateSound;
+    
     // Start is called before the first frame update
     void Start()
     {
-        pw = GetComponent<PropertiesWindow>();
-        audioSource = GetComponent<AudioSource>();
-        
+        audioSource = GetComponent<AudioSource>();      
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SoundChange(int num)
     {
-        
+        print("ÇöÀç ¼±°î : " + num);
+        audioSource.PlayOneShot(elementSound[num]); 
     }
 
-    void SoundChange(ElementType elementType)
+    public void SoundChangeRotate(int num)
     {
-        if ((int)elementType == 1)
-        {
-
-        }
-        
+        audioSource.PlayOneShot(rotateSound[num]);
     }
 
 }

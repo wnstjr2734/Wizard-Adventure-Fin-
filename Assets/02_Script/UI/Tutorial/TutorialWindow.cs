@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class TutorialWindow : HelpWindow
 {
     [SerializeField] private CanvasGroup canvasGroup;
-    [SerializeField] private Button exitButton;
+    [SerializeField] private Button exitButton;    
 
     public void Open(TutorialExplainData[] datas)
     {
@@ -40,13 +40,14 @@ public class TutorialWindow : HelpWindow
     {
         print("Tutorial Closed");
         currentViewer.Stop();
-
+        SoundPlay(2);
         canvasGroup.alpha = 1.0f;
 
         Sequence s = DOTween.Sequence();
         s.Append(canvasGroup.DOFade(0.0f, 0.5f)).SetUpdate(true);
         s.onComplete = () => {
             WindowSystem.Instance.CloseWindow(true);
+            
         };
     }
 }

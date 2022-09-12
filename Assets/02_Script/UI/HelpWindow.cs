@@ -28,6 +28,9 @@ public class HelpWindow : MonoBehaviour
     [SerializeField] protected float animTime = 0.5f;
     [SerializeField] protected float movePosX = 1024f;
 
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] pageSound;
+
     protected bool isPlayingAnimation = false;
     
     // 초기화
@@ -37,6 +40,8 @@ public class HelpWindow : MonoBehaviour
         currentViewer.SetContext(contents[currentIndex]);
         // Fade In Animation?
         currentViewer.Play();
+
+        audioSource = GetComponent<AudioSource>();
 
         // 이전 페이지나 다음 페이지로 이동할 수 있는지 확인
         prevButton.interactable = currentIndex != 0;
@@ -78,6 +83,7 @@ public class HelpWindow : MonoBehaviour
 
         // 다음 뷰어 위치 변경 후 슬라이드 애니메이션 
         ChangeViewer(-movePosX);
+        SoundPlay(0);
         SetCurrentIndex(currentIndex - 1);
     }
 
@@ -97,7 +103,7 @@ public class HelpWindow : MonoBehaviour
         nextViewer.Stop();
 
         ChangeViewer(movePosX);
-
+        SoundPlay(1);
         SetCurrentIndex(currentIndex + 1);
     }
 
@@ -140,4 +146,11 @@ public class HelpWindow : MonoBehaviour
 
         indexViewer.text = $"{value + 1} / {contents.Length}";
     }
+
+    protected void SoundPlay(int num)
+    {
+        audioSource.clip = pageSound[num];
+        audioSource.Play();
+    }
+
 }
