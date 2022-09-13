@@ -32,6 +32,8 @@ public class TutoDummy : MonoBehaviour
     protected Animator animator;
     public CharacterStatus charStatus;
     public ElementDamage elementDamage;
+    public GameObject deadFXFactory;
+    public GameObject fxPos;
     private bool moveLock;
     private bool checkDead = false;
 
@@ -48,6 +50,8 @@ public class TutoDummy : MonoBehaviour
     public AudioClip deadGrowl;
     [Tooltip("몬스터가 죽으면서 나는 뼈부숴지는 소리")]
     public AudioClip dead;
+    [Tooltip("몬스터가 죽을 때 나타나는 파티클 효과음")]
+    public AudioClip deadFXSound;
     #endregion
 
     protected void Awake()
@@ -173,10 +177,21 @@ public class TutoDummy : MonoBehaviour
     {
         // 죽음상태
         checkDead = true;
+        agent.isStopped = true;
         state = EnemyState.Die;
         animator.SetTrigger("isDie");
         // 충돌체를 off하고싶다.
         GetComponent<Collider>().enabled = false;
+    }
+
+    public void DeadFx()
+    {
+        GameObject deadFX = Instantiate(deadFXFactory);
+        deadFX.transform.position = fxPos.transform.position;
+        ParticleSystem ps = deadFX.GetComponent<ParticleSystem>();
+        ps.Stop();
+        ps.Play();
+        DeadFXSound();
     }
 
     public virtual void OnDeathFinished()
@@ -227,6 +242,11 @@ public class TutoDummy : MonoBehaviour
     public void DeadSound()
     {
         audioSource.PlayOneShot(dead);
+    }
+
+    public void DeadFXSound()
+    {
+        audioSource.PlayOneShot(deadFXSound);
     }
 
     #endregion

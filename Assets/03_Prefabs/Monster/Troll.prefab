@@ -2010,6 +2010,7 @@ Transform:
   - {fileID: 7516312596060492214}
   - {fileID: 5749884695803715704}
   - {fileID: 3638972788117836189}
+  - {fileID: 8650545135716016703}
   m_Father: {fileID: 7371041213362957761}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2387,6 +2388,37 @@ Transform:
   - {fileID: 5646918414586333788}
   m_Father: {fileID: 8575840339130168328}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4562274356062630019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8650545135716016703}
+  m_Layer: 8
+  m_Name: deadFxPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8650545135716016703
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4562274356062630019}
+  m_LocalRotation: {x: 0.5475694, y: -0.4643207, z: -0.53738874, w: -0.44247866}
+  m_LocalPosition: {x: -0.06914886, y: 0.022788182, z: 0.014975612}
+  m_LocalScale: {x: 1.1161001, y: 1.1161002, z: 1.1161002}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 125266257972353018}
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4682637261788576488
 GameObject:
@@ -4283,6 +4315,8 @@ MonoBehaviour:
     damage: 25
     elementType: 3
     stack: 1
+  deadFXFactory: {fileID: 178966, guid: 898a8d3b94560fa46a71da153e710fd0, type: 3}
+  fxPos: {fileID: 4562274356062630019}
   audioSource: {fileID: 6072680156310780034}
   idle:
   - {fileID: 8300000, guid: 611b4e4d3b941cf4dbec8d6f6534a27d, type: 3}
@@ -4298,6 +4332,7 @@ MonoBehaviour:
   shocked: {fileID: 8300000, guid: 5dd773d18714fd349beab52a4dec6712, type: 3}
   deadGrowl: {fileID: 8300000, guid: 20f497b67c275be4ea541a5d9ceceec5, type: 3}
   dead: {fileID: 8300000, guid: 45e070961277a4e0b85f417c26c4e4e2, type: 3}
+  deadFXSound: {fileID: 8300000, guid: bb8753131d595f04bbbf3764210cf8be, type: 3}
 --- !u!195 &6072680156310780032
 NavMeshAgent:
   m_ObjectHideFlags: 0

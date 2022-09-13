@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 
 //메모장
@@ -17,6 +19,7 @@ using UnityEngine;
 /// 각 스테이지 적 생성 및 적 수에 따른 포탈 활성화 관리
 /// 플레이어 포탈이동
 /// 작성자 - 이준석
+/// 0912 추가 : audioSource 및 포탈 탈때 fadeInOut UI관리
 /// </summary>
 public class Portal : MonoBehaviour
 {
@@ -32,10 +35,17 @@ public class Portal : MonoBehaviour
     protected Collider portalCol;
     public EnemySpawn portalPoint;   //포탈 탄 후 플레이어 스폰 위치
 
-    [SerializeField, Tooltip("활성화할 다음 방")] 
+    [SerializeField, Tooltip("포탈 탈 때 사운드")]
+    private AudioSource portalSound;
+
+    [SerializeField, Tooltip("활성화할 다음 방")]
     private GameObject nextRoom;
     [SerializeField, Tooltip("비활성화할 이전 방")]
     private GameObject currentRoom;
+
+    [Tooltip("포탈 탈 때 fade In Out 관리")]
+    public GameObject fadeImage;
+    public CanvasGroup canvasGroup; //페이드 인아웃 캔버스
 
     private void Awake()
     {
@@ -45,11 +55,17 @@ public class Portal : MonoBehaviour
             initPoses[i] = targets[i].transform.position;
         }
 
+        //포탈 사운드
+        portalSound = GetComponent<AudioSource>();
         portalCol = GetComponent<BoxCollider>();
         portalCol.enabled = false;
+        portalSound.enabled = false;
         canUse = false;
         portal = transform.GetChild(0).gameObject;
         portal.SetActive(false);
+
+        //페이드인아웃 오브젝트 초기 비활성화
+        fadeImage.SetActive(false);
 
         var room = transform.parent;
         currentRoom = room.gameObject;
@@ -143,8 +159,27 @@ public class Portal : MonoBehaviour
         StartCoroutine(IEUsePortal());
     }
 
+    //페이드 인아웃 관리 함수
+    private void Fade()
+    {
+        fadeImage.SetActive(true);
+
+        DOTween.Sequence()
+            .Append(canvasGroup.DOFade(1.0f, 3f))   //점점 노랗게 페이드아웃
+            .Append(canvasGroup.DOFade(0.0f, 3f))   //점점 밝아짐 페이드인
+            .OnComplete(() =>                       //완료 후에는 canvasgroup, Canvas 오브젝트 비활성화
+            {
+                fadeImage.SetActive(false);
+            });
+    }
+
     private IEnumerator IEUsePortal()
     {
+        //포탈 사운드 작동 - 작성자 이준석
+        portalSound.enabled = true;
+        yield return new WaitForSeconds(0.1f);
+        Fade();
+        yield return new WaitForSeconds(5f);
         // 포탈 이동 연출
         nextRoom.SetActive(true);
         yield return new WaitForSeconds(0.5f);

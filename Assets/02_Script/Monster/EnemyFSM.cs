@@ -35,6 +35,8 @@ public class EnemyFSM : MonoBehaviour
     protected Animator animator;
     public CharacterStatus charStatus;
     public ElementDamage elementDamage;
+    public GameObject deadFXFactory;
+    public GameObject fxPos;
     private bool moveLock;
     private bool checkDead = false;
     private bool initChaseTrigger = true; // 추격범위 밖에서 플레이어에게 피해를 입었을 때 자동으로 플레이어를 추격하도록 하기위함.
@@ -58,6 +60,8 @@ public class EnemyFSM : MonoBehaviour
     public AudioClip deadGrowl;
     [Tooltip("몬스터가 죽으면서 나는 환경음")]
     public AudioClip dead;
+    [Tooltip("몬스터가 죽을 때 나타나는 파티클 효과음")]
+    public AudioClip deadFXSound;
     #endregion
 
     private static readonly int isPlayerDeadID = Animator.StringToHash("isPlayerDead");
@@ -123,6 +127,7 @@ public class EnemyFSM : MonoBehaviour
     {
         animator.SetBool(isPlayerDeadID, false);
         initChaseTrigger = true;
+        agent.isStopped = false;
         state = EnemyState.Idle;
     }
 
@@ -224,6 +229,16 @@ public class EnemyFSM : MonoBehaviour
         GetComponent<Collider>().enabled = false;
     }
 
+    public void DeadFx()
+    {
+        GameObject deadFX = Instantiate(deadFXFactory);
+        deadFX.transform.position = fxPos.transform.position;
+        ParticleSystem ps = deadFX.GetComponent<ParticleSystem>();
+        ps.Stop();
+        ps.Play();
+        DeadFXSound();
+    }
+
     public virtual void OnDeathFinished()
     {
         //print("Death Finished");
@@ -292,6 +307,11 @@ public class EnemyFSM : MonoBehaviour
     public void DeadSound()
     {
         audioSource.PlayOneShot(dead);
+    }
+
+    public void DeadFXSound()
+    {
+        audioSource.PlayOneShot(deadFXSound);
     }
 
     #endregion

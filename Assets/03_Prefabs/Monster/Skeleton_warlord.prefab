@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &116526266672843166
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6268659641207658020}
+  m_Layer: 8
+  m_Name: deadFxPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6268659641207658020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116526266672843166}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0000028625946, y: -0.0000013113022, z: -1.0679996}
+  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5214140481272628380}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5214140479777598364
 GameObject:
   m_ObjectHideFlags: 0
@@ -38417,7 +38448,8 @@ Transform:
   m_LocalPosition: {x: 0.00019423007, y: 1.1276343, z: -0.022148931}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6268659641207658020}
   m_Father: {fileID: 5214140481272628446}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -39684,10 +39716,14 @@ MonoBehaviour:
   attackDistance: 3.2
   charStatus: {fileID: 0}
   elementDamage:
-    damage: 10
+    damage: 8
     elementType: 3
     stack: 1
+  deadFXFactory: {fileID: 178966, guid: 898a8d3b94560fa46a71da153e710fd0, type: 3}
+  fxPos: {fileID: 116526266672843166}
   audioSource: {fileID: 5230461971589919675}
+  idle:
+  - {fileID: 8300000, guid: 4735434fd85a97c42a238b2ebb57420b, type: 3}
   footStep_1: {fileID: 8300000, guid: 28d85cd33f62e5746a7b90cd0eccc94f, type: 3}
   footStep_2: {fileID: 8300000, guid: cd765f7887a97244a8b19c5ba35affdf, type: 3}
   chaseGrowl: {fileID: 8300000, guid: a1e7304a106b4df4a91ef1987ab2e4c4, type: 3}
@@ -39697,6 +39733,7 @@ MonoBehaviour:
   shocked: {fileID: 8300000, guid: 525933722c8cd5e41a67b7dafb441cec, type: 3}
   deadGrowl: {fileID: 8300000, guid: 6f0f3571872ae6048ab7d8968192b961, type: 3}
   dead: {fileID: 8300000, guid: 587bade519cb7aa41b74955421d48787, type: 3}
+  deadFXSound: {fileID: 8300000, guid: bb8753131d595f04bbbf3764210cf8be, type: 3}
 --- !u!195 &5214140481272503827
 NavMeshAgent:
   m_ObjectHideFlags: 0

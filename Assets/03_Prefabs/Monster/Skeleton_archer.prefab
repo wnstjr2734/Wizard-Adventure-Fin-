@@ -1875,7 +1875,8 @@ Transform:
   m_LocalPosition: {x: 0.00019423007, y: 1.1276343, z: -0.022148931}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5020398252509527724}
   m_Father: {fileID: 1294948143183590747}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2288,6 +2289,8 @@ MonoBehaviour:
     damage: 10
     elementType: 3
     stack: 1
+  deadFXFactory: {fileID: 178966, guid: 898a8d3b94560fa46a71da153e710fd0, type: 3}
+  fxPos: {fileID: 4293470832745144268}
   audioSource: {fileID: 2951016808162394259}
   idle:
   - {fileID: 8300000, guid: ae4c405f93798b447acfce31102b3dad, type: 3}
@@ -2304,6 +2307,7 @@ MonoBehaviour:
   shocked: {fileID: 8300000, guid: 525933722c8cd5e41a67b7dafb441cec, type: 3}
   deadGrowl: {fileID: 8300000, guid: 6f0f3571872ae6048ab7d8968192b961, type: 3}
   dead: {fileID: 8300000, guid: 587bade519cb7aa41b74955421d48787, type: 3}
+  deadFXSound: {fileID: 8300000, guid: bb8753131d595f04bbbf3764210cf8be, type: 3}
 --- !u!114 &1294948144548718009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22075,6 +22079,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookAt: {fileID: 0}
+--- !u!1 &4293470832745144268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5020398252509527724}
+  m_Layer: 8
+  m_Name: deadFxPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5020398252509527724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4293470832745144268}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.068}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1294948143183590741}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2214986793089133611
 PrefabInstance:
   m_ObjectHideFlags: 0
