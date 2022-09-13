@@ -11,26 +11,21 @@ using DG.Tweening;
 
 public class TitleEffect : MonoBehaviour
 {
+    #region 변수
     [SerializeField] private GameObject title;    
     [SerializeField] private Image circle;
     [SerializeField] private Image text;
-    public Image[] btn;
-    private CanvasGroup cg;
+    public Image[] btn;    
     private Sequence sequence;
     private Color color;
     private float speed;
     Vector3 rotEndv = new Vector3(0.0f, 0.0f, -180.0f);
-
-    private void Awake()
-    {
-        StartEffect();
-    }
-
-
+    #endregion
 
     // Start is called before the first frame update
     void Start()
-    {        
+    {
+        StartEffect();
         TitleProduce();               
     }
 
@@ -45,14 +40,10 @@ public class TitleEffect : MonoBehaviour
     {                        
         sequence.Prepend(text.DOFade(1, 2.0f)).SetDelay(2.0f);
         sequence.Append(btn[0].DOFade(1, 2.0f));
-        for (int i = 1; i < btn.Length; i++)
+        for (int i = btn.Length - 1; i >= 1; i--)
         {
             sequence.Join(btn[i].DOFade(1, 2.0f));
         }
-       
-        
-        
-
     }
 
     //마법진 회전 함수
@@ -67,8 +58,7 @@ public class TitleEffect : MonoBehaviour
     {        
         sequence = DOTween.Sequence();
         circle = transform.FindChildRecursive("Title_Circle").GetComponent<Image>();
-        text = transform.FindChildRecursive("Title_Text").GetComponent<Image>();
-        //cg.alpha = 0;
+        text = transform.FindChildRecursive("Title_Text").GetComponent<Image>();       
         color = text.color;
         color.a = 0;
         text.color = color;

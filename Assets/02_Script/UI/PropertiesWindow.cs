@@ -14,6 +14,7 @@ public class PropertiesWindow : MonoBehaviour
     public GameObject pp_base;                           // 속성 선택을 위한 회전용 UI
     private CanvasGroup cg;
     private PlayerMagic magic;
+    private ECS_Changer ecs;
 
     Vector3 angle;
 
@@ -34,7 +35,9 @@ public class PropertiesWindow : MonoBehaviour
     {
         //회전 속도의 변화
         ease = Ease.InOutCubic;
-        cg = this.GetComponent<CanvasGroup>();        
+        cg = this.GetComponent<CanvasGroup>();
+        ecs = GetComponent<ECS_Changer>();
+        magic = GetComponentInParent<PlayerMagic>();
         //magic.onChangeElement += ChangeElementAnimation;       
     }
 
@@ -48,13 +51,20 @@ public class PropertiesWindow : MonoBehaviour
     {       
         horizontal = input;
         StartCoroutine(IEBaseRotate(input));
+       ElementChange((int)magic.CurrentElement);
+       
     }
 
 
     //Axis 키 값을 받으면 Circle이 회전
     IEnumerator IEBaseRotate(int vector)
     {       
-        float delay = 1.0f;
+        float delay = 0.0f;
+
+        if (vector == 0)
+        {
+            yield return null;
+        }
 
         if (vector == -1 && !isRotate) //왼쪽 회전
         {
@@ -76,6 +86,7 @@ public class PropertiesWindow : MonoBehaviour
         if (pp_Angle > 2 || pp_Angle < -2)
         {
             pp_Angle = 0;
+
         }
 
     }
@@ -87,6 +98,7 @@ public class PropertiesWindow : MonoBehaviour
         currentAngle += moveAngle;                                                   //현재 각도를 저장하고 회전각도를 더하므로  Circle을 회전시킴
         angle = new Vector3(0, 0, currentAngle);
         pp_base.transform.DOLocalRotate(angle, speed).SetEase(ease);
+        //ecs.SoundChangeRotate(0);
         if (currentAngle <= -360f) { currentAngle = 0.0f; }           //회전을 한 바퀴 돌면 각도 초기화
     }
 
@@ -97,40 +109,21 @@ public class PropertiesWindow : MonoBehaviour
         currentAngle += reversAngle; 
         angle = new Vector3(0, 0, currentAngle);
         pp_base.transform.DOLocalRotate(angle, speed).SetEase(ease);
+        //ecs.SoundChangeRotate(1);
         if (currentAngle >= 360f) { currentAngle = 0.0f; }       
     }
 
     //속성 선택 함수
     //회전 값을 받아서 ElementType으로 반환
-    private void InProperties(int index)
+    private void ElementChange(int Element)
     {
-        int pp_num = 0;
-
-        for (int i = 0; i < pp_index.Length; i++)
-        {
-            if (index != pp_index[i])
-            {
-                if (index == 2)
-                {
-                    pp_num = 2;              //속성을 라이트닝으로 변경      
-                }
-                else if (index == -2)
-                {
-                    pp_num = 1;              //속성을 아이스로 변경      
-                }
-            }
-            else
-            {
-                pp_num = i;
-            }
-        }
-        ChangeElementAnimation(et[pp_num]);
-        //print("현재 속성 : " + et[pp_num]);
+        ecs.SoundChange(Element);        
     }  
     
     public void OnPropertise(int alpha)
     {
         cg.DOFade(alpha, 1.0f);
     }
+
 
 }

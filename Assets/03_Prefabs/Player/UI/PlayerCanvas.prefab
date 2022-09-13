@@ -603,7 +603,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.07, y: 0}
+  m_AnchoredPosition: {x: 0.070007324, y: 0}
   m_SizeDelta: {x: 1832, y: 1920}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7332784963330586033
@@ -649,7 +649,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7332784963330585999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,6 +755,7 @@ GameObject:
   - component: {fileID: 7332784963440820116}
   - component: {fileID: 7332784963440820115}
   - component: {fileID: 7332784963440820114}
+  - component: {fileID: 674551678647904304}
   - component: {fileID: 7332784963440820113}
   - component: {fileID: 7332784963440820112}
   m_Layer: 5
@@ -838,6 +839,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pp_base: {fileID: 7332784963538125966}
+--- !u!114 &674551678647904304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7332784963440819822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 119f1b074c3b018468802a40cfca25d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7332784963440820113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -859,7 +872,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7332784963440819822}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0

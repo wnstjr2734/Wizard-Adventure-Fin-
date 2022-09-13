@@ -92,7 +92,6 @@ public class PlayerController : Singleton<PlayerController>
         {
             MousePosToHandPos();
             ShootMagic();
-
             RotateX();
         }
 
@@ -226,8 +225,7 @@ public class PlayerController : Singleton<PlayerController>
             playerProprerties.OnChangeElement(input);                             //속성 선택 입력 값을 받음     
             playerProprerties.OnPropertise(1);                                              //프로퍼티 창이 뜸            
         }
-        previousChangeElementInput = input;
-       
+        previousChangeElementInput = input;        
     }
 
     private void Shield()

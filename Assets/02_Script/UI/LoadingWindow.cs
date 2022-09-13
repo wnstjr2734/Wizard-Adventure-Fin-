@@ -27,7 +27,8 @@ public class LoadingWindow : MonoBehaviour
             return instance;
         }
 
-        private set {
+        private set
+        {
             instance = value;
         }
         
