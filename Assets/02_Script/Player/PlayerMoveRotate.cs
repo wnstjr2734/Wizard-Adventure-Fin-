@@ -51,7 +51,8 @@ public class PlayerMoveRotate : MonoBehaviour
     [Header("Sounds")] 
     [SerializeField] [NotNull]
     private AudioSource walkSoundSource;
-    private AudioClip[] dashSound;
+    [SerializeField]
+    private AudioClip dashSound;
 
     private RaycastHit hit;
 
@@ -142,8 +143,8 @@ public class PlayerMoveRotate : MonoBehaviour
 
         cc.enabled = true;
         isTeleporting = true;
-        print(targetPos);
-        while (Vector3.Distance(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z)) > 0.1f &&
+
+        while (Vector3.Distance(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z)) > 2f &&
             time > 0)
         {
             var direction = targetPos - transform.position;
@@ -155,6 +156,10 @@ public class PlayerMoveRotate : MonoBehaviour
             yield return null;
         }
         isTeleporting = false;
+
+        // 대상 위치로 Lerp 보정
+        targetPos = new Vector3(targetPos.x, transform.position.y, targetPos.z);
+        yield return IEDash(targetPos, 0.3f);
 
         walkSoundSource.Stop();
     }
@@ -202,6 +207,7 @@ public class PlayerMoveRotate : MonoBehaviour
 
         if (!isTeleporting)
         {
+            SFXPlayer.Instance.PlaySpatialSound(transform.position, dashSound);
             StartCoroutine(IEDash(teleportTarget.position, dashTime));
         }
     }

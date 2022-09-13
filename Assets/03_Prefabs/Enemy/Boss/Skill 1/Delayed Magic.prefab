@@ -48,4 +48,4 @@ MonoBehaviour:
   poolSize: 3
   delayEffectPrefab: {fileID: 198623573245740324, guid: 59e74aabf40279c48aec5c5fee594f3d, type: 3}
   delayTime: 1
-  invokedMagicPrefab: {fileID: 6444298850953923449, guid: 6b9b992ba8c90544386de5caf33503ed, type: 3}
+  invokedMagicPrefab: {fileID: 5049990547748548713, guid: fea559f013b95924ead54a329d0043fd, type: 3}

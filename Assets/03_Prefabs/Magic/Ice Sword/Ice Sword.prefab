@@ -143,6 +143,9 @@ MonoBehaviour:
   hitEffectPrefab: {fileID: 7818308631425105569, guid: 384e09d9064a0c1489ac739211bdd8bd, type: 3}
   iceFogEffect: {fileID: 8483364397163827866}
   snowEffect: {fileID: 2811003362502263994}
+  turnOnSound: {fileID: 8300000, guid: 83d1a4a1df189774588d717b220b6b9f, type: 3}
+  turnOffSound: {fileID: 8300000, guid: 82dd6f643f9575747b5e27a267c3f30b, type: 3}
+  hitSound: {fileID: 8300000, guid: 7fcdbe6d71e1b774d9a51c6b5b03114c, type: 3}
 --- !u!1 &2786888930102745569
 GameObject:
   m_ObjectHideFlags: 0

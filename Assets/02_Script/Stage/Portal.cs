@@ -33,10 +33,16 @@ public class Portal : MonoBehaviour
     [Header("포탈 / 플레이어 스폰 위치")]
     public GameObject portal;
     protected Collider portalCol;
-    public EnemySpawn portalPoint;   //포탈 탄 후 플레이어 스폰 위치
+    public RoomStartPoint portalPoint;   //포탈 탄 후 플레이어 스폰 위치
 
+    [SerializeField, Tooltip("포탈 열릴 때 사운드")]
+    private AudioClip openSound;
     [SerializeField, Tooltip("포탈 탈 때 사운드")]
-    private AudioSource portalSound;
+    private AudioClip portalSound;
+    [SerializeField, Tooltip("전투 중 재생할 브금")]
+    private BGMPlayer.BGM_Type bgmType = BGMPlayer.BGM_Type.TutoBattle;
+
+    private AudioSource audioSource;
 
     [SerializeField, Tooltip("활성화할 다음 방")]
     private GameObject nextRoom;
@@ -56,10 +62,9 @@ public class Portal : MonoBehaviour
         }
 
         //포탈 사운드
-        portalSound = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         portalCol = GetComponent<BoxCollider>();
         portalCol.enabled = false;
-        portalSound.enabled = false;
         canUse = false;
         portal = transform.GetChild(0).gameObject;
         portal.SetActive(false);
@@ -108,6 +113,11 @@ public class Portal : MonoBehaviour
     // 포탈 시작
     public void StartRoom()
     {
+        if (targets.Length > 0)
+        {
+            BGMPlayer.Instance.Change(bgmType);
+        }
+
         foreach (var target in targets)
         {
             target.gameObject.SetActive(true);
@@ -132,6 +142,8 @@ public class Portal : MonoBehaviour
             portalCol.enabled = true;
             // 포탈 활성화
             portal.SetActive(true);
+            audioSource.PlayOneShot(openSound);
+            BGMPlayer.Instance.Rollback();
         }
     }
     
@@ -176,7 +188,7 @@ public class Portal : MonoBehaviour
     private IEnumerator IEUsePortal()
     {
         //포탈 사운드 작동 - 작성자 이준석
-        portalSound.enabled = true;
+        audioSource.PlayOneShot(portalSound);
         yield return new WaitForSeconds(0.1f);
         Fade();
         yield return new WaitForSeconds(5f);

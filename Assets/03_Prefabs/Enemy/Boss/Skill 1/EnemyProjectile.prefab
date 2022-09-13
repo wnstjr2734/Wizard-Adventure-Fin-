@@ -142,6 +142,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8284804, guid: 7e49f3fe9cca6a04d9a5e277d67f3682, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4fa612a19a764594faf46fa2b772d652, type: 3}
     - target: {fileID: 19805868, guid: 7e49f3fe9cca6a04d9a5e277d67f3682, type: 3}
       propertyPath: InitialModule.startRotationX.minMaxState
       value: 3

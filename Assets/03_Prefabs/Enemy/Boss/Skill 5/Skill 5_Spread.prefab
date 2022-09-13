@@ -9522,7 +9522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 1
   damage:
-    damage: 10
+    damage: 70
     elementType: 3
     stack: 1
   knockbackPower: 10

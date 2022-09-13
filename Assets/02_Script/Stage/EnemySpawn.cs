@@ -11,36 +11,28 @@ using UnityEngine.Serialization;
 /// <summary>
 /// 텔레포트 되면 적 활성화
 /// </summary>
-public class EnemySpawn : MonoBehaviour
+public class EnemySpawn : RoomStartPoint
 {
-    public Portal portal;
-    private bool isTriggered = false;
-
     [SerializeField, Tooltip("방 이동했을 때 띄울 튜토리얼 창 정보")]
     private TutorialExplainData[] tutorialDatas;
     [SerializeField, Tooltip("배울 기능")]
     private PlayerController.MagicAbility[] learnAbilities;
 
-    private void OnTriggerEnter(Collider other)
+    protected override void OnTrigger()
     {
-        if(!isTriggered && other.name.Contains("Player"))
+        base.OnTrigger();
+
+        // 튜토리얼 활성화
+        if (tutorialDatas != null && tutorialDatas.Length != 0)
         {
-            portal.StartRoom();
-            isTriggered = true;
+            var window = WindowSystem.tutorialWindow;
+            WindowSystem.Instance.OpenWindow(window.gameObject, true);
+            window.Open(tutorialDatas);
 
-            GameManager.Instance.SetCheckPoint(transform, portal);
-            // 튜토리얼 활성화
-            if (tutorialDatas != null && tutorialDatas.Length != 0)
+            var playerController = GameManager.player.GetComponent<PlayerController>();
+            for (int i = 0; i < learnAbilities.Length; i++)
             {
-                var window = WindowSystem.tutorialWindow;
-                WindowSystem.Instance.OpenWindow(window.gameObject, true);
-                window.Open(tutorialDatas);
-
-                var playerController = GameManager.player.GetComponent<PlayerController>();
-                for (int i = 0; i < learnAbilities.Length; i++)
-                {
-                    playerController.LearnAbility(learnAbilities[i]);
-                }
+                playerController.LearnAbility(learnAbilities[i]);
             }
         }
     }

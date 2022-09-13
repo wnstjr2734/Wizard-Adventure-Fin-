@@ -23,7 +23,7 @@ public partial class BossFSM : MonoBehaviour
         public Transform firePosition;
 
         [SerializeField, Tooltip("투사체 목표 위치")] 
-        private Transform targetTr;
+        public Transform targetTr;
         [SerializeField, Tooltip("투사체 생기는 위치 범위")]
         public float radius = 1.5f;
         [SerializeField, Tooltip("투사체 날릴 개수")]
@@ -35,7 +35,6 @@ public partial class BossFSM : MonoBehaviour
         [SerializeField, Tooltip("스킬 1 음성")] 
         public AudioClip skillVoice;
 
-        public Transform TargetTr => targetTr;
         public float MagicMissileCount => magicMissileCount;
         public float Interval => interval;
         public DelayedMagic DelayedMagicPrefab => delayedMagicPrefab;
@@ -166,9 +165,20 @@ public partial class BossFSM : MonoBehaviour
 
     public void Phase1_JudgeAction()
     {
+        // 플레이어 쪽으로 고개 돌리기
+        useRotateToward = true;
+
         if (IsPlayerNearby() && phase1SkillDatas[3].CurrentCooldown <= 0)
         {
             Phase1_UseSkill(3);
+            return;
+        }
+
+        // 발악 패턴 : 피 30% 이하면 발동
+        float percent = (float)charStatus.CurrentHp / charStatus.maxHp;
+        if (percent < 0.3f && phase1SkillDatas[4].CurrentCooldown <= 0)
+        {
+            Phase1_UseSkill(4);
             return;
         }
 
@@ -215,24 +225,6 @@ public partial class BossFSM : MonoBehaviour
         return Vector3.Distance(transform.position, attackTarget.position) < 3;
     }
 
-    private void Phase1_NextActionDelay()
-    {
-        var skillState = animator.GetInteger(skillStateID);
-        audioSource.PlayOneShot(damagedSound);
-        if (actionDelayCoroutine == null)
-        {
-            actionDelayCoroutine = StartCoroutine(IEWaitActionDelay(phase1SkillDatas[skillState].NextActionDelay));
-        }
-    }
-
-    private IEnumerator IEWaitActionDelay(float delay)
-    {
-        animator.SetBool(isActionDelayID, true);
-        yield return new WaitForSeconds(delay);
-        animator.SetBool(isActionDelayID, false);
-        actionDelayCoroutine = null;
-    }
-
     private IEnumerator IESkillCharging(float chargingTime, IEnumerator inChargeAction, IEnumerator endChargeAction)
     {
         animator.SetBool(inChargeID, true);
@@ -273,6 +265,11 @@ public partial class BossFSM : MonoBehaviour
 
     #region Skill 1
 
+    private void Skill1_Init()
+    {
+        phase1Skill1.targetTr = GameManager.eye;
+    }
+
     private void Skill1_Voice()
     {
         audioSource.PlayOneShot(phase1Skill1.skillVoice);
@@ -280,8 +277,6 @@ public partial class BossFSM : MonoBehaviour
 
     private IEnumerator IESkill1_Shoot()
     {
-
-
         var info = phase1Skill1;
         for (int i = 0; i < info.MagicMissileCount; i++)
         {
@@ -289,7 +284,7 @@ public partial class BossFSM : MonoBehaviour
             // 발사 위치를 기준으로 원형 범위로 랜덤하게 발사한다
             var magicPos = info.firePosition.position +
                            transform.right * circle.x + transform.up * circle.y;
-            var magicRot = Quaternion.LookRotation((info.TargetTr.position - magicPos).normalized);
+            var magicRot = Quaternion.LookRotation((info.targetTr.position - magicPos).normalized);
 
             var magic = Instantiate(info.DelayedMagicPrefab, magicPos, magicRot);
             magic.StartMagic();
@@ -313,28 +308,33 @@ public partial class BossFSM : MonoBehaviour
         animator.SetBool(inChargeID, true);
         audioSource.PlayOneShot(info.castingVoice);
 
+        var laser = info.aimLaser;
+        var laserTr = laser.transform;
         info.aimLaser.gameObject.SetActive(true);
         float currentTime = 0;
         while (currentTime < info.aimTime)
         {
-            // 몸체 돌아가기
-            RotateTowards(attackTarget, info.aimRotationSpeed);
+            // 추적 중엔 더 빨리 돌아감
+            currentRotationSpeed = info.aimRotationSpeed;
 
             // 레이저 타겟 설정
-            info.aimLaser.SetPosition(0, info.aimLaser.transform.position);
+            laser.SetPosition(0, info.aimLaser.transform.position);
             RaycastHit hit;
             int layerMask = 1 << LayerMask.NameToLayer("Default") | 1 << LayerMask.NameToLayer("Player");
-            if (Physics.Raycast(info.aimLaser.transform.position, info.aimLaser.transform.forward, out hit, 100, layerMask))
+            
+            laserTr.forward = (attackTarget.transform.position - laserTr.position).normalized;
+            if (Physics.Raycast(laserTr.position, laserTr.forward, out hit, 100, layerMask))
             {
-                info.aimLaser.SetPosition(1, hit.point);
+                laser.SetPosition(1, hit.point);
             }
 
             currentTime += Time.deltaTime;
             yield return null;
         }
-        info.aimLaser.gameObject.SetActive(false);
+        laser.gameObject.SetActive(false);
 
         // 발사 시간
+        useRotateToward = false;
         info.chargingEffect.gameObject.SetActive(true);
         info.chargingIndicator.SetActive(true);
 
@@ -351,34 +351,19 @@ public partial class BossFSM : MonoBehaviour
         animator.SetBool(inChargeID, false);
     }
 
-    private void AimTarget()
-    {
-        
-    }
-
-    // 회전 속도에 맞춰 회전하는 함수
-    private void RotateTowards(Transform target, float rotationSpeed)
-    {
-        var targetPos = target.position;
-        // Y축 회전만 하도록 y값을 같게 설정
-        targetPos.y = transform.position.y;
-        var toForward = (targetPos - transform.position).normalized;
-        var toForwardRot = Quaternion.LookRotation(toForward);
-        var newRot = Quaternion.RotateTowards(transform.rotation, toForwardRot, rotationSpeed * Time.deltaTime);
-        transform.rotation = newRot;
-    }
-
     private void Phase1_Skill2_ShootLaser()
     {
         audioSource.PlayOneShot(phase1Skill2.attackVoice);
         var laser = phase1Skill2.laserEffect;
         laser.gameObject.SetActive(true);
+        var laserTr = laser.transform;
 
         RaycastHit hit;
         int layerMask = 1 << LayerMask.NameToLayer("Default") | 1 << LayerMask.NameToLayer("Player");
-        if (Physics.Raycast(laser.transform.position, laser.transform.forward, out hit, 100, layerMask))
+        laserTr.forward = phase1Skill2.aimLaser.transform.forward;
+        if (Physics.Raycast(laserTr.position, laserTr.forward, out hit, 100, layerMask))
         {
-            laser.SetTargetPos(hit.point);
+            laser.SetTargetPos(hit.point + laserTr.forward);
         }
     }
     #endregion

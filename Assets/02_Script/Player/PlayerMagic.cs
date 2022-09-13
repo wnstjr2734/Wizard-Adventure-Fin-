@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DigitalRuby.LightningBolt;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Serialization;
 
 /// <summary>
@@ -35,6 +36,23 @@ public class PlayerMagic : MonoBehaviour
     private GameObject magicIndicator;
     private Vector3 targetPos;
 
+    [Header("Mana Cost")] 
+    [SerializeField, Tooltip("플레이어 마나량")]
+    private float maxMana = 100;
+    private float currentMana;
+    [SerializeField, Tooltip("초당 마나 회복량")]
+    private float regenMana = 1.5f;
+
+    [SerializeField, Tooltip("기본 마법 사용 시 마나 소비량")]
+    private float baseMagicCost;
+    [SerializeField, Tooltip("그립 초당 마나 소비량")]
+    private float gripMagicCost;
+    [SerializeField, Tooltip("차지 초당 마나 소비량")]
+    private float chargeMagicCost;
+
+    [SerializeField, Tooltip("마법 사용 불가능 시 사운드")]
+    private AudioClip magicCancelSound;
+
     [Header("Base Magic")] 
     [SerializeField, EnumNamedArray(typeof(ElementType))]
     [Tooltip("불/얼음/전기 속성 기본 마법")]
@@ -44,6 +62,8 @@ public class PlayerMagic : MonoBehaviour
     [SerializeField, EnumNamedArray(typeof(ElementType))]
     [Tooltip("불/얼음/전기 속성 그립 마법")] 
     private GripMagic[] gripMagics = new GripMagic[(int)ElementType.None];
+
+    private bool useGrip = false;
 
     [Header("Charge")] 
     [SerializeField] 
@@ -56,10 +76,29 @@ public class PlayerMagic : MonoBehaviour
 
     private PoolSystem poolSystem;
 
+    [Header("ETC")]
+    [SerializeField]
+    private AudioSource castingSoundSource;
+    [SerializeField]
+    private Slider mpSlider;
+
     // 현재 마법 속성
     public ElementType CurrentElement { get; private set; } = ElementType.Fire;
 
+    public float CurrentMana
+    {
+        get => currentMana;
+        private set
+        {
+            currentMana = value;
+            onManaChanged?.Invoke(currentMana / maxMana);
+            mpSlider.value = currentMana / maxMana;
+        }
+    }
+
     public event Action<ElementType> onChangeElement;
+    // 퍼센트 단위 변화
+    public event Action<float> onManaChanged;
 
     private void Start()
     {
@@ -75,6 +114,17 @@ public class PlayerMagic : MonoBehaviour
 
         // 손 모양 지정
         handController.SetRightHandAction(HandController.RightAction.WandGrip);
+
+        CurrentMana = maxMana;
+    }
+
+    private void Update()
+    {
+        CurrentMana += regenMana * Time.deltaTime;
+        if (useGrip)
+        {
+            OnGrip();
+        }
     }
 
     /// <summary>
@@ -123,6 +173,16 @@ public class PlayerMagic : MonoBehaviour
             return;
         }
 
+        if (CurrentMana < baseMagicCost)    
+        {
+            castingSoundSource.PlayOneShot(magicCancelSound);
+            return;
+        }
+        else
+        {
+            currentMana -= baseMagicCost;
+        }    
+
         // 지정된 속성의 마법을 발사
         var magic = poolSystem.GetInstance<Magic>(baseMagicPrefabs[(int)CurrentElement]);
         magic.SetPosition(MagicFirePositionTr.position);
@@ -135,6 +195,11 @@ public class PlayerMagic : MonoBehaviour
     // 마법 충전이 완료됐을 때 이펙트
     public void StartCharge()
     {
+        if (magicState != MagicState.None)
+        {
+            return;
+        }
+
         chargeEffect.gameObject.SetActive(true);
         chargeEffect.SetColor(CurrentElement);
         magicState = MagicState.Charging;
@@ -143,11 +208,24 @@ public class PlayerMagic : MonoBehaviour
     // 차지 충전 중 보여줄 정보
     public void OnCharge()
     {
-        if (!chargeEffect.ChargeCompleted || 
-            chargeMagicPrefabs[(int)CurrentElement].IsSelfTarget)
+        if (!chargeEffect.ChargeCompleted)
         {
-            magicIndicator.SetActive(false);
-            return;
+            if (CurrentMana - chargeMagicCost * Time.deltaTime < 0)
+            {
+                castingSoundSource.PlayOneShot(magicCancelSound);
+                EndCharge();
+                return;
+            }
+            else
+            {
+                CurrentMana -= chargeMagicCost * Time.deltaTime;
+            }
+
+            if (chargeMagicPrefabs[(int)CurrentElement].IsSelfTarget)
+            {
+                magicIndicator.SetActive(false);
+                return;
+            }
         }
 
         // 타겟 지정형 마법이면 마법진 그리기
@@ -203,12 +281,27 @@ public class PlayerMagic : MonoBehaviour
         gripMagics[currentElement].gameObject.SetActive(true);
         gripMagics[currentElement].TurnOn();
         magicState = MagicState.Grip;
+        useGrip = true;
 
         // 얼음검일 때 손 보정
         if (CurrentElement == ElementType.Ice)
         {
             handController.SetRightHandAction(HandController.RightAction.SwordGrip);
             wandObj.SetActive(false);
+        }
+    }
+
+    private void OnGrip()
+    {
+        if (CurrentMana - gripMagicCost * Time.deltaTime < 0)
+        {
+            castingSoundSource.PlayOneShot(magicCancelSound);
+            TurnOffGrip();
+            return;
+        }
+        else
+        {
+            CurrentMana -= gripMagicCost * Time.deltaTime;
         }
     }
 
@@ -221,6 +314,7 @@ public class PlayerMagic : MonoBehaviour
             magicState = MagicState.None;
             handController.SetRightHandAction(HandController.RightAction.WandGrip);
             wandObj.SetActive(true);
+            useGrip = false;
         }
     }
     #endregion
