@@ -5,6 +5,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 using TMPro;
 
 /// <summary>
@@ -28,6 +29,10 @@ public class HelpWindow : MonoBehaviour
     [SerializeField] protected float animTime = 0.5f;
     [SerializeField] protected float movePosX = 1024f;
 
+    [SerializeField] protected AudioSource audioSource;    
+    [SerializeField] protected AudioClip[] pageSound;
+    
+
     protected bool isPlayingAnimation = false;
     
     // 초기화
@@ -38,6 +43,8 @@ public class HelpWindow : MonoBehaviour
         // Fade In Animation?
         currentViewer.Play();
 
+        audioSource = gameObject.GetComponent<AudioSource>();
+        SoundPlay(2);
         // 이전 페이지나 다음 페이지로 이동할 수 있는지 확인
         prevButton.interactable = currentIndex != 0;
         nextButton.interactable = currentIndex != contents.Length - 1;
@@ -59,6 +66,7 @@ public class HelpWindow : MonoBehaviour
         {
             LoadNextTutorial();
         }
+        
     }
 
     public void LoadPrevTutorial()
@@ -79,6 +87,7 @@ public class HelpWindow : MonoBehaviour
         // 다음 뷰어 위치 변경 후 슬라이드 애니메이션 
         ChangeViewer(-movePosX);
         SetCurrentIndex(currentIndex - 1);
+        SoundPlay(0);
     }
 
     public void LoadNextTutorial()
@@ -97,8 +106,8 @@ public class HelpWindow : MonoBehaviour
         nextViewer.Stop();
 
         ChangeViewer(movePosX);
-
         SetCurrentIndex(currentIndex + 1);
+        SoundPlay(1);
     }
 
     protected void ChangeViewer(float translatePosX)
@@ -140,4 +149,10 @@ public class HelpWindow : MonoBehaviour
 
         indexViewer.text = $"{value + 1} / {contents.Length}";
     }
+
+    public void SoundPlay(int num)
+    {
+        audioSource.PlayOneShot(pageSound[num]);        
+    }
+
 }
