@@ -34,9 +34,9 @@ public class MenuWindow : MonoBehaviour
 
     public void OnMainMenu()
     {
-        print("메인 메뉴로 이동");
+        
         helpWindow.SoundPlay(2);
-        //SceneManager.LoadScene("MainTitle_KDY");
+        SceneManager.LoadScene("MainTitle");
     }
 
     public void OnEnable()

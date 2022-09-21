@@ -17,6 +17,10 @@ public class EnemyShooting : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        if (!attackTarget)
+        {
+            attackTarget = GameManager.eye;
+        }
     }
 
     void ProjectileShooting()
@@ -30,9 +34,10 @@ public class EnemyShooting : MonoBehaviour
             proj.StartMagic();
         }
         ParticleSystem ps = projInst.GetComponent<ParticleSystem>();
-        ps.Stop();
-        ps.Play();
-
-
+        if (ps)
+        {
+            ps.Stop();
+            ps.Play();
+        }
     }
 }

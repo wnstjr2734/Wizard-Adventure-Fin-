@@ -192,7 +192,6 @@ public class LoadingWindow : MonoBehaviour
     private void SceneLoad()
     {
         LoadScene("MainStage");
-        DOTween.KillAll();
     }
 
 

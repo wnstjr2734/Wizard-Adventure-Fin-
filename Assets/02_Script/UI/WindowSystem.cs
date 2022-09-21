@@ -41,6 +41,7 @@ public class WindowSystem : Singleton<WindowSystem>
     private CanvasGroup cg;
 
     private PlayerInput playerInput;
+    private PlayerController playerController;
 
     protected override void OnAwake()
     {
@@ -52,8 +53,8 @@ public class WindowSystem : Singleton<WindowSystem>
     {
         Debug.Log("Window System Activate");
         DOTween.defaultTimeScaleIndependent = true;
-        DOTween.timeScale = 1.0f;              
-        playerInput = GameManager.playerInput;
+        DOTween.timeScale = 1.0f;
+        playerController = GameManager.Controller;
     }
 
     private void Update()
@@ -71,6 +72,20 @@ public class WindowSystem : Singleton<WindowSystem>
         //        CloseWindow(true);
         //    }
         //}
+    }
+
+    public void Menu()
+    {
+        // 창 닫을거 없으면 메뉴 켜기
+        if (windowStack.Count == 0)
+        {
+            OpenWindow(menu, true);
+        }
+        // 창 닫기
+        else
+        {
+            CloseWindow(true);
+        }
     }
 
     public void OpenWindow(GameObject windowObject, bool isUserExitable)
@@ -116,8 +131,7 @@ public class WindowSystem : Singleton<WindowSystem>
         // UI 보여줄 때는 게임이 멈춰야함
         Time.timeScale = display ? 0 : 1;
 
-        // UI 보여줄 때는 이동, 회전, 마법을 사용하면 안 됨
-        var actionMap = display ? "UI" : "Player";
-        playerInput.SwitchCurrentActionMap(actionMap);
+        // 컨트롤러 세팅도 UI에 맞게 변경
+        playerController.SetMode(!display);
     }
 }

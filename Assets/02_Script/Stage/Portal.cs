@@ -53,6 +53,8 @@ public class Portal : MonoBehaviour
     public GameObject fadeImage;
     public CanvasGroup canvasGroup; //페이드 인아웃 캔버스
 
+    public CharacterStatus[] Targets => targets;
+
     private void Awake()
     {
         initPoses = new Vector3[targets.Length];
@@ -91,16 +93,21 @@ public class Portal : MonoBehaviour
     /// <summary>
     /// 방을 초기화한다
     /// </summary>
-    public void ResetRoom()
+    public virtual void ResetRoom()
     {
         remainCount = targets.Length;
+        BattleUI.Instance.SetRemainCount(remainCount, targets.Length);
         for (int i = 0; i < targets.Length; i++)
         {
             targets[i].gameObject.SetActive(true);
 
             // 몬스터 상태 리셋
             targets[i].ResetStatus();
-            targets[i].GetComponent<EnemyFSM>().ResetFSM();
+            var fsm = targets[i].GetComponent<EnemyFSM>();
+            if (fsm)
+            {
+                fsm.ResetFSM();
+            }
             
             // 몬스터 위치 리셋
             targets[i].transform.position = initPoses[i];
@@ -111,7 +118,7 @@ public class Portal : MonoBehaviour
     }
 
     // 포탈 시작
-    public void StartRoom()
+    public virtual void StartRoom()
     {
         if (targets.Length > 0)
         {
@@ -125,16 +132,18 @@ public class Portal : MonoBehaviour
         }
         // 남은 몬스터 개수
         remainCount = targets.Length;
+        BattleUI.Instance.SetRemainCount(remainCount, targets.Length);
         CheckEnd();
     }
 
-    private void DecreaseCount()
+    protected void DecreaseCount()
     {
         remainCount--;
+        BattleUI.Instance.SetRemainCount(remainCount, targets.Length);
         CheckEnd();
     }
 
-    private void CheckEnd()
+    protected void CheckEnd()
     {
         if (remainCount <= 0)
         {
@@ -191,17 +200,16 @@ public class Portal : MonoBehaviour
         audioSource.PlayOneShot(portalSound);
         yield return new WaitForSeconds(0.1f);
         Fade();
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2.5f);
         // 포탈 이동 연출
         nextRoom.SetActive(true);
         yield return new WaitForSeconds(0.5f);
 
         // 방 이동
         player.GetComponent<PlayerMoveRotate>().SetPos(portalPoint.transform.position, portalPoint.transform.forward);
-        // 이전 방은 SetActive(false) 처리
 
         // 포탈 타고 난 이후 Fade Out 되면서 다음 방 넘어가는 연출
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(3.0f);
         currentRoom.SetActive(false);
     }
 }

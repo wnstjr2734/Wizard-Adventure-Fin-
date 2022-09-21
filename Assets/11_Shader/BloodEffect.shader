@@ -77,6 +77,11 @@ Shader "Custom/BloodEffect"
 					blendColor.a = blendColor.a + (_BlendAmount * 2 - 1);
 					blendColor.a = saturate(blendColor.a * _EdgeSharpness - (_EdgeSharpness - 1) * 0.5);
 
+					if (blendColor.a < 0.2f)
+					{
+						discard;
+					}
+
 					//Distortion:
 					half2 bump = UnpackNormal(tex2D(_BumpMap, i.uv)).rg;
 					float4 mainColor = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.uv + bump * blendColor.a * _Distortion);

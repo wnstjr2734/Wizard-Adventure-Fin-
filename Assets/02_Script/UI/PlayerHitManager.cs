@@ -21,12 +21,19 @@ public class PlayerHitManager : MonoBehaviour
                              "각각 이펙트 그리는 시간 / 최대")]
     private Vector3 bloodEffectTimes = new Vector3(0.2f, 0.1f, 0.5f);
 
+    [SerializeField, Tooltip("맞았을 때 소리")]
+    private AudioClip painSound;
+
+    private float currentHpPercent = 1.0f;
+
     [Header("Crisis")]
     [SerializeField, Range(0, 1)] 
     [Tooltip("피가 얼마 이하로 남았을 때 위급 판정을 할지")]
     private float crisisHpPercent = 0.3f;
 
     private float crisisEffectTime = 0.5f;
+
+    private AudioSource heartbeatSoundSource;
 
     [SerializeField]
     private GameOver gameOver;
@@ -38,6 +45,11 @@ public class PlayerHitManager : MonoBehaviour
     private Coroutine onCrisisCoroutine;
 
     private static readonly int blendAmountID = Shader.PropertyToID("_BlendAmount");
+
+    private void Awake()
+    {
+        heartbeatSoundSource = GetComponent<AudioSource>();
+    }
 
     private void Start()
     {
@@ -55,6 +67,18 @@ public class PlayerHitManager : MonoBehaviour
 
     private void OnHit(float percent)
     {
+        if (percent < currentHpPercent)
+        {
+            SFXPlayer.Instance.PlayNonSpatialSound(painSound);
+            VibrationManager.Instance.SetVibration(0.15f, 0.5f, 0.5f, VibrationManager.ControllerType.All);
+        }
+        currentHpPercent = percent;
+
+        if (percent > crisisHpPercent && heartbeatSoundSource.isPlaying)
+        {
+            heartbeatSoundSource.Stop();
+        }
+
         if (onHitCoroutine != null)
         {
             StopCoroutine(onHitCoroutine);
@@ -82,8 +106,12 @@ public class PlayerHitManager : MonoBehaviour
 
         onHitCoroutine = null;
         
-        if (percent < crisisHpPercent)
+        if (percent <= crisisHpPercent)
         {
+            if (!heartbeatSoundSource.isPlaying)
+            {
+                heartbeatSoundSource.Play();
+            }
             onCrisisCoroutine = StartCoroutine(IEOnCrisis(targetBlendAmount));
         }
     }
@@ -126,8 +154,8 @@ public class PlayerHitManager : MonoBehaviour
 
         gameOver.OnActive(() =>
         {
-            GameManager.Instance.RestartGame();
             playerController.ActiveController(true);
+            GameManager.Instance.RestartGame();
         });
     }
 }

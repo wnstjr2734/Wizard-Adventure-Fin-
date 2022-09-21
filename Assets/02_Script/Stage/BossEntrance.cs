@@ -80,9 +80,11 @@ public class BossEntrance : MonoBehaviour
         BGMPlayer.Instance.Change(BGMPlayer.BGM_Type.Boss);
         BGMPlayer.Instance.VolumeSize = 0.5f;
 
+        bossFSM.GetComponent<CharacterStatus>().onDead += BattleUI.Instance.OnBossBattleEnd;
         bossFSM.StartFSM();
+        bossFSM.onDeathFinished += EndStage;
         // 체력 바 보여주기
-        bossHp.SetActive(true);
+        BattleUI.Instance.OnBossBattleStart();
 
         playerController.ActiveController(true);
     }
@@ -96,7 +98,10 @@ public class BossEntrance : MonoBehaviour
         var playerController = player.GetComponent<PlayerController>();
         var playerMoveRotate = player.GetComponent<PlayerMoveRotate>();
 
+        player.transform.forward = bossPortal.transform.forward * -1;
         playerController.ActiveController(false);
         playerMoveRotate.ToMove(bossPortal.transform.position, 5f);
+
+        BGMPlayer.Instance.Stop();
     }
 }

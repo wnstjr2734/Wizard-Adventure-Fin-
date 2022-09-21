@@ -19,8 +19,11 @@ public class HealPack : MonoBehaviour
     {
         if(other.name.Contains("Player"))
         {
-            var playerStatus = GameManager.player.GetComponent<CharacterStatus>();
+            var player = GameManager.player;
+            var playerStatus = player.GetComponent<CharacterStatus>();
             playerStatus.ResetStatus();
+            var playerMagic = player.GetComponent<PlayerMagic>();
+            playerMagic.Reset();
 
             var healEffect = Instantiate(healEffectPrefab, transform.position, transform.rotation);
             gameObject.SetActive(false);

@@ -109,6 +109,9 @@ public class PlayerController : Singleton<PlayerController>
 
         //속성 선택 창 On/Off
         //PropertieseAcitve();        
+
+        // 메뉴
+        Menu();
     }
 
     public static bool IsPresent()
@@ -123,6 +126,14 @@ public class PlayerController : Singleton<PlayerController>
             }
         }
         return false;
+    }
+
+    public void SetMode(bool isBattle)
+    {
+        // UI 보여줄 때는 이동, 회전, 마법을 사용하면 안 됨
+        var actionMap = isBattle ? "Player" : "UI";
+        playerInput.SwitchCurrentActionMap(actionMap);
+        playerMagic.SetHand(isBattle);
     }
 
     public void ActiveController(bool isActive)
@@ -297,4 +308,12 @@ public class PlayerController : Singleton<PlayerController>
         return click;
     }
 
+
+    private void Menu()
+    {
+        if (playerInput.actions["Menu"].WasPressedThisFrame())
+        {
+            WindowSystem.Instance.Menu();
+        }
+    }
 }

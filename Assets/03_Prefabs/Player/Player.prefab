@@ -26451,6 +26451,7 @@ MonoBehaviour:
   leftHandController: {fileID: 4305817459390451299}
   m_OVRCameraRig: {fileID: 5941063259990318262}
   walkSoundSource: {fileID: 7728936017512380741}
+  dashSound: {fileID: 0}
 --- !u!114 &4990439224368946702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26467,7 +26468,14 @@ MonoBehaviour:
   wandObj: {fileID: 1754607603243344374}
   MagicFirePositionTr: {fileID: 6247157015829887650}
   handController: {fileID: 4305817459390451299}
+  elementDisplayer: {fileID: 0}
   magicIndicator: {fileID: 2036863765203509720}
+  maxMana: 100
+  regenMana: 1.5
+  baseMagicCost: 0
+  gripMagicCost: 0
+  chargeMagicCost: 0
+  magicCancelSound: {fileID: 0}
   baseMagicPrefabs:
   - {fileID: 914090662745654932, guid: 37da47966b2a9e94fa912c28a017907e, type: 3}
   - {fileID: 6518217347650057082, guid: 350e104b2f3ebb84493673009dfc3b9f, type: 3}
@@ -26481,6 +26489,8 @@ MonoBehaviour:
   - {fileID: 3594658282254439574, guid: 76b012d19458b1e4eba38a2774665dd4, type: 3}
   - {fileID: 745536421517675369, guid: 025f2d87e2ac7f845983e046c425f730, type: 3}
   - {fileID: 4310021738449451722, guid: 414f9ffa5cc9c1344b9daf5324510158, type: 3}
+  castingSoundSource: {fileID: 0}
+  mpSlider: {fileID: 0}
 --- !u!114 &6416885805801650328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28375,6 +28385,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5941063259983593642}
     m_Modifications:
+    - target: {fileID: 7332784962816267592, guid: bdb6e15a325673e45bb54b80183d29d0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7332784962816267592, guid: bdb6e15a325673e45bb54b80183d29d0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 115
+      objectReference: {fileID: 0}
+    - target: {fileID: 7332784962816267593, guid: bdb6e15a325673e45bb54b80183d29d0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0c133b82591e739409e308c2f7c17034, type: 3}
     - target: {fileID: 7332784962820513553, guid: bdb6e15a325673e45bb54b80183d29d0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

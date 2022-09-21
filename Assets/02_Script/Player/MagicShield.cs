@@ -39,7 +39,7 @@ public class MagicShield : MonoBehaviour
         shieldObjMat.SetFloat(cutoutID, cutoutValue.x);
         shieldObjMat.DOFloat(cutoutValue.y, cutoutID, 0.3f);
 
-        audioSource.PlayOneShot(turnOnSound);
+        SFXPlayer.Instance.PlaySpatialSound(transform.position, turnOnSound);
     }
 
     private void Start()
@@ -57,7 +57,7 @@ public class MagicShield : MonoBehaviour
         s.Append(shieldObjMat.DOFloat(cutoutValue.x, cutoutID, 0.3f));
         s.onComplete = () => gameObject.SetActive(false);
 
-        audioSource.PlayOneShot(turnOffSound);
+        SFXPlayer.Instance.PlaySpatialSound(transform.position, turnOffSound);
     }
 
     private void OnCollisionEnter(Collision collision)

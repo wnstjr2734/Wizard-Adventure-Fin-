@@ -16,6 +16,11 @@ public class GameOver : MonoBehaviour
     private float playTime, delayTime;
     Color[] clr;
 
+    [SerializeField]
+    private AudioSource uiAudioSource;
+    [SerializeField]
+    private AudioClip gameOverSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +59,8 @@ public class GameOver : MonoBehaviour
     public void OnActive(Action endAnimationCallback)
     {
         print("재생");
+        BGMPlayer.Instance.Stop();
+        uiAudioSource.PlayOneShot(gameOverSound);
         float fgoal = 0.45f;
         Vector3 textScale = new Vector3(fgoal, fgoal, fgoal);                         //초기 문구 스케일
         Sequence suq = DOTween.Sequence();                                                   
@@ -65,6 +72,7 @@ public class GameOver : MonoBehaviour
         suq.onComplete = () => {
             Alpha0(false);
             endAnimationCallback();
+            BGMPlayer.Instance.Rollback();
         };
     }
 

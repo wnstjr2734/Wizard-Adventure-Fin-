@@ -179,7 +179,7 @@ public class CharacterStatus : MonoBehaviour
             StopCoroutine(burnCoroutine);
         }
         burnCoroutine = null;
-        burnStack = 0;
+        BurnStack = 0;
 
         // 얼음 리셋
         if (slowCoroutine != null)
@@ -187,7 +187,7 @@ public class CharacterStatus : MonoBehaviour
             StopCoroutine(slowCoroutine);
         }
         slowCoroutine = null;
-        slowStack = 0;
+        SlowStack = 0;
 
         // 전기 리셋
         ReturnElementEffect(ElementType.Lightning);

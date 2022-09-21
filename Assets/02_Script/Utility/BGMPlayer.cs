@@ -73,4 +73,14 @@ public class BGMPlayer : Singleton<BGMPlayer>
         });
         s.Append(audioSource.DOFade(volumeSize, fadeTime));
     }
+
+    // BGM ¸ØÃß±â
+    public void Stop()
+    {
+        Sequence s = DOTween.Sequence();
+        s.Append(audioSource.DOFade(0, fadeTime));
+        s.onComplete = () => {
+            audioSource.Stop();
+        };
+    }
 }

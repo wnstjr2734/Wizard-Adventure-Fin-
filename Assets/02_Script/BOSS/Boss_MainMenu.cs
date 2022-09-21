@@ -7,13 +7,14 @@ public class Boss_MainMenu : MonoBehaviour
 {
     [SerializeField] GameObject boss;
     [SerializeField] Transform point;
+    Animator animator;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
-        boss.transform.DOMove(point.position, 6.0f);
+        animator = GetComponent<Animator>();        
+        MoveAnimation();
     }
 
     // Update is called once per frame
@@ -21,4 +22,19 @@ public class Boss_MainMenu : MonoBehaviour
     {
         
     }
+
+    void MoveAnimation()
+    {
+        Sequence seq = DOTween.Sequence();
+
+        seq.Prepend(boss.transform.DOMove(point.position, 6.0f)).onPlay = () =>
+        {
+            animator.SetBool("IsMove", true);
+        };
+        seq.onComplete = () =>
+        {
+            animator.SetBool("IsMove", false);
+        };
+    }
+
 }

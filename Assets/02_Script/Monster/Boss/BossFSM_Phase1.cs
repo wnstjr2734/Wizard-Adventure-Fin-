@@ -168,6 +168,11 @@ public partial class BossFSM : MonoBehaviour
         // 플레이어 쪽으로 고개 돌리기
         useRotateToward = true;
 
+        if (phase != 1)
+        {
+            return;
+        }
+
         if (IsPlayerNearby() && phase1SkillDatas[3].CurrentCooldown <= 0)
         {
             Phase1_UseSkill(3);

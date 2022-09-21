@@ -102,6 +102,7 @@ public class EnemyFSM : MonoBehaviour
 
     IEnumerator UpdateState()
     {
+        print($"{gameObject.name} - Update State");
         yield return new WaitForSeconds(0.1f);
         while (true)
         {
@@ -127,7 +128,8 @@ public class EnemyFSM : MonoBehaviour
     {
         animator.SetBool(isPlayerDeadID, false);
         initChaseTrigger = true;
-        agent.isStopped = false;
+        agent.isStopped = true;
+        moveLock = false;
         state = EnemyState.Idle;
     }
 

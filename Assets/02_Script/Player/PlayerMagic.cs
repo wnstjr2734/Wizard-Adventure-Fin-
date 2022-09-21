@@ -32,6 +32,9 @@ public class PlayerMagic : MonoBehaviour
     [SerializeField, Tooltip("손 모션 설정")] 
     private HandController handController;
 
+    [SerializeField, Tooltip("원소 표시")]
+    private GameObject elementDisplayer;
+
     [SerializeField, Tooltip("마법 위치 표시")] 
     private GameObject magicIndicator;
     private Vector3 targetPos;
@@ -90,7 +93,7 @@ public class PlayerMagic : MonoBehaviour
         get => currentMana;
         private set
         {
-            currentMana = value;
+            currentMana = Mathf.Min(value, maxMana);
             onManaChanged?.Invoke(currentMana / maxMana);
             mpSlider.value = currentMana / maxMana;
         }
@@ -120,11 +123,46 @@ public class PlayerMagic : MonoBehaviour
 
     private void Update()
     {
-        CurrentMana += regenMana * Time.deltaTime;
+        CurrentMana = CurrentMana + regenMana * Time.deltaTime;
         if (useGrip)
         {
             OnGrip();
         }
+    }
+
+    public void SetHand(bool mode)
+    {
+        if (mode)
+        {
+            handController.SetRightHandAction(HandController.RightAction.WandGrip);
+            wandObj.SetActive(true);
+            elementDisplayer.SetActive(true);
+            mpSlider.gameObject.SetActive(true);
+        }
+        else
+        {
+            handController.SetRightHandAction(HandController.RightAction.UiSelect);
+            wandObj.SetActive(false);
+            elementDisplayer.SetActive(false);
+            mpSlider.gameObject.SetActive(false);
+        }
+    }
+
+    public void Reset()
+    {
+        // 차지 중 죽으면 그립 풀림
+        if (magicState == MagicState.Grip)
+        {
+            TurnOffGrip();
+        }
+        // 차지 중 죽으면 차지 풀림
+        if (magicState == MagicState.Charging)
+        {
+            EndCharge();
+        }
+        magicState = MagicState.None;
+
+        CurrentMana = maxMana;
     }
 
     /// <summary>

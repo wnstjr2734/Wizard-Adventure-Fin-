@@ -142,6 +142,8 @@ public class IceSword : GripMagic
             var hitEffect = PoolSystem.Instance.GetInstance<GameObject>(hitEffectPrefab);
             hitEffect.transform.position = collision.contacts[0].point + collision.contacts[0].normal * 0.1f;
             hitEffect.transform.right = currentSwordDir;
+            SFXPlayer.Instance.PlaySpatialSound(hitEffect.transform.position, hitSound);
+            VibrationManager.Instance.SetVibration(0.3f, 0.3f, 0.3f, VibrationManager.ControllerType.RightTouch);
 
             // 적이면 데미지 주기
             var status = collision.collider.GetComponent<CharacterStatus>();

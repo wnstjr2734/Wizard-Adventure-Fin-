@@ -59,7 +59,7 @@ public class PropertiesWindow : MonoBehaviour
     //Axis 키 값을 받으면 Circle이 회전
     IEnumerator IEBaseRotate(int vector)
     {       
-        float delay = 0.0f;
+        float delay = 1.0f;
 
         if (vector == 0)
         {
@@ -70,16 +70,16 @@ public class PropertiesWindow : MonoBehaviour
         {
             LeftMove();
             pp_Angle += horizontal;
+            isRotate = false;
             yield return new WaitForSeconds(delay); //회전하면 delay 시간 동안 입력 막음
-            isRotate = false;            
             OnPropertise(0);
         }
         else if (vector == 1 && !isRotate) //오른쪽 회전
         {
             RightMove();
-            pp_Angle += horizontal; 
+            pp_Angle += horizontal;
+            isRotate = false;
             yield return new WaitForSeconds(delay);
-            isRotate = false;            
             OnPropertise(0);
         }
         //한바퀴 돌면 속성을 기본속성으로 초기화

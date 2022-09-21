@@ -24,4 +24,4 @@ MonoBehaviour:
     initSlowPercent: 25
     stackBonusSlowPercent: 5
   lightningData:
-    hitGaugeMultiplier: 2.5
+    addedShockMultiplier: 2

@@ -223,7 +223,7 @@ public partial class BossFSM : MonoBehaviour
 
         phase1Skill5.chargingEffect.gameObject.SetActive(false);
         phase1Skill5.chargingSphere.gameObject.SetActive(false);
-        charStatus.ShockResistPercent = 999;
+        charStatus.ShockResistPercent = 100;
     }
     #endregion
 

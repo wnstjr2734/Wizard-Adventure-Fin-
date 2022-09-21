@@ -33,8 +33,10 @@ public class Intro : MonoBehaviour
         s.onComplete = () =>
         {
             WindowSystem.Instance.CloseWindow(true);
+            //GameManager.player.GetComponent<PlayerMoveRotate>().ResetVRRotate();
             PlayerChangePos();
             BGMPlayer.Instance.PlayBGM(BGMPlayer.BGM_Type.NonBattle);
+            gameObject.SetActive(false);
         };
     }
 

@@ -21,6 +21,8 @@ public class GameManager : Singleton<GameManager>
     private Transform checkPointTr;
     private Portal latestRoomPortal = null;
 
+    public Portal LatestRoom => latestRoomPortal;
+
     #endregion
 
     protected override void OnAwake()
@@ -45,6 +47,12 @@ public class GameManager : Singleton<GameManager>
         {
             GoNextRoom();
         }
+
+        // ¶³¾îÁü ¹æÁö
+        if (player.transform.position.y < -100)
+        {
+            RestartGame();
+        }
     }
 
     public void SetCheckPoint(Transform checkPoint, Portal roomPortal)
@@ -57,6 +65,7 @@ public class GameManager : Singleton<GameManager>
     {
         playerStatus.ResetStatus();
         playerMoveRotate.SetPos(checkPointTr.position, checkPointTr.forward);
+        player.GetComponent<PlayerMagic>().Reset();
         latestRoomPortal.ResetRoom();
     }
 

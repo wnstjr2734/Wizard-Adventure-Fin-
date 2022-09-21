@@ -25,7 +25,7 @@ Category {
 
             #include "UnityCG.cginc"
 
-            sampler2D _MainTex;
+            UNITY_DECLARE_DEPTH_TEXTURE(_MainTex);
             fixed4 _TintColor;
 
             struct appdata_t {

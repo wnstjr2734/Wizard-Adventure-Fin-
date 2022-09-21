@@ -45,16 +45,15 @@ public class PlayerMoveRotate : MonoBehaviour
 
     [Header("OVRCameraRig")]
     private Transform m_CameraRig;
-    private Transform m_CentreEyeAnchor;
+    private Transform m_CenterEyeAnchor;
     public OVRCameraRig m_OVRCameraRig;
+    private OVRManager ovrManager;
 
     [Header("Sounds")] 
     [SerializeField] [NotNull]
     private AudioSource walkSoundSource;
     [SerializeField]
     private AudioClip dashSound;
-
-    private RaycastHit hit;
 
     private CharacterController cc;
 
@@ -66,29 +65,40 @@ public class PlayerMoveRotate : MonoBehaviour
         enemyLayerMask = 1 << LayerMask.NameToLayer("Enemy");
     }
 
+    void Start()
+    {
+        m_CenterEyeAnchor = m_OVRCameraRig.centerEyeAnchor;
+        m_CameraRig = m_OVRCameraRig.transform;
+        ovrManager = m_OVRCameraRig.GetComponent<OVRManager>();
+
+        //m_CameraRig.eulerAngles = new Vector3(0, -m_CenterEyeAnchor.transform.eulerAngles.y, 0);  
+    }
+
     private void Update()
     {
         ApplyGravity();
     }
 
-    void Start()
-    {
-        m_CentreEyeAnchor = m_OVRCameraRig.centerEyeAnchor;
-        m_CameraRig = m_OVRCameraRig.transform;
-    }
-
     //Do the same as OVRManager.display.RecenterPose() but works in Virtual Desktop and EyeLevelTracking
-    private void ResetVRPosition(Transform teleportPoint) 
+    public void ResetVRPosition(Transform teleportPoint) 
     {
-
-        float currentRotY = m_CentreEyeAnchor.eulerAngles.y;
+        float currentRotY = m_CenterEyeAnchor.eulerAngles.y;
         float targetYRotation = 0.0f;
         float difference = targetYRotation - currentRotY;
         m_CameraRig.Rotate(0, difference, 0);
 
-        Vector3 newPos = new Vector3(teleportPoint.position.x - m_CentreEyeAnchor.position.x, 0, teleportPoint.position.z - m_CentreEyeAnchor.position.z);
-        m_CameraRig.transform.position += newPos;
+        Vector3 newPos = new Vector3(teleportPoint.position.x - m_CenterEyeAnchor.position.x, 0, teleportPoint.position.z - m_CenterEyeAnchor.position.z);
+        m_CameraRig.position += newPos;
+    }
 
+    public void ResetVRRotate()
+    {
+        float currentRotY = m_CenterEyeAnchor.eulerAngles.y;
+        float targetYRotation = 0.0f;
+        float difference = targetYRotation - currentRotY;
+        ovrManager.headPoseRelativeOffsetRotation = m_CenterEyeAnchor.localEulerAngles;
+
+        m_CameraRig.Rotate(0, difference, 0);
     }
 
     private void ApplyGravity()
@@ -113,6 +123,7 @@ public class PlayerMoveRotate : MonoBehaviour
     public void SetPos(Vector3 targetPos, Vector3 direction)
     {
         cc.enabled = false;
+        yVelocity = 0;
         // 발 위치 보정
         transform.position = targetPos - footPos.localPosition;
         transform.forward = direction;
@@ -144,6 +155,7 @@ public class PlayerMoveRotate : MonoBehaviour
         cc.enabled = true;
         isTeleporting = true;
 
+        print("Player Moving");
         while (Vector3.Distance(transform.position, new Vector3(targetPos.x, transform.position.y, targetPos.z)) > 2f &&
             time > 0)
         {
@@ -173,30 +185,65 @@ public class PlayerMoveRotate : MonoBehaviour
 
     public void OnTeleport()
     {
+        RaycastHit hit;
         if (Physics.Raycast(teleportDirectionTransform.position, teleportDirectionTransform.forward, out hit,
                 teleportRange, mapLayerMask | enemyLayerMask))
         {
-            Vector3 teleportPos;
-            int hitLayerMask = 1 << hit.collider.gameObject.layer;
-            // 몬스터와 충돌하는 경우 혹은 벽에 텔레포트하는 경우 충돌점 앞에 이동하도록 보정
-            if ((hitLayerMask & enemyLayerMask) > 0 || 
-                Vector3.Dot(hit.normal, Vector3.up) < 0.5f)
-            {
-                RaycastHit hit2;
-                Vector3 revisedPos = hit.point + hit.normal;
-                bool canRevise = Physics.Raycast(revisedPos, Vector3.down, out hit2, Single.PositiveInfinity, mapLayerMask);
-                // Z-fighting이 일어나지 않게 텔레포트 위치 보정
-                teleportPos = hit2.point + Vector3.up * 0.05f;
-            }
-            // 그렇지 않다면 이동 보정을 하지 않음
-            else
-            {
-                // Z-fighting이 일어나지 않게 텔레포트 위치 보정
-                teleportPos = hit.point + Vector3.up * 0.05f;
-            }
-            teleportTarget.position = teleportPos;
-            DrawTeleportLineCurve(teleportDirectionTransform.position, teleportTarget.position);
+            //Vector3 teleportPos;
+            //int hitLayerMask = 1 << hit.collider.gameObject.layer;
+            //// 몬스터와 충돌하는 경우 혹은 벽에 텔레포트하는 경우 충돌점 앞에 이동하도록 보정
+            //if ((hitLayerMask & enemyLayerMask) > 0 || 
+            //    Vector3.Dot(hit.normal, Vector3.up) < 0.5f)
+            //{
+            //    RaycastHit hit2;
+            //    Vector3 revisedPos = hit.point + hit.normal;
+            //    bool canRevise = Physics.Raycast(revisedPos, Vector3.down, out hit2, Single.PositiveInfinity, mapLayerMask);
+            //    // Z-fighting이 일어나지 않게 텔레포트 위치 보정
+            //    teleportPos = hit2.point + Vector3.up * 0.05f;
+            //}
+            //// 그렇지 않다면 이동 보정을 하지 않음
+            //else
+            //{
+            //    // Z-fighting이 일어나지 않게 텔레포트 위치 보정
+            //    teleportPos = hit.point + Vector3.up * 0.05f;
+            //}
+            //teleportTarget.position = teleportPos;
+            //DrawTeleportLineCurve(teleportDirectionTransform.position, teleportTarget.position);
+            ToTeleport(hit);
         }
+        else
+        {
+            Vector3 maxRangePos = teleportDirectionTransform.position + 
+                teleportRange * teleportDirectionTransform.forward;
+            if (Physics.Raycast(maxRangePos, Vector3.down, out hit, 100, mapLayerMask | enemyLayerMask))
+            {
+                ToTeleport(hit);
+            }
+        }
+    }
+
+    private void ToTeleport(RaycastHit hit)
+    {
+        Vector3 teleportPos;
+        int hitLayerMask = 1 << hit.collider.gameObject.layer;
+        // 몬스터와 충돌하는 경우 혹은 벽에 텔레포트하는 경우 충돌점 앞에 이동하도록 보정
+        if ((hitLayerMask & enemyLayerMask) > 0 ||
+            Vector3.Dot(hit.normal, Vector3.up) < 0.5f)
+        {
+            RaycastHit hit2;
+            Vector3 revisedPos = hit.point + hit.normal;
+            bool canRevise = Physics.Raycast(revisedPos, Vector3.down, out hit2, Single.PositiveInfinity, mapLayerMask);
+            // Z-fighting이 일어나지 않게 텔레포트 위치 보정
+            teleportPos = hit2.point + Vector3.up * 0.05f;
+        }
+        // 그렇지 않다면 이동 보정을 하지 않음
+        else
+        {
+            // Z-fighting이 일어나지 않게 텔레포트 위치 보정
+            teleportPos = hit.point + Vector3.up * 0.05f;
+        }
+        teleportTarget.position = teleportPos;
+        DrawTeleportLineCurve(teleportDirectionTransform.position, teleportTarget.position);
     }
 
     public void EndTeleport()
