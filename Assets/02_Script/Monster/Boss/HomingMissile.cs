@@ -30,7 +30,8 @@ public class HomingMissile : Projectile
         if (Vector3.Dot(transform.forward, dir) > chaseAngleCos)
         {
             var toRot = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRot, rotateSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, 
+                toRot, rotateSpeed * Time.fixedDeltaTime);
             rb.velocity = transform.forward * moveSpeed;
         }
     }

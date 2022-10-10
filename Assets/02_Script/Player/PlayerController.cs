@@ -66,19 +66,27 @@ public class PlayerController : Singleton<PlayerController>
         Debug.Log(playerInput.currentActionMap.name);
 
         isVR = IsPresent();
+
+        // Set VR UI Mode
         var inputModule = GameObject.FindObjectOfType<UnityEngine.EventSystems.OVRInputModule>();
         var inputSystemUI = GameObject.FindObjectOfType<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
-        if (isVR)
+
+        inputModule.enabled = isVR;
+        inputSystemUI.enabled = !isVR;
+    }
+
+    private bool IsPresent()
+    {
+        var xrDisplaySubsystems = new List<XRDisplaySubsystem>();
+        SubsystemManager.GetInstances<XRDisplaySubsystem>(xrDisplaySubsystems);
+        foreach (var xrDisplay in xrDisplaySubsystems)
         {
-            inputModule.enabled = true;
-            inputSystemUI.enabled = false;
+            if (xrDisplay.running)
+            {
+                return true;
+            }
         }
-        else
-        {
-            inputModule.enabled = false;
-            inputSystemUI.enabled = true;
-        }
-        //OVRManager.display.RecenterPose();
+        return false;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -114,20 +122,6 @@ public class PlayerController : Singleton<PlayerController>
         Menu();
     }
 
-    public static bool IsPresent()
-    {
-        var xrDisplaySubsystems = new List<XRDisplaySubsystem>();
-        SubsystemManager.GetInstances<XRDisplaySubsystem>(xrDisplaySubsystems);
-        foreach (var xrDisplay in xrDisplaySubsystems)
-        {
-            if (xrDisplay.running)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void SetMode(bool isBattle)
     {
         // UI 보여줄 때는 이동, 회전, 마법을 사용하면 안 됨
@@ -158,7 +152,7 @@ public class PlayerController : Singleton<PlayerController>
         Vector2 mousePosition = Input.mousePosition;
 #endif
 
-        // 깊이에 따라
+        // 깊이에 따라 손 위치 맞게 설정
         float h = Screen.height;
         float w = Screen.width;
         float screenSpacePosX = (mousePosition.x - (w * 0.5f)) / w * 2;

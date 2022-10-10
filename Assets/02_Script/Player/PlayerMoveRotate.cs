@@ -189,26 +189,6 @@ public class PlayerMoveRotate : MonoBehaviour
         if (Physics.Raycast(teleportDirectionTransform.position, teleportDirectionTransform.forward, out hit,
                 teleportRange, mapLayerMask | enemyLayerMask))
         {
-            //Vector3 teleportPos;
-            //int hitLayerMask = 1 << hit.collider.gameObject.layer;
-            //// 몬스터와 충돌하는 경우 혹은 벽에 텔레포트하는 경우 충돌점 앞에 이동하도록 보정
-            //if ((hitLayerMask & enemyLayerMask) > 0 || 
-            //    Vector3.Dot(hit.normal, Vector3.up) < 0.5f)
-            //{
-            //    RaycastHit hit2;
-            //    Vector3 revisedPos = hit.point + hit.normal;
-            //    bool canRevise = Physics.Raycast(revisedPos, Vector3.down, out hit2, Single.PositiveInfinity, mapLayerMask);
-            //    // Z-fighting이 일어나지 않게 텔레포트 위치 보정
-            //    teleportPos = hit2.point + Vector3.up * 0.05f;
-            //}
-            //// 그렇지 않다면 이동 보정을 하지 않음
-            //else
-            //{
-            //    // Z-fighting이 일어나지 않게 텔레포트 위치 보정
-            //    teleportPos = hit.point + Vector3.up * 0.05f;
-            //}
-            //teleportTarget.position = teleportPos;
-            //DrawTeleportLineCurve(teleportDirectionTransform.position, teleportTarget.position);
             ToTeleport(hit);
         }
         else
@@ -232,7 +212,8 @@ public class PlayerMoveRotate : MonoBehaviour
         {
             RaycastHit hit2;
             Vector3 revisedPos = hit.point + hit.normal;
-            bool canRevise = Physics.Raycast(revisedPos, Vector3.down, out hit2, Single.PositiveInfinity, mapLayerMask);
+            bool canRevise = Physics.Raycast(revisedPos, Vector3.down, 
+                out hit2, Single.PositiveInfinity, mapLayerMask);
             // Z-fighting이 일어나지 않게 텔레포트 위치 보정
             teleportPos = hit2.point + Vector3.up * 0.05f;
         }
